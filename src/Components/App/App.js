@@ -5,6 +5,7 @@ import Main from '../Main/Main';
 import Header from '../Header/Header';
 import Auth from '../Auth/Auth';
 import Calendar from '../Calendar/Calendar';
+import Appointment from '../Appointment/Appointment';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/main" element={<Main />} />
+        <Route path='/appointment' element={<Appointment />} />
       </Routes>
     </BrowserRouter>
   );

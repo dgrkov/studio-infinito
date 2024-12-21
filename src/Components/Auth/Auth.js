@@ -70,7 +70,7 @@ export default function Auth() {
               }
             />
           </div>
-          <Button onClick={ () => navigate("/reserve")} color="gray" size="lg" className="mt-6" fullWidth>
+          <Button onClick={ () => navigate("/main")} color="gray" size="lg" className="mt-6" fullWidth>
               sign in
           </Button>
           <div className="!mt-4 flex justify-end">

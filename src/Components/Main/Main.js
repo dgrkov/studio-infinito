@@ -1,7 +1,11 @@
 import { Typography, Input, Button } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function Main() {
+    const navigate = useNavigate();
+
     return (
         <section className="grid text-center h-screen items-center p-8">
             <div>
@@ -13,7 +17,7 @@ export default function Main() {
             </Typography>
             </div>
             <div >
-                <Button color="gray" size="lg" className="mt-6 w-60" >
+                <Button onClick={() => navigate("/appointment")} color="gray" size="lg" className="mt-6 w-60" >
                     Букирај сега
                 </Button>
                 <br/>
