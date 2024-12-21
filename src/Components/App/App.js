@@ -1,13 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
-
-<<<<<<< HEAD
 import Main from '../Main/Main';
-=======
 import Header from '../Header/Header';
-
->>>>>>> calendar
 import Auth from '../Auth/Auth';
 import Calendar from '../Calendar/Calendar';
 
