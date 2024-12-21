@@ -1,11 +1,14 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 
 export default function Auth() {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
+  const navigate = useNavigate();
 
   return (
     <section className="grid text-center h-screen items-center p-8">
@@ -67,8 +70,8 @@ export default function Auth() {
               }
             />
           </div>
-          <Button color="gray" size="lg" className="mt-6" fullWidth>
-            sign in
+          <Button onClick={ () => navigate("/main")} color="gray" size="lg" className="mt-6" fullWidth>
+              sign in
           </Button>
           <div className="!mt-4 flex justify-end">
             <Typography
