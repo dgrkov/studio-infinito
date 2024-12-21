@@ -31,7 +31,6 @@ export default function Appointment() {
     }
 
     const handleConfirmBooking = () => {
-        alert(`Резервацијата е успешна! \n\nУслуга: ${selectedWorkReq} \nВработен: ${employee} \nЦена: ${price} ден`);
         setStep(1);
         setSelectedWorkReq(null);
         setPrice(0);
@@ -49,8 +48,9 @@ export default function Appointment() {
                         <div className="space-y-4">
                             {workReqs.map((req) => (
                                 <button key={req.name} onClick={() => handleWorkReqSelection(req)}
-                                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                                    {`${req.name} (${req.price} ден)`}
+                                className="bg-gray-900 text-white px-4 py-2 rounded m-5 hover:bg-gray-600">
+                                    {req.name} <br/>
+                                    Цена: {req.price} ден
                                 </button>
                             ))}
                         </div>
@@ -64,7 +64,7 @@ export default function Appointment() {
                         <div className="space-y-4">
                             {employees.map((emp) => (
                                 <button key={emp} onClick={() => handleEmployeeSelection(emp)}
-                                className="w-full bg-green-500 text-white px-4 py-2 rounded">
+                                className="w-full bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-600">
                                     {emp}
                                 </button>
                             ))}
@@ -81,7 +81,7 @@ export default function Appointment() {
                     
                     <button
                       onClick={handleConfirmBooking}
-                      className="w-full bg-purple-500 text-white py-2 px-4 rounded"
+                      className="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-300"
                     >
                       Потврди резервација
                     </button>
