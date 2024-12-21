@@ -49,7 +49,8 @@ export default function Appointment() {
                             {workReqs.map((req) => (
                                 <button key={req.name} onClick={() => handleWorkReqSelection(req)}
                                 className="bg-gray-900 text-white px-4 py-2 rounded m-5 hover:bg-gray-600">
-                                    {`${req.name} (${req.price} ден)`}
+                                    {req.name} <br/>
+                                    Цена: {req.price} ден
                                 </button>
                             ))}
                         </div>
