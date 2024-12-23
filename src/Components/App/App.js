@@ -14,8 +14,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/reserve" element={<Calendar />} />
-      </Routes>
-      <Routes>
         <Route path="/main" element={<Main />} />
         <Route path='/appointment' element={<Appointment />} />
       </Routes>

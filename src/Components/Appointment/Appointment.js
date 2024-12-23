@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
+import ServiceCard from "../ServiceTypeCard/ServiceCard";
+import ServiceCardMobile from "../ServiceTypeCard/ServiceCardMobile";
+import HairstylistCard from '../HairstylistCard/HairstylistCard'
+import HairStylistMobile from '../HairstylistCard/HairStylistMobile'
+import { StepperWithContent } from "../Stepper/Stepper";
 
 export default function Appointment() {
     const [step, setStep] = useState(1);
     const[selectedWorkReq, setSelectedWorkReq] = useState(null);
     const[price, setPrice] = useState(0);
     const[employee, setEmployee] = useState(null);
+    const[isMobile, setIsMobile] = useState(false);
+    const[Hairstylist, setHairstylist] = useState(false);
 
     const navigate = useNavigate();
 
@@ -18,6 +24,10 @@ export default function Appointment() {
     ]
 
     const employees = ["Александар", "Марија"];
+
+    useEffect(() => {
+        if ( window.innerWidth < 700 ) setIsMobile(true);
+    })
 
     const handleWorkReqSelection = (workReq) => {
         setSelectedWorkReq(workReq);
@@ -40,8 +50,34 @@ export default function Appointment() {
     }
 
     return (
-        <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-            <div className="bg-white p-6 rounded shadow-md">
+        <div
+        //  className="min-h-screen flex justify-center items-center"
+         >
+            <StepperWithContent />
+        <div
+            style={{ background: '#f7f7f7' }}
+            // className="py-16 px-6 mx-auto sm:max-w-xl md:max-w-full lg:max-w-[95%] xl:max-w-[90%] md:px-24 lg:px-8 rounded-3xl rounded-b-md"
+        >
+            {!Hairstylist ? (
+            <div onClick={() => setHairstylist(true)}>
+                {isMobile ? (
+                    <HairStylistMobile employee={employees} />
+                ) : (
+                    <HairstylistCard employee={employees} />
+                )}
+            </div>
+            ) : (
+            <>
+                <h1 className="text-2xl font-bold mb-4">Одберете услуга</h1>
+                {isMobile ? (
+                    <ServiceCardMobile serviceTypes={workReqs} />
+                ) : (
+                    <ServiceCard serviceTypes={workReqs} />
+                )}
+            </>
+            )}
+        </div>
+            {/* <div className="bg-white p-6 rounded shadow-md">
                 {step === 1 && (
                     <div>
                         <h1 className="text-2xl font-bold mb-4">Одберете услуга</h1>
@@ -87,7 +123,7 @@ export default function Appointment() {
                     </button>
                   </div>
                 )}
-            </div>
+            </div> */}
         </div>
     );
 }
