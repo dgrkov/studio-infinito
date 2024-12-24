@@ -11,11 +11,11 @@ export default function HairstylistCard(props) {
   const hairstylist = props.employee;
 
   return (
-    <div>
+    <div className="flex flex-row justify-center gap-20" >
       {hairstylist.map((hairstylist) => (
         <Card
           shadow={false}
-          className="relative grid h-[40rem] w-full max-w-[28rem] items-end justify-center overflow-hidden text-center"
+          className="hover:cursor-pointer relative grid h-[40rem] w-full max-w-[28rem] items-end justify-center overflow-hidden text-center"
         >
           <CardHeader
             floated={false}
@@ -31,7 +31,7 @@ export default function HairstylistCard(props) {
               color="white"
               className="mb-6 font-medium leading-[1.5]"
             >
-              How we design and code open-source projects?
+              How we design and code open-source projects? STATIC CARD
             </Typography>
             <Typography variant="h5" className="mb-4 text-gray-400">
               {hairstylist}

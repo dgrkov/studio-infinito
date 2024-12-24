@@ -49,7 +49,7 @@ function customPagination(_, className) {
 export default function HairstylistCarousel({ employee }) {
 //   const { employees } = employee;
   return (
-    <div >
+    <div className="flex justify-center items-center h-screen w-full">
       <Swiper
         pagination={{
           enabled: true,
@@ -58,7 +58,7 @@ export default function HairstylistCarousel({ employee }) {
           renderBullet: customPagination,
         }}
         modules={[Navigation, Pagination]}
-        className="relative rounded-lg [&_div.swiper-button-next]:text-background [&_div.swiper-button-prev]:text-background h-[35rem]"
+        className="relative rounded-lg [&_div.swiper-button-next]:text-background [&_div.swiper-button-prev]:text-background h-full w-full max-w-[28rem]"
       >
         {employee.map((hairstylist, index) => (
           <SwiperSlide key={index} className="select-none">
@@ -83,7 +83,7 @@ export default function HairstylistCarousel({ employee }) {
                   {hairstylist}
                 </Typography>
                 <Typography variant="h5" className="mb-4 text-gray-400">
-                  {hairstylist.role}
+                  {hairstylist.role} MOBILE CARD
                 </Typography>
                 <Avatar
                   size="xl"

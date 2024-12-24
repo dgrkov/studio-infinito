@@ -24,10 +24,10 @@ import {
         <CardBody>
           <div className="mb-2 flex items-center justify-between">
             <Typography color="blue-gray" className="font-medium">
-              Apple AirPods
+              {serviceType.name}
             </Typography>
             <Typography color="blue-gray" className="font-medium">
-              $95.00
+            {serviceType.price}
             </Typography>
           </div>
           <Typography

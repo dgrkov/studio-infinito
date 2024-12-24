@@ -55,7 +55,7 @@ export default function Appointment() {
          >
             <StepperWithContent />
         <div
-            style={{ background: '#f7f7f7' }}
+            
             // className="py-16 px-6 mx-auto sm:max-w-xl md:max-w-full lg:max-w-[95%] xl:max-w-[90%] md:px-24 lg:px-8 rounded-3xl rounded-b-md"
         >
             {!Hairstylist ? (
@@ -63,7 +63,7 @@ export default function Appointment() {
                 {isMobile ? (
                     <HairStylistMobile employee={employees} />
                 ) : (
-                    <HairstylistCard employee={employees} />
+                    <HairstylistCard employee={employees}/>
                 )}
             </div>
             ) : (

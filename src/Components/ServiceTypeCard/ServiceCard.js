@@ -12,7 +12,7 @@ import {
     console.log(serviceTypes);
 
     return (
-    <div>
+    <div className="flex flex-row justify-center gap-7">
       {serviceTypes.map((serviceType) => (
         <Card className="w-full max-w-[50rem] flex-row m-5">
           <CardHeader
