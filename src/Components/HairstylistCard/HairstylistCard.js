@@ -11,11 +11,11 @@ export default function HairstylistCard(props) {
   const hairstylist = props.employee;
 
   return (
-    <div className="flex flex-row justify-center gap-20" >
+    <div className="flex flex-row justify-center gap-x-64" >
       {hairstylist.map((hairstylist) => (
         <Card
           shadow={false}
-          className="hover:cursor-pointer relative grid h-[40rem] w-full max-w-[28rem] items-end justify-center overflow-hidden text-center"
+          className="hover:cursor-pointer relative grid h-[38rem] w-full max-w-[28rem] items-end justify-center overflow-hidden text-center"
         >
           <CardHeader
             floated={false}

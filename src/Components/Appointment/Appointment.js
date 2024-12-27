@@ -8,7 +8,7 @@ import HairStylistMobile from '../HairstylistCard/HairStylistMobile'
 import { StepperWithContent } from "../Stepper/Stepper";
 
 export default function Appointment() {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(0);
     const[selectedWorkReq, setSelectedWorkReq] = useState(null);
     const[price, setPrice] = useState(0);
     const[employee, setEmployee] = useState(null);
@@ -28,6 +28,7 @@ export default function Appointment() {
     useEffect(() => {
         if ( window.innerWidth < 700 ) setIsMobile(true);
     })
+
 
     const handleWorkReqSelection = (workReq) => {
         setSelectedWorkReq(workReq);
@@ -49,17 +50,23 @@ export default function Appointment() {
 
     }
 
+    function setHairstylistWithStep() {
+        setHairstylist(true);
+        setStep(1);
+    }
+
+
     return (
         <div
         //  className="min-h-screen flex justify-center items-center"
          >
-            <StepperWithContent />
+            <StepperWithContent activeStep={step}/>
         <div
             
             // className="py-16 px-6 mx-auto sm:max-w-xl md:max-w-full lg:max-w-[95%] xl:max-w-[90%] md:px-24 lg:px-8 rounded-3xl rounded-b-md"
         >
             {!Hairstylist ? (
-            <div onClick={() => setHairstylist(true)}>
+            <div onClick={setHairstylistWithStep}>
                 {isMobile ? (
                     <HairStylistMobile employee={employees} />
                 ) : (
