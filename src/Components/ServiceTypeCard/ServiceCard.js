@@ -41,7 +41,7 @@ import {
               <Button 
                 variant="text" 
                 className="flex items-center gap-2 w-full"
-                onClick={() => handleWorkReq(serviceType)}
+                onClick={handleWorkReq}
               >
                 Select Service
                 <svg

@@ -26,6 +26,8 @@ import {
   Bars2Icon,
 } from "@heroicons/react/24/solid";
 
+import { useNavigate } from "react-router-dom";
+
 // profile menu component
 const profileMenuItems = [
   {
@@ -54,6 +56,7 @@ function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
+  const navigate = useNavigate();
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -84,7 +87,7 @@ function ProfileMenu() {
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={ isLastItem ? () => navigate("/") : (label==="Edit Profile" ? () => navigate("/userdetails") : closeMenu)}
               className={`flex items-center gap-2 rounded ${isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                   : ""

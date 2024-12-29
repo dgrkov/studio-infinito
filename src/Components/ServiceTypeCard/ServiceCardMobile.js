@@ -9,6 +9,7 @@ import {
    
   export default function ServiceCardMobile(props) {
     const serviceTypes = props.serviceTypes;
+    const handleWorkReq = props.handleWorkReq;
 
     return (
     <div className="p-5" >
@@ -44,7 +45,7 @@ import {
             ripple={false}
             fullWidth={true}
             className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-            onClick={props.handleWorkReq}
+            onClick={handleWorkReq}
           >
             Add to Cart
           </Button>
