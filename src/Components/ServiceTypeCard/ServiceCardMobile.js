@@ -27,7 +27,7 @@ import {
               {serviceType.name}
             </Typography>
             <Typography color="blue-gray" className="font-medium">
-            {serviceType.price}
+              {serviceType.price}
             </Typography>
           </div>
           <Typography
@@ -44,6 +44,7 @@ import {
             ripple={false}
             fullWidth={true}
             className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+            onClick={props.handleWorkReq}
           >
             Add to Cart
           </Button>

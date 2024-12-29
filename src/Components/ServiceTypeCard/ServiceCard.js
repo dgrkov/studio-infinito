@@ -8,6 +8,7 @@ import {
    
   export default function ServiceCard(props) {
     const serviceTypes = props.serviceTypes;
+    const handleWorkReq = props.handleWorkReq;
 
     console.log(serviceTypes);
 
@@ -37,8 +38,12 @@ import {
               of the story
             </Typography>
             <a href="#" className="inline-block">
-              <Button variant="text" className="flex items-center gap-2 w-full">
-                Learn More
+              <Button 
+                variant="text" 
+                className="flex items-center gap-2 w-full"
+                onClick={() => handleWorkReq(serviceType)}
+              >
+                Select Service
                 <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
