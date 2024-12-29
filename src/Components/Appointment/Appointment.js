@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
+import ServiceCard from "../ServiceTypeCard/ServiceCard";
+import ServiceCardMobile from "../ServiceTypeCard/ServiceCardMobile";
+import HairstylistCard from '../HairstylistCard/HairstylistCard'
+import HairStylistMobile from '../HairstylistCard/HairStylistMobile'
+import Calendar from "../Calendar/Calendar";
+import { StepperWithContent } from "../Stepper/Stepper";
 
 export default function Appointment() {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(0);
     const[selectedWorkReq, setSelectedWorkReq] = useState(null);
     const[price, setPrice] = useState(0);
     const[employee, setEmployee] = useState(null);
+    const[isMobile, setIsMobile] = useState(false);
+    const[Hairstylist, setHairstylist] = useState(false);
+    const[WorkRequest, setWorkRequest] = useState(false);
 
     const navigate = useNavigate();
 
@@ -19,73 +27,81 @@ export default function Appointment() {
 
     const employees = ["Александар", "Марија"];
 
-    const handleWorkReqSelection = (workReq) => {
-        setSelectedWorkReq(workReq);
-        setPrice(workReq.price);
+    useEffect(() => {
+        if ( window.innerWidth < 700 ) setIsMobile(true);
+    })
+
+
+    // const handleWorkReqSelection = (workReq) => {
+    //     setSelectedWorkReq(workReq);
+    //     setPrice(workReq.price);
+    //     setStep(2);
+    // };
+
+    const handleWRSWithStep = () => {
+        setWorkRequest(true);
         setStep(2);
-    };
-
-    const handleEmployeeSelection = (employee) => {
-        setEmployee(employee);
-        setStep(3);
+        console.log(step);
+        // navigate("/reserve");
     }
 
-    const handleConfirmBooking = () => {
+    // const handleEmployeeSelection = (employee) => {
+    //     setEmployee(employee);
+    //     setStep(3);
+    // }
+
+    // const handleConfirmBooking = () => {
+    //     setStep(1);
+    //     setSelectedWorkReq(null);
+    //     setPrice(0);
+    //     setEmployee(null);
+    //     navigate("/reserve");
+
+    // }
+
+    function setHairstylistWithStep() {
+        setHairstylist(true);
         setStep(1);
-        setSelectedWorkReq(null);
-        setPrice(0);
-        setEmployee(null);
-        navigate("/reserve");
-
     }
+
 
     return (
-        <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-            <div className="bg-white p-6 rounded shadow-md">
-                {step === 1 && (
+        <div>
+            <StepperWithContent activeStep={step}/>
+            <div>
+                {WorkRequest ? (
                     <div>
-                        <h1 className="text-2xl font-bold mb-4">Одберете услуга</h1>
-                        <div className="space-y-4">
-                            {workReqs.map((req) => (
-                                <button key={req.name} onClick={() => handleWorkReqSelection(req)}
-                                className="bg-gray-900 text-white px-4 py-2 rounded m-5 hover:bg-gray-600">
-                                    {req.name} <br/>
-                                    Цена: {req.price} ден
-                                </button>
-                            ))}
-                        </div>
+                        <Calendar />
                     </div>
-                )}
-                {step === 2 && (
+                ) : (
                     <div>
-                        <h1 className="text-2xl font-bold mb-4">Изберете вработен: </h1>
-                        <p className="mb-4 text-gray-700">Услуга: <span className="font-bold">{selectedWorkReq.name}</span></p>
-                        <p className="mb-4 text-gray-700">Цена: <span className="font-bold">{price}</span></p>
-                        <div className="space-y-4">
-                            {employees.map((emp) => (
-                                <button key={emp} onClick={() => handleEmployeeSelection(emp)}
-                                className="w-full bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-600">
-                                    {emp}
-                                </button>
-                            ))}
-                        </div>
+                        {!Hairstylist ? (
+                <div onClick={setHairstylistWithStep}>
+                    {isMobile ? (
+                        <HairStylistMobile employee={employees} />
+                    ) : (
+                        <HairstylistCard employee={employees}/>
+                    )}
+                </div>
+                ) : (
+                <div>
+                    <h1 className="text-2xl font-bold mb-4">Одберете услуга</h1>
+                    {isMobile ? (
+                        <ServiceCardMobile 
+                            serviceTypes={workReqs}
+                            activeStep={step} 
+                            handleWorkReq={handleWRSWithStep}
+                            />
+                    ) : (
+                        <ServiceCard 
+                            serviceTypes={workReqs} 
+                            activeStep={step} 
+                            handleWorkReq={handleWRSWithStep} 
+                        />
+                    )}
+                </div>
+                )}
                     </div>
-                )}
-
-                {step === 3 && (
-                    <div>
-                    <h1 className="text-2xl font-bold mb-4">Потврдете избраните детали пред продолжување кон избор на датум</h1>
-                    <p className="mb-4 text-gray-700">Услуга: <span className="font-bold">{selectedWorkReq.name}</span></p>
-                    <p className="mb-4 text-gray-700">Цена: <span className="font-bold">{price} ден</span></p>
-                    <p className="mb-4 text-gray-700">Вработен: <span className="font-bold">{employee}</span></p>
-                    
-                    <button
-                      onClick={handleConfirmBooking}
-                      className="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-300"
-                    >
-                      Потврди резервација
-                    </button>
-                  </div>
                 )}
             </div>
         </div>
