@@ -47,9 +47,8 @@ function customPagination(_, className) {
 }
 
 export default function HairstylistCarousel({ employee }) {
-//   const { employees } = employee;
   return (
-    <div className="flex justify-center items-center h-screen w-full">
+    <div className="flex justify-center items-center h-[70dvh] w-full">
       <Swiper
         pagination={{
           enabled: true,
@@ -58,19 +57,22 @@ export default function HairstylistCarousel({ employee }) {
           renderBullet: customPagination,
         }}
         modules={[Navigation, Pagination]}
-        className="relative rounded-lg [&_div.swiper-button-next]:text-background [&_div.swiper-button-prev]:text-background h-full w-full max-w-[28rem]"
+        className="relative rounded-lg h-full w-full max-w-[28rem]"
       >
         {employee.map((hairstylist, index) => (
-          <SwiperSlide key={index} className="select-none">
+          <SwiperSlide key={index} className="select-none h-full">
             <Card
               shadow={false}
-              className="relative grid h-[40rem] w-full max-w-[28rem] items-end justify-center overflow-hidden text-center"
+              className="relative grid h-full w-full max-w-[28rem] items-end justify-center overflow-hidden text-center"
             >
               <CardHeader
                 floated={false}
                 shadow={false}
                 color="transparent"
-                className="absolute inset-0 m-0 h-full w-full rounded-none bg-[url('https://images.unsplash.com/photo-1552960562-daf630e9278b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80')] bg-cover bg-center"
+                className="absolute inset-0 m-0 rounded-none bg-contain bg-center"
+                style={{
+                  backgroundImage: `url('https://images.unsplash.com/photo-1552960562-daf630e9278b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80')`,
+                }}
               >
                 <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-t from-black/80 via-black/50" />
               </CardHeader>

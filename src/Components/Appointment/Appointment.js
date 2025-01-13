@@ -20,12 +20,12 @@ export default function Appointment() {
     const navigate = useNavigate();
 
     const workReqs = [
-        {name: "Шишање", price: 500},
-        {name: "Фарбање", price: 1000},
-        {name: "Фенирање", price: 400}
+        {name: "Шишање", price: 500, time: '30 min'},
+        {name: "Фарбање", price: 1000, time: '1 h'},
+        {name: "Фенирање", price: 400, time: '30 min'}
     ]
 
-    const employees = ["Александар", "Марија"];
+    const employees = ["Александар", "Марина"];
 
     useEffect(() => {
         if ( window.innerWidth < 700 ) setIsMobile(true);
@@ -68,7 +68,7 @@ export default function Appointment() {
     return (
         <div>
             <StepperWithContent activeStep={step}/>
-            <div>
+            <div className="p-1" >
                 {WorkRequest ? (
                     <div>
                         <Calendar />
@@ -76,7 +76,7 @@ export default function Appointment() {
                 ) : (
                     <div>
                         {!Hairstylist ? (
-                <div onClick={setHairstylistWithStep}>
+                <div className="h-[70dvh]" onClick={setHairstylistWithStep}>
                     {isMobile ? (
                         <HairStylistMobile employee={employees} />
                     ) : (

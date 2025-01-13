@@ -11,12 +11,12 @@ export default function Auth() {
   const navigate = useNavigate();
 
   return (
-    <section className="grid text-center h-screen items-center p-8">
+    <section className="grid text-center h-[90dvh] items-center p-8">
       <div>
         <Typography variant="h3" color="blue-gray" className="mb-2">
           Sign In
         </Typography>
-        <Typography className="mb-16 text-gray-600 font-normal text-[18px]">
+        <Typography className="mb-10 text-gray-600 font-normal text-[18px]">
           Enter your email and password to sign in
         </Typography>
         <form action="#" className="mx-auto max-w-[24rem] text-left">
@@ -70,7 +70,7 @@ export default function Auth() {
               }
             />
           </div>
-          <Button onClick={ () => navigate("/main")} color="gray" size="lg" className="mt-6" fullWidth>
+          <Button onClick={ () => navigate("/home")} color="gray" size="lg" className="mt-6" fullWidth>
               sign in
           </Button>
           <div className="!mt-4 flex justify-end">

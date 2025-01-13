@@ -3,7 +3,7 @@ import { Stepper, Step, Button, Typography } from "@material-tailwind/react";
 import {
   CogIcon,
   UserIcon,
-  BuildingLibraryIcon,
+  CalendarDaysIcon
 } from "@heroicons/react/24/outline";
  
 export function StepperWithContent(props) {
@@ -15,7 +15,7 @@ export function StepperWithContent(props) {
   // const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
  
   return (
-    <div className="w-full px-14 py-4 mb-16">
+    <div className="w-full px-14 py-4 mb-12">
       <Stepper
         activeStep={props.activeStep}
         isLastStep={(value) => setIsLastStep(value)}
@@ -58,7 +58,7 @@ export function StepperWithContent(props) {
           </div>
         </Step>
         <Step>
-          <BuildingLibraryIcon className="h-5 w-5" />
+          <CalendarDaysIcon className="h-5 w-5" />
           <div className="absolute -bottom-[3rem] w-max text-center">
             <Typography
               variant="h6"

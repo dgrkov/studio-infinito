@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
-import Main from '../Main/Main';
+import Home from '../Home/Home';
 import Header from '../Header/Header';
 import Auth from '../Auth/Auth';
 import Calendar from '../Calendar/Calendar';
@@ -14,8 +14,8 @@ function App() {
     <Header />
       <Routes>
         <Route path="/" element={<Auth />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/reserve" element={<Calendar />} />
-        <Route path="/main" element={<Main />} />
         <Route path='/appointment' element={<Appointment />} />
         <Route path='/userdetails' element={<UserDetails />} />
       </Routes>

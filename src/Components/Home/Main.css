@@ -105,3 +105,10 @@ button {
     animation: slide-up 1.5s ease-in-out 0.5s;
     animation-fill-mode: forwards;
 }
+
+.responsive-image {
+    max-width: 100%; /* Ensures the image doesn't exceed its container's width */
+    height: auto;    /* Maintains the aspect ratio */
+    display: block;  /* Prevents extra spacing caused by inline images */
+    margin: 0 auto;  /* Centers the image inside the container if needed */
+}
