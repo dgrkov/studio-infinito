@@ -46,7 +46,14 @@ function customPagination(_, className) {
   return `<span class="${className} w-4 h-4 [&.swiper-pagination-bullet-active]:!opacity-100 [&.swiper-pagination-bullet-active]:[background:rgb(var(--color-background))] !opacity-50 ![background:rgb(var(--color-background))]"></span>`;
 }
 
-export default function HairstylistCarousel({ employee }) {
+export default function HairstylistCarousel({ employee, onCardClick }) {
+
+  const handleCardClick = (hairstylist) => {
+    if (onCardClick) {
+      onCardClick(hairstylist);
+    }
+  };
+
   return (
     <div className="flex justify-center items-center h-[70dvh] w-full">
       <Swiper
@@ -64,6 +71,7 @@ export default function HairstylistCarousel({ employee }) {
             <Card
               shadow={false}
               className="relative grid h-full w-full max-w-[28rem] items-end justify-center overflow-hidden text-center"
+              onClick={() => handleCardClick(hairstylist)}
             >
               <CardHeader
                 floated={false}

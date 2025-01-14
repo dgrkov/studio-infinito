@@ -10,8 +10,6 @@ import {
     const serviceTypes = props.serviceTypes;
     const handleWorkReq = props.handleWorkReq;
 
-    console.log(serviceTypes);
-
     return (
     <div className="flex flex-row justify-center gap-7">
       {serviceTypes.map((serviceType) => (

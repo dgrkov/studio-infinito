@@ -59,11 +59,11 @@ export default function Appointment() {
 
     // }
 
-    function setHairstylistWithStep() {
+    const handleHairstylistClick = (hairstylist) => {
+        console.log(hairstylist);
         setHairstylist(true);
         setStep(1);
-    }
-
+      };
 
     return (
         <div>
@@ -76,11 +76,15 @@ export default function Appointment() {
                 ) : (
                     <div>
                         {!Hairstylist ? (
-                <div className="h-[70dvh]" onClick={setHairstylistWithStep}>
+                <div className="h-[70dvh]">
                     {isMobile ? (
-                        <HairStylistMobile employee={employees} />
+                        <HairStylistMobile
+                        onCardClick={handleHairstylistClick}
+                        employee={employees} />
                     ) : (
-                        <HairstylistCard employee={employees}/>
+                        <HairstylistCard 
+                        onCardClick={handleHairstylistClick}
+                        employee={employees}/>
                     )}
                 </div>
                 ) : (
@@ -89,13 +93,13 @@ export default function Appointment() {
                     {isMobile ? (
                         <ServiceCardMobile 
                             serviceTypes={workReqs}
-                            activeStep={step} 
+                            activeStep={step}
                             handleWorkReq={handleWRSWithStep}
                             />
                     ) : (
                         <ServiceCard 
                             serviceTypes={workReqs} 
-                            activeStep={step} 
+                            activeStep={step}
                             handleWorkReq={handleWRSWithStep} 
                         />
                     )}
