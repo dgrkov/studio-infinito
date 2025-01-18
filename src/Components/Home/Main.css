@@ -112,3 +112,37 @@ button {
     display: block;  /* Prevents extra spacing caused by inline images */
     margin: 0 auto;  /* Centers the image inside the container if needed */
 }
+
+.visible {
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+}
+
+.hidden {
+    animation: fadeOutAnimation ease 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+}
+ 
+ @keyframes fadeInAnimation
+ {
+    0%{
+        opacity: 0;
+    }
+ 
+    100% {
+        opacity: 1;
+    }
+ }
+
+ @keyframes fadeOutAnimation
+{
+   0%{ 
+        opacity: 1;
+   }
+
+   100% {
+        opacity: 0;
+   }
+}

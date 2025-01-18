@@ -77,7 +77,7 @@ export default function HairstylistCarousel({ employee, onCardClick }) {
                 floated={false}
                 shadow={false}
                 color="transparent"
-                className="absolute inset-0 m-0 rounded-none bg-contain bg-center"
+                className="absolute inset-0 m-0 rounded-none bg-cover bg-center"
                 style={{
                   backgroundImage: `url('https://images.unsplash.com/photo-1552960562-daf630e9278b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80')`,
                 }}

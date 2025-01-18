@@ -32,7 +32,7 @@ export function StepperWithContent(props) {
             </Typography>
             <Typography
               color={props.activeStep === 0 ? "blue-gray" : "gray"}
-              className={`font-normal text-[0.4rem] transition-all md:text-base ${props.activeStep === 0 ? "text-[0.8rem]" : ""}`}
+              className={`font-normal text-[0.4rem] transition-all md:text-base ${props.activeStep === 0 ? "text-[0.7rem]" : ""}`}
             >
               Избери вработен.
             </Typography>

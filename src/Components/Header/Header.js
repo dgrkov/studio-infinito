@@ -31,23 +31,27 @@ import { useNavigate } from "react-router-dom";
 // profile menu component
 const profileMenuItems = [
   {
-    label: "My Profile",
+    label: "Мој профил",
     icon: UserCircleIcon,
   },
   {
-    label: "Edit Profile",
+    label: "Уредувај профил",
     icon: Cog6ToothIcon,
   },
   {
-    label: "Inbox",
+    label: "Пораки",
     icon: InboxArrowDownIcon,
   },
   {
-    label: "Help",
+    label: "Мои термини",
+    icon: InboxArrowDownIcon,
+  },
+  {
+    label: "Помош",
     icon: LifebuoyIcon,
   },
   {
-    label: "Sign Out",
+    label: "Одјава",
     icon: PowerIcon,
   },
 ];

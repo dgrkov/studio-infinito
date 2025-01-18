@@ -4,11 +4,20 @@ import { useNavigate } from "react-router-dom";
 
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
+import FullScreenLoader from "../FullScrennLoader/FullScreenLoader";
 
 export default function Auth() {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const handleAuth = () => {
+    setLoading(true);
+    setTimeout( () => {
+      navigate("/home");
+    }, 1000);
+  }
 
   return (
     <section className="grid text-center h-[90dvh] items-center p-8">
@@ -70,7 +79,7 @@ export default function Auth() {
               }
             />
           </div>
-          <Button onClick={ () => navigate("/home")} color="gray" size="lg" className="mt-6" fullWidth>
+          <Button onClick={handleAuth} color="gray" size="lg" className="mt-6" fullWidth>
               sign in
           </Button>
           <div className="!mt-4 flex justify-end">
@@ -109,6 +118,7 @@ export default function Auth() {
           </Typography>
         </form>
       </div>
+      <FullScreenLoader loading={loading} />
     </section>
   );
 }

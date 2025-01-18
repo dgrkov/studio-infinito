@@ -1,18 +1,25 @@
 import { useEffect, useState } from "react";
 import { Typography, Input, Button } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import GalleryImage from "./GalleryImage";
 
 import Logo from '../../Logo_4K_Transparent.png';
 
 import "./Main.css";
+import Notification from "./Notification";
 
 export default function Home() {
+    const location = useLocation();
+    const { message } = location.state || {};
+    const { head_message } = location.state || {};
+    const { type } = location.state || {};
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => setLoading(false), 2000); // Simulate loading time
+        const timer = setTimeout(() => setLoading(false), 2000);
         return () => clearTimeout(timer);
     }, []);
 
@@ -23,6 +30,7 @@ export default function Home() {
                 loading ? "loading" : ""
             }`}
         >
+            <Notification message={message} type={type} head_message={head_message} />
             <div
                 id="first-image"
                 className="w-full text-center items-center h-full align-center flex flex-col justify-center space-y-6"
