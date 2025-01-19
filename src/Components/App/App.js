@@ -10,6 +10,7 @@ import UserDetails from '../User/UserDetails';
 import Checkout from '../Checkout/Checkout';
 import Reservations from '../Admin/AdminReservations/Reservations';
 import UserProfile from '../User/UserProfile';
+import FastBookingList from '../FastBookingList/FastBookingList';
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
         <Route path='/userdetails' element={<UserDetails />} />
         <Route path='/profile' element={<UserProfile />} />
         <Route path="/appointments" element={<Reservations />} />
+        <Route path="/fast-booking" element={<FastBookingList />} />
       </Routes>
     </BrowserRouter>
   );

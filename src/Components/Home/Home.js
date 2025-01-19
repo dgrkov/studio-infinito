@@ -9,6 +9,7 @@ import Logo from '../../Logo_4K_Transparent.png';
 
 import "./Main.css";
 import Notification from "./Notification";
+import { FastBookingModal } from "./FastBookingModal";
 
 export default function Home() {
     const location = useLocation();
@@ -17,11 +18,16 @@ export default function Home() {
     const { type } = location.state || {};
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const [fastBookingModal, setFastBookingModal] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => setLoading(false), 2000);
         return () => clearTimeout(timer);
     }, []);
+
+    const handleFastBookingSubmit = (data) => {
+        // Navigate to fast-booking list with the data
+    };
 
     return (
         <section
@@ -64,7 +70,7 @@ export default function Home() {
                 </Button>
                 <Button
                     variant="gradient"
-                    onClick={() => navigate("/appointment")}
+                    onClick={() => setFastBookingModal(true)}
                     className="mt-6 w-auto animate-fade-in-down
                         bg-gray-800 text-white
                         dark:bg-dark-accent-primary dark:text-dark-text-primary
@@ -73,6 +79,11 @@ export default function Home() {
                     Најди најбрз термин
                 </Button>
             </div>
+            <FastBookingModal 
+                isOpen={fastBookingModal} 
+                onClose={() => setFastBookingModal(false)}
+                onSubmit={handleFastBookingSubmit}
+            />
         </section>
     );
 }
