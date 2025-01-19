@@ -122,11 +122,9 @@ function ProfileMenu() {
             </MenuItem>
           );
         })}
-        <MenuItem className="flex pl-2 pb-1 items-center rounded">
-          <div onClick={(e) => e.stopPropagation()}>
+          <div className="pt-1 px-2" onClick={(e) => e.stopPropagation()}>
             <ThemeToggle />
           </div>
-        </MenuItem>
 
       </MenuList>
     </Menu>

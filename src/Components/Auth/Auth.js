@@ -8,7 +8,7 @@ import FullScreenLoader from "../FullScrennLoader/FullScreenLoader";
 
 export default function Auth() {
   const [passwordShown, setPasswordShown] = useState(false);
-  const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
+  const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur); 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -20,12 +20,12 @@ export default function Auth() {
   }
 
   return (
-    <section className="grid text-center h-[90dvh] items-center p-8">
+    <section className="grid text-center h-[90dvh] items-center p-8 dark:bg-dark-primary">
       <div>
-        <Typography variant="h3" color="blue-gray" className="mb-2">
+        <Typography variant="h3" color="blue-gray" className="mb-2 dark:text-dark-text-primary">
           Sign In
         </Typography>
-        <Typography className="mb-10 text-gray-600 font-normal text-[18px]">
+        <Typography className="mb-10 text-gray-600 font-normal text-[18px] dark:text-dark-text-secondary">
           Enter your email and password to sign in
         </Typography>
         <form action="#" className="mx-auto max-w-[24rem] text-left">
@@ -33,7 +33,7 @@ export default function Auth() {
             <label htmlFor="email">
               <Typography
                 variant="small"
-                className="mb-2 block font-medium text-gray-900"
+                className="mb-2 block font-medium text-gray-900 dark:text-dark-text-secondary"
               >
                 Your Email
               </Typography>
@@ -45,7 +45,7 @@ export default function Auth() {
               type="email"
               name="email"
               placeholder="name@mail.com"
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
+              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200 dark:bg-dark-secondary dark:text-dark-text-primary"
               labelProps={{
                 className: "hide",
               }}
@@ -55,7 +55,7 @@ export default function Auth() {
             <label htmlFor="password">
               <Typography
                 variant="small"
-                className="mb-2 block font-medium text-gray-900"
+                className="mb-2 block font-medium text-gray-900 dark:text-dark-text-secondary"
               >
                 Password
               </Typography>
@@ -66,7 +66,7 @@ export default function Auth() {
               labelProps={{
                 className: "hide",
               }}
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
+              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200 dark:bg-dark-secondary dark:text-dark-text-primary"
               type={passwordShown ? "text" : "password"}
               icon={
                 <i onClick={togglePasswordVisiblity}>
@@ -79,7 +79,7 @@ export default function Auth() {
               }
             />
           </div>
-          <Button onClick={handleAuth} color="gray" size="lg" className="mt-6" fullWidth>
+          <Button onClick={handleAuth} color="gray" size="lg" className="mt-6 dark:bg-dark-button-primary dark:text-white" fullWidth>
               sign in
           </Button>
           <div className="!mt-4 flex justify-end">
@@ -88,7 +88,7 @@ export default function Auth() {
               href="#"
               color="blue-gray"
               variant="small"
-              className="font-medium"
+              className="font-medium dark:text-dark-text-secondary"
             >
               Forgot password
             </Typography>
@@ -104,7 +104,9 @@ export default function Auth() {
               alt="google"
               className="h-6 w-6"
             />{" "}
-            sign in with google
+            <p className="m-0 dark:text-dark-text-secondary" >
+              sign in with google
+            </p>
           </Button>
           <Typography
             variant="small"
@@ -112,7 +114,7 @@ export default function Auth() {
             className="!mt-4 text-center font-normal"
           >
             Not registered?{" "}
-            <a href="#" className="font-medium text-gray-900">
+            <a href="#" className="font-medium text-gray-900 dark:text-dark-text-secondary">
               Create account
             </a>
           </Typography>

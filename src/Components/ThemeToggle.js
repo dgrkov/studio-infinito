@@ -23,9 +23,11 @@ const ThemeToggle = () => {
   }, [darkMode]);
 
   return (
-    <button onClick={toggleTheme} className="py-auto rounded-md">
-      {darkMode ? <SunIcon className="h-6 w-6 text-yellow-600" /> : <MoonIcon className="h-6 w-6 text-gray-500" />}
-    </button>
+    <div className="w-full">
+      <button onClick={toggleTheme} className="w-full py-auto rounded-md">
+        {darkMode ? <SunIcon className="h-6 w-6 text-yellow-600" /> : <MoonIcon className="h-6 w-6 text-gray-500" />}
+      </button>
+    </div>
   );
 };
 
