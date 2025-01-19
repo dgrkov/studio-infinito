@@ -25,47 +25,52 @@ export function ConfirmModal({ isOpen, setOpen }) {
   }
 
   return (
-    <Dialog open={isOpen} handler={handleClose}>
+    <Dialog open={isOpen} handler={handleClose} className="dark:bg-dark-secondary">
       <DialogHeader>
-        <Typography variant="h5" color="blue-gray">
+        <Typography variant="h5" className="text-gray-800 dark:text-dark-text-primary">
           Потврда на термин
         </Typography>
       </DialogHeader>
-      <DialogBody divider className="grid place-items-center gap-4">
-        <div className="flex justify-between items-center w-full py-2 border-b-2 border-gray-200">
-            <p className="text-gray-400 ml-4">Одбран вработен</p>
-            <p className="text-black mr-4">Александар</p>
+      <DialogBody divider className="grid place-items-center gap-2">
+        <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
+            <p className="text-gray-400 dark:text-dark-text-muted ml-4">Одбран вработен</p>
+            <p className="text-black dark:text-dark-text-primary mr-4">Александар</p>
         </div>
-        <div className="flex justify-between items-center w-full py-2 border-b-2 border-gray-200">
-            <p className="text-gray-400 ml-4">Одбрана услуга</p>
-            <p className="text-black mr-4">Шишање</p>
+        <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
+            <p className="text-gray-400 dark:text-dark-text-muted ml-4">Одбрана услуга</p>
+            <p className="text-black dark:text-dark-text-primary mr-4">Шишање</p>
         </div>
-        <div className="flex justify-between items-center w-full py-2 border-b-2 border-gray-200">
-            <p className="text-gray-400 ml-4">Датум</p>
-            <p className="text-black mr-4">01.01.2023</p>
+        <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
+            <p className="text-gray-400 dark:text-dark-text-muted ml-4">Датум</p>
+            <p className="text-black dark:text-dark-text-primary mr-4">01.01.2023</p>
         </div>
-        <div className="flex justify-between items-center w-full py-2 border-b-2 border-gray-200">
-            <p className="text-gray-400 ml-4">Време</p>
-            <p className="text-black mr-4">15:00 - 15:30</p>
+        <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
+            <p className="text-gray-400 dark:text-dark-text-muted ml-4">Време</p>
+            <p className="text-black dark:text-dark-text-primary mr-4">15:00 - 15:30</p>
         </div>
-        <div className="flex justify-between items-center w-full py-2">
-            <p className="text-gray-400 ml-4">Цена</p>
-            <p className="text-indigo-600 mr-4">400 МКД</p>
+        <div className="flex justify-between items-center w-full">
+            <p className="text-gray-400 dark:text-dark-text-muted ml-4">Цена</p>
+            <p className="text-indigo-600 dark:text-dark-accent-primary mr-4">400 МКД</p>
         </div>
       </DialogBody>
       <DialogFooter className="flex flex-row w-full justify-center gap-5">
-        <Button disabled={loading} variant="text" fullWidth color="blue-gray" onClick={handleClose}>
-            Откажи
+        <Button 
+          variant="outlined" 
+          disabled={loading} 
+          fullWidth 
+          className="text-red-500 border-red-500 dark:text-red-400 dark:border-red-400"
+          onClick={handleClose}
+        >
+          Откажи
         </Button>
-        <div className={`text-center flex justify-center w-full`}>
-          <Button
-            onClick={handleConfirm}
-            fullWidth
-            loading={loading}
-          >
-              Резервирај
-          </Button>
-      </div>
+        <Button
+          onClick={handleConfirm}
+          fullWidth
+          className="bg-dark-button-primary dark:hover:bg-dark-button-hover"
+          loading={loading}
+        >
+          Резервирај
+        </Button>
       </DialogFooter>
       <FullScreenLoader loading={loading} />
     </Dialog>

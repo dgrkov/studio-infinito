@@ -9,7 +9,7 @@ import {
 
 export default function AdminModal({ isOpen, reservation, onClose }) {
   return (
-    <Dialog open={isOpen} handler={onClose}>
+    <Dialog className={` ${isOpen ? "z-50" : ""} `} open={isOpen} handler={onClose}>
       <DialogHeader>Reservation Details</DialogHeader>
       <DialogBody>
         <div className="flex items-center space-x-4">
@@ -26,8 +26,11 @@ export default function AdminModal({ isOpen, reservation, onClose }) {
         </div>
       </DialogBody>
       <DialogFooter>
-        <Button variant="text" color="red" onClick={onClose} className="mr-1">
-          <span>Close</span>
+        <Button variant="outlined" fullWidth color="red" onClick={onClose}>
+          <span>Откажи термин</span>
+        </Button>
+        <Button fullWidth color="black" onClick={onClose} className="mt-5">
+          <span>Затвори</span>
         </Button>
       </DialogFooter>
     </Dialog>

@@ -99,15 +99,15 @@ export default function Appointment() {
                                         employee={employees}
                                     />
                                 ) : (
-                                    <HairstylistCard
+                                    <HairStylistMobile
                                         onCardClick={handleHairstylistClick}
                                         employee={employees}
-                                    />
+                                        />
                                 )}
                             </div>
                         ) : (
                             <div>
-                                <h1 className="text-2xl font-bold mb-4">Одберете услуга</h1>
+                                {/* <h1 className="text-2xl font-bold mb-4 lg:pl-28 dark:text-dark-text-primary">Одберете услуга</h1> */}
                                 {isMobile ? (
                                     <ServiceCardMobile
                                         serviceTypes={workReqs}
@@ -115,7 +115,7 @@ export default function Appointment() {
                                         handleWorkReq={handleWRSWithStep}
                                     />
                                 ) : (
-                                    <ServiceCard
+                                    <ServiceCardMobile
                                         serviceTypes={workReqs}
                                         activeStep={step}
                                         handleWorkReq={handleWRSWithStep}

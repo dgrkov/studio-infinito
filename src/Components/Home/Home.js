@@ -26,7 +26,7 @@ export default function Home() {
     return (
         <section
             id="image-container"
-            className={`flex flex-col justify-center items-center p-0 h-full ${
+            className={`flex flex-col justify-center items-center p-0 h-full bg-white dark:bg-dark-primary ${
                 loading ? "loading" : ""
             }`}
         >
@@ -35,35 +35,40 @@ export default function Home() {
                 id="first-image"
                 className="w-full text-center items-center h-full align-center flex flex-col justify-center space-y-6"
             >
-                <div className="w-full h-60 animate-fade-in">
+               <div
+                    id="first-image"
+                    className="w-full max-w-[400px] sm:max-w-[600px] lg:max-w-[800px] text-center items-center h-[45dvh] flex flex-col justify-center space-y-6"
+                >
                     <img
                         className="rounded-lg object-cover object-center animate-scale-in responsive-image"
                         src={Logo}
                         alt="Logo"
                     />
                 </div>
+
                 <Typography
                     variant="paragraph"
-                    color="blue-gray"
-                    className="mb-2 text-[15px] font-bold sm:text-[15px] md:text-[20px] lg:text-[30px] animate-slide-up"
+                    className="mb-2 text-[15px] font-bold sm:text-[15px] md:text-[20px] lg:text-[30px] animate-slide-up text-gray-800 dark:text-dark-text-primary"
                 >
                     Добредојдовте во нашата страна за букирање на термини.
                 </Typography>
                 <Button
                     variant="outlined"
                     onClick={() => navigate("/appointment")}
-                    color="gray"
-                    size="lg"
-                    className="mt-6 w-auto animate-pulse"
+                    className="mt-6 w-auto animate-pulse 
+                        text-gray-800 border-gray-800 
+                        dark:text-dark-text-primary dark:border-dark-border-light
+                        hover:bg-gray-100 dark:hover:bg-dark-tertiary"
                 >
                     Букирај сега
                 </Button>
                 <Button
                     variant="gradient"
                     onClick={() => navigate("/appointment")}
-                    color="gray"
-                    size="lg"
-                    className="mt-6 w-auto animate-fade-in-down"
+                    className="mt-6 w-auto animate-fade-in-down
+                        bg-gray-800 text-white
+                        dark:bg-dark-accent-primary dark:text-dark-text-primary
+                        hover:bg-gray-700 dark:hover:bg-dark-accent-hover"
                 >
                     Најди најбрз термин
                 </Button>

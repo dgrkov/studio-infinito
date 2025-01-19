@@ -47,7 +47,7 @@ export default function Auth() {
               placeholder="name@mail.com"
               className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
               labelProps={{
-                className: "hidden",
+                className: "hide",
               }}
             />
           </div>
@@ -64,7 +64,7 @@ export default function Auth() {
               size="lg"
               placeholder="********"
               labelProps={{
-                className: "hidden",
+                className: "hide",
               }}
               className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
               type={passwordShown ? "text" : "password"}

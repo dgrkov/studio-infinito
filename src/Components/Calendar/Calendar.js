@@ -33,10 +33,10 @@ const Calendar = () => {
 
   const handleDateClick = (date) => {
     setLoading(true);
-    setSelectedDate(date);
     setHideEvents(false);
     setTimeout(() => {
       eventRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      setSelectedDate(date);
       setLoading(false);
     }, 600);
   };
@@ -60,26 +60,26 @@ const Calendar = () => {
       <FullScreenLoader loading={loading} />
 
       {/* Calendar Section */}
-      <div className="w-full lg:w-2/3 space-y-8">
+      <div className="w-full lg:w-[50%] space-y-4">
         <div className="flex justify-between items-center">
-          <Button size="sm" variant="text" onClick={handlePrevMonth}>
+          <Button size="sm" variant="text" className="text-gray-800 dark:text-gray-100 dark:hover:bg-dark-tertiary" onClick={handlePrevMonth}>
             &lt;
           </Button>
-          <Typography variant="h4" className="text-gray-800 text-center">
+          <Typography variant="h4" className="text-gray-800 dark:text-gray-100 text-center">
             {currentDate.format("MMMM YYYY")}
           </Typography>
-          <Button size="sm" variant="text" onClick={handleNextMonth}>
+          <Button size="sm" variant="text" className="text-gray-800 dark:text-gray-100" onClick={handleNextMonth}>
             &gt;
           </Button>
         </div>
 
-        <Card className="p-4">
+        <Card className="p-4 bg-white dark:bg-dark-secondary dark:border dark:border-dark-border">
           <div className="grid grid-cols-7 gap-2">
             {["M", "T", "W", "T", "F", "S", "S"].map((day) => (
               <Typography
                 key={day}
                 variant="small"
-                className="text-center font-bold"
+                className="text-center font-bold text-gray-800 dark:text-gray-100"
               >
                 {day}
               </Typography>
@@ -89,14 +89,14 @@ const Calendar = () => {
                 key={index}
                 className={`flex items-center justify-center h-10 w-10 rounded-full ${
                   day && day.isSame(selectedDate, "date")
-                    ? "bg-gray-700 text-white"
+                    ? "bg-gray-700 text-white dark:bg-gray-600"
                     : day
-                    ? "hover:bg-gray-200 cursor-pointer"
+                    ? "hover:bg-gray-200 dark:hover:bg-dark-tertiary cursor-pointer text-gray-800 dark:text-gray-100"
                     : "opacity-0"
                 }`}
                 onClick={() => day && handleDateClick(day)}
                 style={{
-                  fontSize: "1rem", // Consistent font size
+                  fontSize: "1rem",
                 }}
               >
                 {day ? (
@@ -111,40 +111,44 @@ const Calendar = () => {
       </div>
 
       {/* Events Section */}
-      <div ref={eventRef} className={`w-full lg:w-1/3 ${hideEvents ? "hidden" : ""}`}>
-        <Typography variant="h5" className="font-bold mb-4">
+      <div ref={eventRef} className={`w-full lg:w-2/5 ${hideEvents ? "hidden" : ""}`}>
+        <Typography variant="h5" className="font-bold mb-4 text-gray-800 dark:text-dark-text-primary">
           {selectedDate
             ? `Слободни термини за ${selectedDate.format("DD MMM YYYY")}`
             : "Изберете датум"}
         </Typography>
-        <List>
+        <List className="bg-white dark:bg-dark-secondary border border-gray-200 dark:border-gray-700 rounded-lg">
           {filteredEvents.length > 0 ? (
             filteredEvents.map((event, index) => (
               <ListItem
                 key={index}
                 onClick={() => setOpenModal(true)}
-                className="flex justify-between items-start cursor-pointer"
+                className="flex justify-between items-start cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-tertiary "
               >
                 <div>
-                  <Typography variant="small" className="text-gray-500">
+                  <Typography variant="small" className="text-gray-500 dark:text-dark-text-secondary">
                     {selectedDate.format("dddd, MMM D")}
                   </Typography>
                   <Typography
                     variant="paragraph"
-                    className={`${event.time ? "font-bold" : "text-gray-500"} text-sm`}
+                    className={`${
+                      event.time 
+                        ? "font-bold text-gray-800 dark:text-dark-text-primary" 
+                        : "text-gray-500 dark:text-dark-text-secondary"
+                    } text-sm`}
                   >
                     {event.title}
                   </Typography>
                 </div>
                 {event.time && (
-                  <Typography variant="small" className="text-gray-500">
+                  <Typography variant="small" className="text-gray-500 dark:text-dark-text-secondary">
                     {event.time}
                   </Typography>
                 )}
               </ListItem>
             ))
           ) : (
-            <Typography variant="paragraph" className="text-gray-500">
+            <Typography variant="paragraph" className="text-gray-500 dark:text-dark-text-secondary p-4">
               Нема слободни термини.
             </Typography>
           )}

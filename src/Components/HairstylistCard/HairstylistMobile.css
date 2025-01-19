@@ -1,0 +1,7 @@
+.swiper-pagination-fraction,
+.swiper-pagination-fraction .swiper-pagination-current,
+.swiper-pagination-fraction .swiper-pagination-total {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}

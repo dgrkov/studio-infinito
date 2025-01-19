@@ -23,38 +23,47 @@ import {
   LifebuoyIcon,
   PowerIcon,
   RocketLaunchIcon,
-  Bars2Icon,
+  MoonIcon,
+  SunIcon
 } from "@heroicons/react/24/solid";
 
 import { useNavigate } from "react-router-dom";
+import ThemeToggle from "../ThemeToggle";
 
 // profile menu component
 const profileMenuItems = [
   {
     label: "Мој профил",
     icon: UserCircleIcon,
+    path: "/profile",
   },
   {
     label: "Уредувај профил",
     icon: Cog6ToothIcon,
+    path: "/userdetails",
   },
   {
     label: "Пораки",
     icon: InboxArrowDownIcon,
-  },
-  {
-    label: "Мои термини",
-    icon: InboxArrowDownIcon,
+    path: "/messages",
   },
   {
     label: "Помош",
     icon: LifebuoyIcon,
+    path: "/help",
   },
   {
     label: "Одјава",
     icon: PowerIcon,
+    path: "/",
   },
+  // {
+  //   label: "",
+  //   icon: <ThemeToggle />, // This will now correctly render the ThemeToggle component
+  //   path: "#"
+  // }
 ];
+
 
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -77,7 +86,7 @@ function ProfileMenu() {
             className="border border-gray-900 p-0.5"
             src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
           />
-          <p className="hidden lg:block">Никола Петровски</p>
+          <p className="hidden sm:block m-0">Никола Петровски</p>
           <ChevronDownIcon
             strokeWidth={2.5}
             className={`h-3 w-3 transition-transform ${isMenuOpen ? "rotate-180" : ""
@@ -86,16 +95,17 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon, path }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
+
           return (
             <MenuItem
               key={label}
-              onClick={ isLastItem ? () => navigate("/") : (label==="Edit Profile" ? () => navigate("/userdetails") : closeMenu)}
-              className={`flex items-center gap-2 rounded ${isLastItem
-                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                  : ""
-                }`}
+              onClick={() => {
+                navigate(path); // Redirect to the defined path
+                if (!isLastItem) closeMenu(); // Close the menu for all items except logout
+              }}
+              className={`flex items-center gap-2 rounded ${isLastItem ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10" : ""}`}
             >
               {React.createElement(icon, {
                 className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
@@ -112,10 +122,17 @@ function ProfileMenu() {
             </MenuItem>
           );
         })}
+        <MenuItem className="flex pl-2 pb-1 items-center rounded">
+          <div onClick={(e) => e.stopPropagation()}>
+            <ThemeToggle />
+          </div>
+        </MenuItem>
+
       </MenuList>
     </Menu>
   );
 }
+
 
 // nav list menu
 const navListMenuItems = [

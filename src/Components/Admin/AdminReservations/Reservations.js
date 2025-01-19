@@ -3,11 +3,11 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import "antd/dist/reset.css";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import AdminModal from "./AdminModal";
+import AdminModal from "./ModalDetails";
 import "./Admin.css";
 import FullScreenLoader from "../../FullScrennLoader/FullScreenLoader";
 
-export default function AdminReservations() {
+export default function Reservations() {
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -75,11 +75,11 @@ export default function AdminReservations() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="p-4 max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full md:max-w-2xl mx-auto">
+      <div className="p-4 w-full bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-            Денешни резервации
+            Резервации
           </h3>
           <DatePicker
             onChange={dateChange}

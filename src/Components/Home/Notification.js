@@ -13,10 +13,14 @@ export default function Notification({ message, type, head_message }) {
   }, []);
 
   return (
-      type && (<div
-        className={`${
-          type === "success" ? "bg-teal-100 border-t-4 border-teal-500 text-teal-900" : "bg-orange-100 border-l-4 border-orange-500 text-orange-700"
-        } rounded-b px-4 py-3 shadow-md ${show ? "visible" : "hidden"}`}
+    type && (
+      <div
+        onClick={() => setShow(false)}
+        className={`notification-container ${
+          type === "success"
+            ? "bg-teal-100 border-t-4 border-teal-500 text-teal-900"
+            : "bg-orange-100 border-l-4 border-orange-500 text-orange-700"
+        } rounded-b px-4 py-3 shadow-md ${show ? "visible" : "hide"}`}
         role="alert"
       >
         <div className="flex">
@@ -37,6 +41,6 @@ export default function Notification({ message, type, head_message }) {
           </div>
         </div>
       </div>
-      )
+    )
   );
 }

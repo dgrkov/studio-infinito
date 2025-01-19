@@ -42,9 +42,6 @@ function CustomNavigation() {
   );
 }
 
-function customPagination(_, className) {
-  return `<span class="${className} w-4 h-4 [&.swiper-pagination-bullet-active]:!opacity-100 [&.swiper-pagination-bullet-active]:[background:rgb(var(--color-background))] !opacity-50 ![background:rgb(var(--color-background))]"></span>`;
-}
 
 export default function HairstylistCarousel({ employee, onCardClick }) {
 
@@ -54,23 +51,29 @@ export default function HairstylistCarousel({ employee, onCardClick }) {
     }
   };
 
+  function CustomPagination(index, className) {
+    console.log("Called");
+    return `<span class="${className}">${index + 1}</span>`;
+  }
+
   return (
-    <div className="flex justify-center items-center h-[70dvh] w-full">
-      <Swiper
-        pagination={{
-          enabled: true,
-          clickable: true,
-          dynamicBullets: true,
-          renderBullet: customPagination,
-        }}
-        modules={[Navigation, Pagination]}
-        className="relative rounded-lg h-full w-full max-w-[28rem]"
-      >
+    <div className="flex justify-center items-center h-[70dvh] w-full dark:bg-dark-primary">
+    <Swiper
+      pagination={{
+        enabled: true,
+        type: "fraction",
+        clickable: true,
+        dynamicBullets: true,
+      }}
+      modules={[Navigation, Pagination]}
+      className="relative rounded-lg h-full w-full max-w-[28rem]"
+      navigation
+    >
         {employee.map((hairstylist, index) => (
           <SwiperSlide key={index} className="select-none h-full">
             <Card
               shadow={false}
-              className="relative grid h-full w-full max-w-[28rem] items-end justify-center overflow-hidden text-center"
+              className="relative grid h-full w-full max-w-[28rem] items-end justify-center overflow-hidden text-center dark:bg-dark-secondary"
               onClick={() => handleCardClick(hairstylist)}
             >
               <CardHeader
@@ -87,20 +90,16 @@ export default function HairstylistCarousel({ employee, onCardClick }) {
               <CardBody className="relative py-20 px-6 md:px-12">
                 <Typography
                   variant="h2"
-                  color="white"
-                  className="mb-6 font-medium leading-[1.5]"
+                  className="mb-6 font-medium leading-[1.5] text-white dark:text-dark-text-primary"
                 >
                   {hairstylist}
-                </Typography>
-                <Typography variant="h5" className="mb-4 text-gray-400">
-                  {hairstylist.role} MOBILE CARD
                 </Typography>
                 <Avatar
                   size="xl"
                   variant="circular"
                   alt={hairstylist}
-                  className="border-2 border-white"
-                  src={hairstylist.avatar}
+                  className="border-2 border-white dark:border-dark-border"
+                  src={"https://upload.wikimedia.org/wikipedia/commons/9/9e/Male_Avatar.jpg"}
                 />
               </CardBody>
             </Card>

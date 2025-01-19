@@ -107,20 +107,20 @@ button {
 }
 
 .responsive-image {
-    max-width: 100%; /* Ensures the image doesn't exceed its container's width */
-    height: auto;    /* Maintains the aspect ratio */
-    display: block;  /* Prevents extra spacing caused by inline images */
-    margin: 0 auto;  /* Centers the image inside the container if needed */
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .visible {
-    animation: fadeInAnimation ease 1s;
+    animation: fadeInAnimation ease .5s;
     animation-iteration-count: 1;
     animation-fill-mode: both;
 }
 
-.hidden {
-    animation: fadeOutAnimation ease 1s;
+.hide {
+    animation: fadeOutAnimation ease .5s;
     animation-iteration-count: 1;
     animation-fill-mode: both;
 }
@@ -144,5 +144,22 @@ button {
 
    100% {
         opacity: 0;
+        display: none;
    }
 }
+
+.notification-container {
+    position: fixed;
+    top: 1rem;
+    z-index: 1000;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  @media (min-width: 768px) {
+    .notification-container {
+      top: unset;
+      left: 1rem;
+      bottom: 1rem;
+      right: unset;
+    }
+  }
