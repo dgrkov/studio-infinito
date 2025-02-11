@@ -8,7 +8,7 @@ export default function Sidebar() {
 
     return (
         <div className={`h-screen bg-white border-r transition-all duration-300 flex flex-col
-            ${collapsed ? "w-16" : "w-64"} relative`}>
+            ${collapsed ? "w-16" : "w-64"} sticky top-0`}>
             
             {/* Sidebar Content */}
             <div className={`overflow-y-scroll flex-grow p-2
