@@ -3,9 +3,9 @@ import { FiTrendingUp, FiTrendingDown } from "react-icons/fi";
 
 export default function StatCards() {
     return <>
-    <Card title="Total Revenue" value="1500" pillText="2.75%" trend="up" period="From Jan 1st - Jun 2nd"/>
+    <Card title="Total Revenue" value="1500ден" pillText="2.75%" trend="up" period="From Jan 1st - Jun 2nd"/>
     <Card title="Avg customers" value="200" pillText="4.32%" trend="down" period="From May 1st - Jul 2nd"/>
-    <Card title="Sales" value="2345" pillText="10.5%" trend="up" period="From Feb 5th - Aug 22nd"/>
+    <Card title="Sales" value="2345ден" pillText="10.5%" trend="up" period="From Feb 5th - Aug 22nd"/>
     </>;
 }
 
@@ -26,6 +26,7 @@ const Card = ({title, value, pillText, trend, period}) => {
                     {trend === "up" ? <FiTrendingUp /> : <FiTrendingDown />} { pillText }
                 </span>
             </div>
+            <p>{ period }</p>
         </div>
     );
 }
