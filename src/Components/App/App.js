@@ -15,7 +15,15 @@ import FastBookingList from '../FastBookingList/FastBookingList';
 function App() {
 
   useEffect(() => {
-    // Ensure theme is applied on page load
+    
+    // document.addEventListener("keydown", (e) => {
+    //   if (e.key === "F12" || 
+    //       (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || 
+    //       (e.ctrlKey && e.key === 'U')) {
+    //       e.preventDefault();
+    //     }
+    // });
+
     const isDark =
       localStorage.getItem("theme") === "dark";
     if (isDark) {

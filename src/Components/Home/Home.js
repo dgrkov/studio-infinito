@@ -32,7 +32,7 @@ export default function Home() {
     return (
         <section
             id="image-container"
-            className={`flex flex-col justify-center items-center p-0 h-full bg-white dark:bg-dark-primary ${
+            className={`flex flex-col justify-center items-center p-0 mt-2 h-full bg-white dark:bg-dark-primary ${
                 loading ? "loading" : ""
             }`}
         >
@@ -54,14 +54,15 @@ export default function Home() {
 
                 <Typography
                     variant="paragraph"
-                    className="mb-2 text-[15px] font-bold sm:text-[15px] md:text-[20px] lg:text-[30px] animate-slide-up text-gray-800 dark:text-dark-text-primary"
+                    className="px-5 md:px-0 text-[15px] font-bold sm:text-[15px] md:text-[20px] lg:text-[30px] animate-slide-up text-gray-800 dark:text-dark-text-primary"
+                    style={{ marginBottom: '1rem' }}
                 >
                     Добредојдовте во нашата страна за букирање на термини.
                 </Typography>
                 <Button
                     variant="outlined"
                     onClick={() => navigate("/appointment")}
-                    className="mt-6 w-auto animate-pulse 
+                    className="mt-6 w-[190px] animate-pulse 
                         text-gray-800 border-gray-800 
                         dark:text-dark-text-primary dark:border-dark-border-light
                         hover:bg-gray-100 dark:hover:bg-dark-tertiary"
@@ -71,7 +72,7 @@ export default function Home() {
                 <Button
                     variant="gradient"
                     onClick={() => setFastBookingModal(true)}
-                    className="mt-6 w-auto animate-fade-in-down
+                    className="mt-6 w-[190px] animate-fade-in-down
                         bg-gray-800 text-white
                         dark:bg-dark-accent-primary dark:text-dark-text-primary
                         hover:bg-gray-700 dark:hover:bg-dark-accent-hover"

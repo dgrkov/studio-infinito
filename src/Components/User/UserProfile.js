@@ -32,7 +32,7 @@ function UserProfile() {
                   variant="small"
                   className="font-normal text-gray-600 dark:text-dark-text-primary mb-0"
                 >
-                  emma.roberts@mail.com
+                  nikola.petrovski@mail.com
                 </Typography>
                 <Typography
                   variant="small"

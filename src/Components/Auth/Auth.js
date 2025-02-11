@@ -108,7 +108,7 @@ export default function Auth() {
               sign in with google
             </p>
           </Button>
-          <Typography
+          {/* <Typography
             variant="small"
             color="gray"
             className="!mt-4 text-center font-normal"
@@ -117,7 +117,7 @@ export default function Auth() {
             <a href="#" className="font-medium text-gray-900 dark:text-dark-text-secondary">
               Create account
             </a>
-          </Typography>
+          </Typography> */}
         </form>
       </div>
       <FullScreenLoader loading={loading} />

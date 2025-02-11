@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { List, ListItem, Typography } from "@material-tailwind/react"; // Adjust the import based on your component library
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import "antd/dist/reset.css";
@@ -19,37 +20,37 @@ export default function Reservations() {
     {
       id: 1,
       name: "Neil Sims",
-      email: "email@windster.com",
+      date: "2023-10-01",
       time: "16:00 - 17:00",
       image: "https://flowbite.com/docs/images/people/profile-picture-1.jpg",
     },
     {
       id: 2,
-      name: "Bonnie Green",
-      email: "email@windster.com",
+      name: "Neil Sims",
+      date: "2023-10-02",
       time: "17:00 - 18:00",
-      image: "https://flowbite.com/docs/images/people/profile-picture-3.jpg",
+      image: "https://flowbite.com/docs/images/people/profile-picture-1.jpg",
     },
     {
       id: 3,
-      name: "Michael Gough",
-      email: "email@windster.com",
+      name: "Bonnie Green",
+      date: "2023-10-01",
       time: "18:00 - 19:00",
-      image: "https://flowbite.com/docs/images/people/profile-picture-2.jpg",
+      image: "https://flowbite.com/docs/images/people/profile-picture-3.jpg",
     },
     {
       id: 4,
-      name: "Lana Byrd",
-      email: "email@windster.com",
+      name: "Bonnie Green",
+      date: "2023-10-03",
       time: "19:00 - 20:00",
-      image: "https://flowbite.com/docs/images/people/profile-picture-4.jpg",
+      image: "https://flowbite.com/docs/images/people/profile-picture-3.jpg",
     },
     {
       id: 5,
-      name: "Thomas Lean",
-      email: "email@windster.com",
+      name: "Michael Gough",
+      date: "2023-10-01",
       time: "20:00 - 21:00",
-      image: "https://flowbite.com/docs/images/people/profile-picture-5.jpg",
+      image: "https://flowbite.com/docs/images/people/profile-picture-2.jpg",
     },
   ];
 
@@ -65,13 +66,10 @@ export default function Reservations() {
 
   const dateChange = (date, dateString) => {
     console.log(dateString);
-
     setLoading(true);
-
-    setTimeout( () => {
+    setTimeout(() => {
       setLoading(false);
-    }, 1000)
-
+    }, 1000);
   };
 
   return (
@@ -81,23 +79,28 @@ export default function Reservations() {
           <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
             Резервации
           </h3>
-          <DatePicker
+          <input
+            class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2 h-10 focus:border-gray-700 focus:ring-2 focus:ring-gray-700"
+            type="date"
+            id="dob"
+          />
+          {/* <DatePicker
             onChange={dateChange}
             prevIcon={<LeftOutlined />}
             nextIcon={<RightOutlined />}
             defaultValue={dayjs(today, "DD/MM/YYYY")}
             format={"DD/MM/YYYY"}
-          />
+          /> */}
         </div>
-        <div className="flow-root">
-          <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-            {reservations.map((reservation) => (
-              <li
+        <List className="bg-white dark:bg-dark-secondary border gap-4 border-gray-200 dark:border-gray-700 rounded-lg">
+          {reservations.length > 0 ? (
+            reservations.map((reservation) => (
+              <ListItem
                 key={reservation.id}
-                className="py-3 sm:py-4 cursor-pointer"
                 onClick={() => handleRowClick(reservation)}
+                className="flex border border-gray-200 dark:border-gray-700 justify-between items-start cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-tertiary"
               >
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 flex-1">
                   <div className="flex-shrink-0">
                     <img
                       className="w-8 h-8 rounded-full"
@@ -106,21 +109,25 @@ export default function Reservations() {
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    <p className="text-sm text-start font-medium m-1 text-gray-900 truncate dark:text-white">
                       {reservation.name}
                     </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      {reservation.email}
+                    <p className="text-sm text-start text-gray-500 truncate dark:text-gray-400">
+                      {reservation.date}
                     </p>
                   </div>
-                  <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                </div>
+                  <div className="inline-flex items-center justify-center text-base font-semibold text-gray-900 dark:text-white">
                     {reservation.time}
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+              </ListItem>
+            ))
+          ) : (
+            <Typography variant="paragraph" className="text-gray-500 dark:text-dark-text-secondary p-4">
+              Нема слободни термини.
+            </Typography>
+          )}
+        </List>
       </div>
       {selectedReservation && (
         <AdminModal

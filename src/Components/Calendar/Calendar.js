@@ -19,6 +19,7 @@ const Calendar = () => {
     { date: "2025-01-15", title: "Слободно", time: "17:30 - 18:00" },
     { date: "2025-02-15", title: "Слободно", time: "17:30 - 18:00" },
     { date: "2025-04-15", title: "Слободно", time: "17:30 - 18:00" },
+    { date: "2025-02-11", title: "Слободно", time: "17:30 - 18:00" },
   ];
 
   const generateDaysInMonth = (date) => {
@@ -75,7 +76,7 @@ const Calendar = () => {
 
         <Card className="p-4 bg-white dark:bg-dark-secondary dark:border dark:border-dark-border">
           <div className="grid grid-cols-7 gap-2">
-            {["M", "T", "W", "T", "F", "S", "S"].map((day) => (
+            {["S", "M", "T", "W", "T", "F", "S"].map((day) => (
               <Typography
                 key={day}
                 variant="small"
@@ -91,10 +92,12 @@ const Calendar = () => {
                   day && day.isSame(selectedDate, "date")
                     ? "bg-gray-700 text-white dark:bg-gray-600"
                     : day
-                    ? "hover:bg-gray-200 dark:hover:bg-dark-tertiary cursor-pointer text-gray-800 dark:text-gray-100"
+                    ? day.day() === 1
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-gray-200 dark:hover:bg-dark-tertiary cursor-pointer text-gray-800 dark:text-gray-100"
                     : "opacity-0"
                 }`}
-                onClick={() => day && handleDateClick(day)}
+                onClick={() => day && day.day() !== 1 && handleDateClick(day)}
                 style={{
                   fontSize: "1rem",
                 }}

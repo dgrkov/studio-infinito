@@ -16,7 +16,7 @@ export function StepperWithContent(props) {
   };
 
   return (
-    <div className="w-full px-10 md:px-48 py-4 mb-12 lg:mb-16 dark:bg-dark-primary">
+    <div className="w-full px-10 md:px-48 py-4 mb-6 mt-4 lg:mb-16 dark:bg-dark-primary">
       <Stepper
         activeStep={props.activeStep}
         isLastStep={(value) => setIsLastStep(value)}
