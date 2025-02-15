@@ -7,18 +7,19 @@ import {
   CardHeader,
   Typography,
 } from "@material-tailwind/react";
-import Reservations from "../Admin/AdminReservations/Reservations";
+import Reservations from "./UserReservations";
+
+import "./UserProfile.css";
 
 function UserProfile() {
   return (
     <section className="container mx-auto md:px-8 py-10">
       <Card shadow={false} className="border border-gray-300 dark:bg-gray-600 rounded-2xl">
         <CardHeader shadow={false} className="h-60 !rounded-lg overflow-hidden">
-          <img
-            src="https://www.material-tailwind.com/_next/image?url=%2Fimage%2Fdark-image.png&w=1080&q=75"
-            alt="dark"
+          <div
+            id="user-image"
             className="w-full h-full object-cover object-center"
-          />
+          ></div>
         </CardHeader>
         <CardBody>
           <div className="flex lg:gap-0 gap-6 flex-wrap justify-between items-center">

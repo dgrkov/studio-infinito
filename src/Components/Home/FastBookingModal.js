@@ -89,10 +89,9 @@ export function FastBookingModal({ isOpen, onClose, onSubmit }) {
         </Button>
         <Button 
           fullWidth
-          variant="gradient" 
           onClick={handleSubmit}
           disabled={!data.worker || !data.service}
-          className="bg-gray-800 dark:bg-dark-accent-primary text-white dark:text-dark-text-primary"
+          className=" dark:bg-dark-button-primary text-white dark:text-dark-text-primary"
         >
           <span>Потврди</span>
         </Button>

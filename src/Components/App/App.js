@@ -46,6 +46,7 @@ function App() {
         <Route path='/profile' element={<UserProfile />} />
         <Route path="/appointments" element={<Reservations />} />
         <Route path="/fast-booking" element={<FastBookingList />} />
+        <Route path='/admin' element={<Reservations />} />
       </Routes>
     </BrowserRouter>
   );
