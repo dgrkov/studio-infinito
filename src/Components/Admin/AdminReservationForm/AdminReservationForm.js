@@ -1,8 +1,13 @@
 import Reactm, {useState} from "react";
 import Reservations from "../AdminReservations/Reservations";
-
+import { useNavigate } from 'react-router-dom'
 
 export default function AdminReservationForm() {
+    const navigate = useNavigate();
+    const handleRedirect = () => {
+      navigate('/admin');
+    }
+
     const workReqs = [
         { name: "Шишање", price: 500, time: "30 min" },
         { name: "Фарбање", price: 1000, time: "1 h" },
@@ -95,11 +100,16 @@ export default function AdminReservationForm() {
                     </div>
                 </div>
                 <div className="flex items-center justify-center">
-                    <button className="hover:shadow-form hover:bg-gray-800 rounded-md bg-black py-3 px-8 text-center text-base font-semibold text-white outline-none">
-                    Submit
+                    <button type="submit" className="hover:shadow-form hover:bg-gray-800 rounded-md bg-black py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                    Потврди
                     </button>
                 </div>
                 </form>
+                <div className="flex items-center justify-center py-2">
+                    <button onClick={handleRedirect} className="hover:shadow-form hover:bg-gray-800 rounded-md bg-black py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                    Назад кон список
+                    </button>
+                </div>
             </div>
         </div>
     );
