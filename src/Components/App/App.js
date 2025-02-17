@@ -11,6 +11,8 @@ import Checkout from '../Checkout/Checkout';
 import Reservations from '../Admin/AdminReservations/Reservations';
 import UserProfile from '../User/UserProfile';
 import FastBookingList from '../FastBookingList/FastBookingList';
+import AdminPage from '../Admin/AdminPage/AdminPage';
+import AdminReservationForm from '../Admin/AdminReservationForm/AdminReservationForm';
 
 function App() {
 
@@ -46,7 +48,8 @@ function App() {
         <Route path='/profile' element={<UserProfile />} />
         <Route path="/appointments" element={<Reservations />} />
         <Route path="/fast-booking" element={<FastBookingList />} />
-        <Route path='/admin' element={<Reservations />} />
+        <Route path='/admin' element={<AdminPage />} />
+        <Route path="/admin/reservation" element={<AdminReservationForm />} />
       </Routes>
     </BrowserRouter>
   );
