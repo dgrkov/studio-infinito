@@ -8,11 +8,10 @@ import Calendar from '../Calendar/Calendar';
 import Appointment from '../Appointment/Appointment';
 import UserDetails from '../User/UserDetails';
 import Checkout from '../Checkout/Checkout';
-import Reservations from '../Admin/AdminReservations/Reservations';
 import UserProfile from '../User/UserProfile';
 import FastBookingList from '../FastBookingList/FastBookingList';
 import AdminPage from '../Admin/AdminPage/AdminPage';
-import AdminReservationForm from '../Admin/AdminReservationForm/AdminReservationForm';
+import Reservations from '../User/UserReservations';
 
 function App() {
 
@@ -49,7 +48,7 @@ function App() {
         <Route path="/appointments" element={<Reservations />} />
         <Route path="/fast-booking" element={<FastBookingList />} />
         <Route path='/admin' element={<AdminPage />} />
-        <Route path="/admin/reservation" element={<AdminReservationForm />} />
+        <Route path="/reservations" element={<Reservations />} />
       </Routes>
     </BrowserRouter>
   );
