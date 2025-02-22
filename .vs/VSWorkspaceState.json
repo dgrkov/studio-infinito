@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\studio_infinito",
+    "\\backend\\studio_infinito\\studio_infinito",
+    "\\backend\\studio_infinito\\studio_infinito\\DTOs",
+    "\\backend\\studio_infinito\\studio_infinito\\Services\\Implementation"
+  ],
+  "SelectedNode": "\\backend\\studio_infinito\\studio_infinito\\studio_infinito.csproj",
+  "PreviewInSolutionExplorer": false
+}
