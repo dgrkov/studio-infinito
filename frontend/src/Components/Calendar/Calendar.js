@@ -1,8 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Typography, Button, Card, List, ListItem } from "@material-tailwind/react";
 import { ConfirmModal } from "./ConfirmModal";
 import FullScreenLoader from "../FullScrennLoader/FullScreenLoader";
 import dayjs from "dayjs";
+
+import { Axios } from "../Axios";
+
+const axios = new Axios();
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(dayjs());
@@ -11,16 +15,41 @@ const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [availableDates, setAvailableDates] = useState([])
+  const [filteredEvents, setfilteredEvents] = useState([])
 
-  const events = [
-    { date: "2025-01-12", title: "Слободно", time: "12:00 - 12:30" },
-    { date: "2025-01-12", title: "View house with real estate agent", time: "14:30 - 16:30" },
-    { date: "2025-01-13", title: "Meeting with bank manager", time: "16:30 - 17:00" },
-    { date: "2025-01-15", title: "Слободно", time: "17:30 - 18:00" },
-    { date: "2025-02-15", title: "Слободно", time: "17:30 - 18:00" },
-    { date: "2025-04-15", title: "Слободно", time: "17:30 - 18:00" },
-    { date: "2025-02-11", title: "Слободно", time: "17:30 - 18:00" },
-  ];
+  const generateEvents = (date, availableTimeslots) => {
+    const events = [];
+    
+    availableTimeslots.forEach((slot, index) => {
+      const startTime = slot.slot_time;
+      const endTime = availableTimeslots[index + 1]?.slot_time || startTime; // Take next slot time as end time, or use current slot as end time
+      
+      if (startTime && endTime) {
+        events.push({
+          date: date,
+          title: "Слободно",
+          time: `${startTime}`
+        });
+      }
+    });
+  
+    return events;
+  };
+
+  const getAvailableDates = () => {
+    setLoading(true);
+    axios.get(`Calendar/available-dates?year=${currentDate.year()}&month=${currentDate.month() + 1}`).then((res) => {
+      if (res.status === 200) {
+          setAvailableDates(res.data.result);
+        }
+      }).catch((error) => { console.log(error) })
+      .finally(() => setLoading(false));
+  }
+
+  useEffect( () => {
+    getAvailableDates();
+  }, [currentDate]);
 
   const generateDaysInMonth = (date) => {
     const daysInMonth = dayjs(date).daysInMonth();
@@ -35,11 +64,18 @@ const Calendar = () => {
   const handleDateClick = (date) => {
     setLoading(true);
     setHideEvents(false);
-    setTimeout(() => {
-      eventRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      setSelectedDate(date);
-      setLoading(false);
-    }, 600);
+    axios.get(`Calendar/available-timeslots/${date.format("YYYY-MM-DD")}/60`).then((res) => {
+      if (res.status === 200) {
+        const availableTimeslots = res.data.result;
+        const events = generateEvents(date.format("DD-MM-YYYY"), availableTimeslots);
+
+        setfilteredEvents(events);
+
+        eventRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        setSelectedDate(date);
+        setLoading(false);
+      }
+    });
   };
 
   const handlePrevMonth = () => {
@@ -49,10 +85,6 @@ const Calendar = () => {
   const handleNextMonth = () => {
     setCurrentDate((prev) => prev.add(1, "month"));
   };
-
-  const filteredEvents = events.filter(
-    (event) => dayjs(event.date).isSame(selectedDate, "date")
-  );
 
   const days = generateDaysInMonth(currentDate);
 
@@ -85,30 +117,31 @@ const Calendar = () => {
                 {day}
               </Typography>
             ))}
-            {days.map((day, index) => (
-              <div
-                key={index}
-                className={`flex items-center justify-center h-10 w-10 rounded-full ${
-                  day && day.isSame(selectedDate, "date")
-                    ? "bg-gray-700 text-white dark:bg-gray-600"
-                    : day
-                    ? day.day() === 1
+            {days.map((day, index) => {
+              const availableDatesFormatted = availableDates.map((d) => dayjs(d.appointment_date).format("YYYY-MM-DD"));
+
+              const isDisabled = day && (day.day() === 1 || !availableDatesFormatted.includes(day.format("YYYY-MM-DD")));
+              return (
+                <div
+                  key={index}
+                  className={`flex items-center justify-center h-10 w-10 rounded-full ${
+                    day && day.isSame(selectedDate, "date")
+                      ? "bg-gray-700 text-white dark:bg-gray-600"
+                      : isDisabled
                       ? "opacity-50 cursor-not-allowed"
                       : "hover:bg-gray-200 dark:hover:bg-dark-tertiary cursor-pointer text-gray-800 dark:text-gray-100"
-                    : "opacity-0"
-                }`}
-                onClick={() => day && day.day() !== 1 && handleDateClick(day)}
-                style={{
-                  fontSize: "1rem",
-                }}
-              >
-                {day ? (
-                  <Typography className="text-center m-0 font-medium">
-                    {day.date()}
-                  </Typography>
-                ) : null}
-              </div>
-            ))}
+                  }`}
+                  onClick={() => !isDisabled && handleDateClick(day)}
+                  style={{ fontSize: "1rem" }}
+                >
+                  {day ? (
+                    <Typography className="text-center m-0 font-medium">
+                      {day.date()}
+                    </Typography>
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
         </Card>
       </div>
