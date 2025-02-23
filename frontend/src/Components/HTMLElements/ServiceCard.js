@@ -6,16 +6,11 @@ export default function ServiceCard({ serviceType, handleWorkReq, onClick }) {
             <div className='flex-1 rounded-lg service-card-image mr-4' >
 
             </div>
-            {/* <img 
-                src="https://media.istockphoto.com/id/506514230/photo/beard-grooming.jpg?s=612x612&w=0&k=20&c=QDwo1L8-f3gu7mcHf00Az84fVU8oNpQLgvUw6eGPEkc="
-                alt="Service"
-                className=" rounded-lg mr-4"
-            /> */}
             <div className="flex-1 pb-4 pr-4">
                 <h3 className="card__title dark:hover:text-gray-400 text-lg font-semibold">{ serviceType.name }</h3>
                 <p className="card__content text-[12px] sm:text-sm dark:text-white">Секоја картичка ке има свое објаснување и колку време трае</p>
                 <div className="card__date text-sm text-gray-600 dark:text-gray-400">
-                    {serviceType.price} ден.
+                    {serviceType.price} ден. / {serviceType.duration} мин.
                 </div>
                 <div className="card__arrow bg-black">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="15" width="15">

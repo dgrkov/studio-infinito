@@ -19,11 +19,11 @@ namespace studio_infinito.Services.Implementation
                 parameters.Add("input_year", year);
                 parameters.Add("input_month", month);
 
-                return _context.ExecuteStoredProcedure("GetAvailableDates", parameters);
+                return await _context.ExecuteStoredProcedure("GetAvailableDates", parameters);
             }
             catch (Exception ex)
             {
-                throw ex;
+                return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Error executing stored procedure GetAvailableDates: {ex.Message}" } };
             }
         }
 
@@ -35,11 +35,11 @@ namespace studio_infinito.Services.Implementation
                 parameters.Add("appointment_date", appointment_date);
                 parameters.Add("service_duration", service_duration);
 
-                return _context.ExecuteStoredProcedure("GetAvailableTimeSlots", parameters);
+                return await _context.ExecuteStoredProcedure("GetAvailableTimeSlots", parameters);
             }
             catch (Exception ex)
             {
-                throw ex;
+                return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Error executing stored procedure GetAvailableTimeSlots: {ex.Message}" } };
             }
         }
 

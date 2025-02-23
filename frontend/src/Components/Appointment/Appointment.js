@@ -8,19 +8,19 @@ import HairStylistMobile from "../HairstylistCard/HairStylistMobile";
 import Calendar from "../Calendar/Calendar";
 import { StepperWithContent } from "../Stepper/Stepper";
 
+import { Axios } from "../Axios";
+
+const axios = new Axios();
+
 export default function Appointment() {
     const [step, setStep] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
     const [Hairstylist, setHairstylist] = useState(false);
     const [WorkRequest, setWorkRequest] = useState(false);
+    const [services, setServices] = useState([]);
+    const [appointmentData, setAppointmentData] = useState({});
 
     const navigate = useNavigate();
-
-    const workReqs = [
-        { name: "Шишање", price: 500, time: "30 min" },
-        { name: "Фарбање", price: 1000, time: "1 h" },
-        { name: "Фенирање", price: 400, time: "30 min" },
-    ];
 
     const employees = ["Александар", "Марина"];
 
@@ -34,6 +34,13 @@ export default function Appointment() {
         };
 
         window.addEventListener("popstate", handlePopState);
+
+        axios.get(`Appointments/get-services`).then((res) => {
+            if (res.status === 200) {
+                console.log(res);
+                setServices(res.data);
+            }
+        });
 
         return () => {
             window.removeEventListener("popstate", handlePopState);
@@ -51,12 +58,14 @@ export default function Appointment() {
         setStep((prevStep) => Math.max(prevStep - 1, 0));
     };
 
-    const handleWRSWithStep = () => {
+    const handleWRSWithStep = (serviceType) => {
+        setAppointmentData(prevState => ({...prevState, serviceType: serviceType }));
         setWorkRequest(true);
         goForward(2);
     };
 
     const handleHairstylistClick = (hairstylist) => {
+        setAppointmentData(prevState => ({...prevState, hairstylist: hairstylist }));
         setHairstylist(true);
         goForward(1);
     };
@@ -87,7 +96,9 @@ export default function Appointment() {
             <div className="p-1">
                 {WorkRequest ? (
                     <div>
-                        <Calendar />
+                        <Calendar 
+                            appointmentData={appointmentData}
+                        />
                     </div>
                 ) : (
                     <div>
@@ -110,13 +121,13 @@ export default function Appointment() {
                                 {/* <h1 className="text-2xl font-bold mb-4 lg:pl-28 dark:text-dark-text-primary">Одберете услуга</h1> */}
                                 {isMobile ? (
                                     <ServiceCardMobile
-                                        serviceTypes={workReqs}
+                                        serviceTypes={services}
                                         activeStep={step}
                                         handleWorkReq={handleWRSWithStep}
                                     />
                                 ) : (
                                     <ServiceCardMobile
-                                        serviceTypes={workReqs}
+                                        serviceTypes={services}
                                         activeStep={step}
                                         handleWorkReq={handleWRSWithStep}
                                     />

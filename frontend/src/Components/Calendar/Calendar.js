@@ -8,7 +8,7 @@ import { Axios } from "../Axios";
 
 const axios = new Axios();
 
-const Calendar = () => {
+const Calendar = ({ appointmentData }) => {
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [hideEvents, setHideEvents] = useState(true);
   const eventRef = useRef(null);
@@ -17,13 +17,14 @@ const Calendar = () => {
   const [loading, setLoading] = useState(false);
   const [availableDates, setAvailableDates] = useState([])
   const [filteredEvents, setfilteredEvents] = useState([])
+  const [event_information, setEventInformation] = useState({});
 
   const generateEvents = (date, availableTimeslots) => {
     const events = [];
     
     availableTimeslots.forEach((slot, index) => {
       const startTime = slot.slot_time;
-      const endTime = availableTimeslots[index + 1]?.slot_time || startTime; // Take next slot time as end time, or use current slot as end time
+      const endTime = availableTimeslots[index + 1]?.slot_time || startTime;
       
       if (startTime && endTime) {
         events.push({
@@ -41,7 +42,7 @@ const Calendar = () => {
     setLoading(true);
     axios.get(`Calendar/available-dates?year=${currentDate.year()}&month=${currentDate.month() + 1}`).then((res) => {
       if (res.status === 200) {
-          setAvailableDates(res.data.result);
+          setAvailableDates(res.data);
         }
       }).catch((error) => { console.log(error) })
       .finally(() => setLoading(false));
@@ -62,11 +63,12 @@ const Calendar = () => {
   };
 
   const handleDateClick = (date) => {
+    console.log(appointmentData);
     setLoading(true);
     setHideEvents(false);
-    axios.get(`Calendar/available-timeslots/${date.format("YYYY-MM-DD")}/60`).then((res) => {
+    axios.get(`Calendar/available-timeslots/${date.format("YYYY-MM-DD")}/${appointmentData?.serviceType?.duration || 30}`).then((res) => {
       if (res.status === 200) {
-        const availableTimeslots = res.data.result;
+        const availableTimeslots = res.data;
         const events = generateEvents(date.format("DD-MM-YYYY"), availableTimeslots);
 
         setfilteredEvents(events);
@@ -88,6 +90,30 @@ const Calendar = () => {
 
   const days = generateDaysInMonth(currentDate);
 
+  const handleEventClick = (event) => {
+    setEventInformation(prevState => ({
+        ...prevState, 
+        event,
+        appointmentData
+    }));
+
+    setOpenModal(true);
+  };
+
+  const groupEventsByTimePeriod = (events) => {
+    return events.reduce((acc, event) => {
+      const [hours, minutes] = event.time.split(':').map(Number);
+      const totalMinutes = hours * 60 + minutes;
+      const category = totalMinutes <= 780 ? 'morning' : 'evening'; // 780 minutes = 13:00
+      
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(event);
+      return acc;
+    }, { morning: [], evening: [] });
+  };
+
+  const groupedEvents = groupEventsByTimePeriod(filteredEvents);
+
   return (
     <div className="flex flex-col lg:flex-row lg:space-x-8 p-3 lg:p-8 space-y-8 lg:space-y-0">
       <FullScreenLoader loading={loading} />
@@ -108,9 +134,9 @@ const Calendar = () => {
 
         <Card className="p-4 bg-white dark:bg-dark-secondary dark:border dark:border-dark-border">
           <div className="grid grid-cols-7 gap-2">
-            {["S", "M", "T", "W", "T", "F", "S"].map((day) => (
+            {["S", "M", "T", "W", "T", "F", "S"].map((day, _i) => (
               <Typography
-                key={day}
+                key={_i}
                 variant="small"
                 className="text-center font-bold text-gray-800 dark:text-gray-100"
               >
@@ -153,44 +179,37 @@ const Calendar = () => {
             ? `Слободни термини за ${selectedDate.format("DD MMM YYYY")}`
             : "Изберете датум"}
         </Typography>
-        <List className="bg-white dark:bg-dark-secondary border border-gray-200 dark:border-gray-700 rounded-lg">
-          {filteredEvents.length > 0 ? (
-            filteredEvents.map((event, index) => (
-              <ListItem
-                key={index}
-                onClick={() => setOpenModal(true)}
-                className="flex justify-between items-start cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-tertiary "
-              >
-                <div>
-                  <Typography variant="small" className="text-gray-500 dark:text-dark-text-secondary">
-                    {selectedDate.format("dddd, MMM D")}
-                  </Typography>
-                  <Typography
-                    variant="paragraph"
-                    className={`${
-                      event.time 
-                        ? "font-bold text-gray-800 dark:text-dark-text-primary" 
-                        : "text-gray-500 dark:text-dark-text-secondary"
-                    } text-sm`}
-                  >
-                    {event.title}
-                  </Typography>
-                </div>
-                {event.time && (
-                  <Typography variant="small" className="text-gray-500 dark:text-dark-text-secondary">
-                    {event.time}
-                  </Typography>
-                )}
-              </ListItem>
-            ))
-          ) : (
+
+        <div className="space-y-6">
+          {filteredEvents.length === 0 ? (
             <Typography variant="paragraph" className="text-gray-500 dark:text-dark-text-secondary p-4">
               Нема слободни термини.
             </Typography>
+          ) : (
+            Object.entries(groupedEvents).map(([category, events]) => 
+              events.length > 0 && (
+                <div key={category}>
+                  <Typography variant="h6" className="text-gray-800 dark:text-dark-text-primary mb-4 capitalize">
+                    {category === 'morning' ? 'Утро' : 'Попладне'}
+                  </Typography>
+                  <div className="grid grid-cols-3 gap-2">
+                    {events.map((event, index) => (
+                      <Button
+                        key={index}
+                        onClick={() => handleEventClick(event)}
+                        className="text-center py-2 rounded-lg w-full bg-gray-100 hover:bg-gray-200 dark:bg-dark-tertiary dark:hover:bg-dark-hover text-gray-800 dark:text-dark-text-primary text-sm"
+                      >
+                        {dayjs(`${event.date.split("-").reverse().join("-")}T${event.time}`).format("HH:mm")}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              )
+            )
           )}
-        </List>
+        </div>
       </div>
-      <ConfirmModal isOpen={openModal} setOpen={setOpenModal} />
+      <ConfirmModal event_information={event_information} isOpen={openModal} setOpen={setOpenModal} />
     </div>
   );
 };

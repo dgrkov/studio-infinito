@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -16,48 +17,56 @@ namespace studio_infinito.Data
             _connection.Open();
         }
 
-        public List<Dictionary<string, object>> ExecuteSqlQuery(string query)
+        public async Task<List<Dictionary<string, object>>> ExecuteSqlQuery(string query, MySqlParameter[] parameters = null)
         {
             try
             {
                 using (MySqlCommand execute_query = new MySqlCommand(query, _connection))
-                using (MySqlDataReader reader = execute_query.ExecuteReader())
                 {
-                    if (execute_query.LastInsertedId > 0)
+                    if (parameters != null)
                     {
-                        var result = new Dictionary<string, object> { { "id", execute_query.LastInsertedId } };
-                        return new List<Dictionary<string, object>> { result };
+                        execute_query.Parameters.AddRange(parameters);
                     }
 
-                    var results = new List<Dictionary<string, object>>();
-                    int row_number = 0;
-
-                    while (reader.Read())
+                    using (MySqlDataReader reader = (MySqlDataReader)await execute_query.ExecuteReaderAsync())
                     {
-                        row_number++;
-                        var row = new Dictionary<string, object>
+                        if (execute_query.LastInsertedId > 0)
                         {
-                            ["key"] = row_number
-                        };
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            row[reader.GetName(i)] = reader.GetValue(i);
+                            var result = new Dictionary<string, object> { { "id", execute_query.LastInsertedId } };
+                            return new List<Dictionary<string, object>> { result };
                         }
 
-                        results.Add(row);
-                    }
+                        var results = new List<Dictionary<string, object>>();
+                        int row_number = 0;
 
-                    return results;
+                        while (await reader.ReadAsync())
+                        {
+                            row_number++;
+                            var row = new Dictionary<string, object>
+                            {
+                                ["key"] = row_number
+                            };
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                row[reader.GetName(i)] = reader.GetValue(i);
+                            }
+
+                            results.Add(row);
+                        }
+
+                        return results;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error executing query: " + ex.Message);
+                return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Error executing query '{query}': {ex.Message}" } };
             }
         }
 
-        public List<Dictionary<string, object>> ExecuteStoredProcedure(string procedureName, Dictionary<string, object>? parameters = null)
+
+        public async Task<List<Dictionary<string, object>>> ExecuteStoredProcedure(string procedureName, Dictionary<string, object>? parameters = null)
         {
             try
             {
@@ -73,7 +82,7 @@ namespace studio_infinito.Data
                         }
                     }
 
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
                     {
                         var results = new List<Dictionary<string, object>>();
 
@@ -95,7 +104,7 @@ namespace studio_infinito.Data
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error executing stored procedure '{procedureName}': {ex.Message}");
+                return new List<Dictionary<string, object>>{ new Dictionary<string, object>{ ["error"] = $"Error executing stored procedure '{procedureName}': {ex.Message}" } };
             }
         }
 

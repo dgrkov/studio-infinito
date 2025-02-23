@@ -29,7 +29,6 @@ export class Axios {
     //     });
     // }
     async get(url, body) {
-        console.log(`${process.env.REACT_APP_API_URL}${url}`);
         return await axios.get(`${process.env.REACT_APP_API_URL}${url}`, body );
     }
 

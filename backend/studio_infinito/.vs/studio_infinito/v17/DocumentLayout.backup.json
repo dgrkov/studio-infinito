@@ -3,28 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\controllers\\calendarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\controllers\\calendarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\events\\appointmentcreatedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\events\\appointmentcreatedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\services\\icalendarservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\services\\icalendarservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\events\\appointmentcreatedeventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\events\\appointmentcreatedeventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\services\\implementation\\calendarservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\services\\implementation\\calendarservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\services\\implementation\\appointmentsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\services\\implementation\\appointmentsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\controllers\\appointmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\controllers\\appointmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\dtos\\userlogindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\dtos\\userlogindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\dtos\\servicetypedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\dtos\\servicetypedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\services\\implementation\\calendarservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\services\\implementation\\calendarservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|c:\\users\\nikpe\\onedrive\\documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\controllers\\calendarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B435259-C518-4F5B-892A-0452CA7FC1CB}|studio_infinito\\studio_infinito.csproj|solutionrelative:studio_infinito\\controllers\\calendarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -70,79 +82,119 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CalendarService.cs",
-              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Services\\Implementation\\CalendarService.cs",
-              "RelativeDocumentMoniker": "studio_infinito\\Services\\Implementation\\CalendarService.cs",
-              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Services\\Implementation\\CalendarService.cs",
-              "RelativeToolTip": "studio_infinito\\Services\\Implementation\\CalendarService.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAACEAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-22T17:58:48.289Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\appsettings.json",
-              "RelativeDocumentMoniker": "studio_infinito\\appsettings.json",
-              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\appsettings.json",
-              "RelativeToolTip": "studio_infinito\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-02-22T17:31:51.868Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CalendarController.cs",
-              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Controllers\\CalendarController.cs",
-              "RelativeDocumentMoniker": "studio_infinito\\Controllers\\CalendarController.cs",
-              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Controllers\\CalendarController.cs",
-              "RelativeToolTip": "studio_infinito\\Controllers\\CalendarController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAABKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-22T17:19:16.701Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserLoginDTO.cs",
-              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\DTOs\\UserLoginDTO.cs",
-              "RelativeDocumentMoniker": "studio_infinito\\DTOs\\UserLoginDTO.cs",
-              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\DTOs\\UserLoginDTO.cs",
-              "RelativeToolTip": "studio_infinito\\DTOs\\UserLoginDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-22T16:33:52.48Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Program.cs",
               "RelativeDocumentMoniker": "studio_infinito\\Program.cs",
               "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Program.cs",
               "RelativeToolTip": "studio_infinito\\Program.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAAAEgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-22T16:32:37.392Z",
+              "WhenOpened": "2025-02-23T14:16:50.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppointmentsService.cs",
+              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Services\\Implementation\\AppointmentsService.cs",
+              "RelativeDocumentMoniker": "studio_infinito\\Services\\Implementation\\AppointmentsService.cs",
+              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Services\\Implementation\\AppointmentsService.cs",
+              "RelativeToolTip": "studio_infinito\\Services\\Implementation\\AppointmentsService.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAAAADwAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:31:01.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AppointmentCreatedEvent.cs",
+              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Events\\AppointmentCreatedEvent.cs",
+              "RelativeDocumentMoniker": "studio_infinito\\Events\\AppointmentCreatedEvent.cs",
+              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Events\\AppointmentCreatedEvent.cs",
+              "RelativeToolTip": "studio_infinito\\Events\\AppointmentCreatedEvent.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAACQAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T14:14:38.493Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ICalendarService.cs",
-              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Services\\ICalendarService.cs",
-              "RelativeDocumentMoniker": "studio_infinito\\Services\\ICalendarService.cs",
-              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Services\\ICalendarService.cs",
-              "RelativeToolTip": "studio_infinito\\Services\\ICalendarService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABcAAAAAAAAAA==",
+              "Title": "AppointmentCreatedEventHandler.cs",
+              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Events\\AppointmentCreatedEventHandler.cs",
+              "RelativeDocumentMoniker": "studio_infinito\\Events\\AppointmentCreatedEventHandler.cs",
+              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Events\\AppointmentCreatedEventHandler.cs*",
+              "RelativeToolTip": "studio_infinito\\Events\\AppointmentCreatedEventHandler.cs*",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAABsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-22T16:18:25.806Z",
+              "WhenOpened": "2025-02-23T14:02:00.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ServiceTypeDto.cs",
+              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\DTOs\\ServiceTypeDto.cs",
+              "RelativeDocumentMoniker": "studio_infinito\\DTOs\\ServiceTypeDto.cs",
+              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\DTOs\\ServiceTypeDto.cs",
+              "RelativeToolTip": "studio_infinito\\DTOs\\ServiceTypeDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:47:22.17Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DbContext.cs",
+              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Data\\DbContext.cs",
+              "RelativeDocumentMoniker": "studio_infinito\\Data\\DbContext.cs",
+              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Data\\DbContext.cs",
+              "RelativeToolTip": "studio_infinito\\Data\\DbContext.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAUwHEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:31:07.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppointmentsController.cs",
+              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Controllers\\AppointmentsController.cs",
+              "RelativeDocumentMoniker": "studio_infinito\\Controllers\\AppointmentsController.cs",
+              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Controllers\\AppointmentsController.cs",
+              "RelativeToolTip": "studio_infinito\\Controllers\\AppointmentsController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAYwBcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:29:24.907Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CalendarService.cs",
+              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Services\\Implementation\\CalendarService.cs",
+              "RelativeDocumentMoniker": "studio_infinito\\Services\\Implementation\\CalendarService.cs",
+              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Services\\Implementation\\CalendarService.cs",
+              "RelativeToolTip": "studio_infinito\\Services\\Implementation\\CalendarService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:28:37.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CalendarController.cs",
+              "DocumentMoniker": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Controllers\\CalendarController.cs",
+              "RelativeDocumentMoniker": "studio_infinito\\Controllers\\CalendarController.cs",
+              "ToolTip": "C:\\Users\\nikpe\\OneDrive\\Documents\\studio_infinito\\backend\\studio_infinito\\studio_infinito\\Controllers\\CalendarController.cs",
+              "RelativeToolTip": "studio_infinito\\Controllers\\CalendarController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:28:25.002Z",
               "EditorCaption": ""
             }
           ]

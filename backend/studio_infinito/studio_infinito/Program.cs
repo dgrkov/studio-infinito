@@ -1,12 +1,12 @@
 using studio_infinito.Data;
+using studio_infinito.Services;
+using studio_infinito.Services.Implementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using studio_infinito.Services;
-using studio_infinito.Services.Implementation;
+using studio_infinito.Events;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 IConfiguration configuration = (new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build());
 // Add services to the container.
@@ -20,21 +20,21 @@ var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
 var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
- .AddJwtBearer(options =>
- {
-     options.TokenValidationParameters = new TokenValidationParameters
-     {
-         ValidateIssuer = true,
-         ValidateAudience = true,
-         ValidateLifetime = true,
-         ValidateIssuerSigningKey = true,
-         ValidIssuer = jwtIssuer,
-         ValidAudience = jwtIssuer,
-         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
-     };
- });
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtIssuer,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+    });
 
-builder.Services.AddScoped<studio_infinito.Data.DbContext>();
+builder.Services.AddScoped<DbContext>();
 
 /* 
     * Example for adding dependency injections
@@ -44,6 +44,10 @@ builder.Services.AddScoped<studio_infinito.Data.DbContext>();
 */
 
 builder.Services.AddScoped<ICalendarService, CalendarService>();
+builder.Services.AddScoped<IAppointmentsService, AppointmentsService>();
+
+builder.Services.AddSingleton<AppointmentCreatedEvent>();
+builder.Services.AddSingleton<AppointmentService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
@@ -65,9 +69,9 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins(allowedOrigins)
-            .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
         });
 });
 
@@ -77,6 +81,8 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+var appointmentService = app.Services.GetRequiredService<AppointmentService>();
+var appointmentCreatedEvent = app.Services.GetRequiredService<AppointmentCreatedEvent>();
 
 app.UseHttpsRedirection();
 
