@@ -43,5 +43,33 @@ namespace studio_infinito.Controllers
 
         }
 
+        [HttpPost("user-appointments/{id}")]
+        public async Task<IActionResult> UserAppointments(int id)
+        {
+            try
+            {
+                return Ok(await _appointmentsService.UserAppointments(id));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpPost("fast-booking")]
+        public async Task<IActionResult> FastBooking([FromBody] FastBookingDto fastBookingDto)
+        {
+            try
+            {
+                return Ok(await _appointmentsService.FastBooking(fastBookingDto));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
     }
 }

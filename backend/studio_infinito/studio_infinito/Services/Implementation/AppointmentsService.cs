@@ -36,8 +36,8 @@ namespace studio_infinito.Services.Implementation
                 DateTime appointmentDate = DateTime.ParseExact(appointmentDto.Event.Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 TimeSpan appointmentTime = TimeSpan.Parse(appointmentDto.Event.Time);
 
-                string query = @"INSERT INTO appointments (user_id, service_id, appointment_date, appointment_time, status, created_at)
-                VALUES (@UserId, @ServiceId, @AppointmentDate, @AppointmentTime, @Status, NOW());";
+                string query = @"INSERT INTO appointments (user_id, service_id, appointment_date, appointment_time, status, created_at, hairstylist_id)
+                VALUES (@UserId, @ServiceId, @AppointmentDate, @AppointmentTime, @Status, NOW(), @hairstylist_id);";
 
                 var parameters = new MySqlParameter[]
                 {
@@ -45,7 +45,8 @@ namespace studio_infinito.Services.Implementation
                     new MySqlParameter("@ServiceId", MySqlDbType.Int32) { Value = appointmentDto.AppointmentData.ServiceType.service_id },
                     new MySqlParameter("@AppointmentDate", MySqlDbType.DateTime) { Value = appointmentDate },
                     new MySqlParameter("@AppointmentTime", MySqlDbType.Time) { Value = appointmentTime },
-                    new MySqlParameter("@Status", MySqlDbType.VarChar) { Value = "confirmed" }
+                    new MySqlParameter("@Status", MySqlDbType.VarChar) { Value = "confirmed" },
+                    new MySqlParameter("@hairstylist_id", MySqlDbType.Int32) { Value = appointmentDto.AppointmentData.Hairstylist.hairstylist_id },
                 };
 
                 // Execute the query
@@ -68,6 +69,38 @@ namespace studio_infinito.Services.Implementation
             }
         }
 
+        public async Task<List<Dictionary<string, object>>> UserAppointments(int id)
+        {
+            try
+            {
+                return await _context.ExecuteSqlQuery("SELECT * FROM appointments AS ap " +
+                    "LEFT JOIN services AS sr ON sr.service_id = ap.service_id " +
+                    "LEFT JOIN users AS us ON us.user_id = ap.user_id " +
+                    "WHERE ap.user_id = @UserId", new MySqlParameter[] { new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = id } });
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Error finding user appointments: " + ex.Message);
+            }
+        }
+
+        public async Task<List<Dictionary<string, object>>> FastBooking(FastBookingDto fastBookingDto)
+        {
+            try
+            {
+                var parameters = new Dictionary<string, object>();
+                parameters.Add("page_number", 1);
+                parameters.Add("page_size", 10);
+                parameters.Add("service_id_param", fastBookingDto?.serviceType?.service_id ?? 0);
+                parameters.Add("hairstylist_id_param", fastBookingDto?.hairstylist?.hairstylist_id ?? 1);
+
+                return await _context.ExecuteStoredProcedure("GetFastestAppointments", parameters);
+            }
+            catch (Exception ex)
+            {
+                return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Error executing stored procedure GetAvailableDates: {ex.Message}" } };
+            }
+        }
     }
 
 }

@@ -45,14 +45,13 @@ function CustomNavigation() {
 
 export default function HairstylistCarousel({ employee, onCardClick }) {
 
-  const handleCardClick = (hairstylist) => {
+  const handleCardClick = (hairstylist, index) => {
     if (onCardClick) {
-      onCardClick(hairstylist);
+      onCardClick(hairstylist, index);
     }
   };
 
   function CustomPagination(index, className) {
-    console.log("Called");
     return `<span class="${className}">${index + 1}</span>`;
   }
 
@@ -73,8 +72,9 @@ export default function HairstylistCarousel({ employee, onCardClick }) {
           <SwiperSlide key={index} className="select-none h-full">
             <Card
               shadow={false}
+              key={index++}
               className="relative grid h-full w-full max-w-[28rem] items-end justify-center overflow-hidden text-center dark:bg-dark-secondary"
-              onClick={() => handleCardClick(hairstylist)}
+              onClick={() => handleCardClick(hairstylist, index)}
             >
               <CardHeader
                 floated={false}

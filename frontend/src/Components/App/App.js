@@ -32,6 +32,17 @@ function App() {
     } else {
       document.documentElement.classList.remove("dark");
     }
+
+    // const disableScroll = (e) => e.preventDefault();
+
+    // document.body.style.overflow = "hidden"; // Prevent scrolling
+    // document.addEventListener("touchmove", disableScroll, { passive: false });
+
+    // return () => {
+    //     document.body.style.overflow = "";
+    //     document.removeEventListener("touchmove", disableScroll);
+    // };
+
   }, []);
 
   return (
@@ -48,7 +59,7 @@ function App() {
         <Route path="/appointments" element={<Reservations />} />
         <Route path="/fast-booking" element={<FastBookingList />} />
         <Route path='/admin' element={<AdminPage />} />
-        <Route path="/reservations" element={<Reservations />} />
+        <Route path="/admin-reservations" element={<Reservations />} />
       </Routes>
     </BrowserRouter>
   );

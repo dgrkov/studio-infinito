@@ -64,8 +64,8 @@ export default function Appointment() {
         goForward(2);
     };
 
-    const handleHairstylistClick = (hairstylist) => {
-        setAppointmentData(prevState => ({...prevState, hairstylist: hairstylist }));
+    const handleHairstylistClick = (hairstylist, index) => {
+        setAppointmentData(prevState => ({...prevState, hairstylist: { hairstylist_id: index, hairstylist: hairstylist } }));
         setHairstylist(true);
         goForward(1);
     };

@@ -59,7 +59,7 @@ namespace studio_infinito.Events
                 bodyBuilder.AppendLine("<table class='details-table'>");
                 bodyBuilder.AppendLine($"<tr><td>📅 Датум:</td><td>{appointmentDto.Event.Date}</td></tr>");
                 bodyBuilder.AppendLine($"<tr><td>⏰ Време:</td><td>{DateTime.Parse(appointmentDto.Event.Time).ToString("HH:mm")}</td></tr>");
-                bodyBuilder.AppendLine($"<tr><td>💇‍♂️ Фризер:</td><td>{appointmentDto.AppointmentData.Hairstylist}</td></tr>");
+                bodyBuilder.AppendLine($"<tr><td>💇‍♂️ Фризер:</td><td>{appointmentDto.AppointmentData.Hairstylist.Hairstylist}</td></tr>");
                 bodyBuilder.AppendLine($"<tr><td>🔹 Услуга:</td><td>{appointmentDto.AppointmentData.ServiceType.Name}</td></tr>");
                 bodyBuilder.AppendLine($"<tr><td>💰 Цена:</td><td>{appointmentDto.AppointmentData.ServiceType.Price} ден.</td></tr>");
                 bodyBuilder.AppendLine($"<tr><td>⏳ Времетраење:</td><td>{appointmentDto.AppointmentData.ServiceType.Duration} мин.</td></tr>");

@@ -28,9 +28,12 @@ export class Axios {
     //         },
     //     });
     // }
-    async get(url, body) {
-        return await axios.get(`${process.env.REACT_APP_API_URL}${url}`, body );
-    }
+    async get(url, params) {
+        return await axios.get(`${process.env.REACT_APP_API_URL}${url}`, {
+            params,
+            headers: { "ngrok-skip-browser-warning": "69420" },
+        });
+    }    
 
     async post(url, body) {
         return await axios.post(`${process.env.REACT_APP_API_URL}${url}`, body, {

@@ -51,9 +51,9 @@ export default function AdminPage() {
                 </div>
                 <Button
                     variant="outlined"
-                    onClick={() => navigate("/reservations")}
-                    className="mt-6 w-[190px] 
-                        text-gray-800 border-gray-800 
+                    onClick={() => navigate("/admin-reservations")}
+                    className="mt-6 w-[190px]
+                        text-gray-800 border-gray-800
                         dark:text-dark-text-primary dark:border-dark-border-light
                         hover:bg-gray-100 dark:hover:bg-dark-tertiary"
                 >

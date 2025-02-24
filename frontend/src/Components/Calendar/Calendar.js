@@ -40,7 +40,7 @@ const Calendar = ({ appointmentData }) => {
 
   const getAvailableDates = () => {
     setLoading(true);
-    axios.get(`Calendar/available-dates?year=${currentDate.year()}&month=${currentDate.month() + 1}`).then((res) => {
+    axios.get(`Calendar/available-dates?year=${currentDate.year()}&month=${currentDate.month() + 1}&hairstylist_id=${appointmentData?.hairstylist?.hairstylist_id}`).then((res) => {
       if (res.status === 200) {
           setAvailableDates(res.data);
         }
@@ -63,10 +63,9 @@ const Calendar = ({ appointmentData }) => {
   };
 
   const handleDateClick = (date) => {
-    console.log(appointmentData);
     setLoading(true);
     setHideEvents(false);
-    axios.get(`Calendar/available-timeslots/${date.format("YYYY-MM-DD")}/${appointmentData?.serviceType?.duration || 30}`).then((res) => {
+    axios.get(`Calendar/available-timeslots/${date.format("YYYY-MM-DD")}/${appointmentData?.serviceType?.duration || 30}/${appointmentData?.hairstylist?.hairstylist_id}`).then((res) => {
       if (res.status === 200) {
         const availableTimeslots = res.data;
         const events = generateEvents(date.format("DD-MM-YYYY"), availableTimeslots);

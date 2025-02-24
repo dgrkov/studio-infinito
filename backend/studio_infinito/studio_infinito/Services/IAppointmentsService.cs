@@ -6,5 +6,7 @@ namespace studio_infinito.Services
     {
         Task<List<Dictionary<string, object>>> GetAllServices();
         Task<bool> InsertAppointment(AppointmentDto appointmentDto);
+        Task<List<Dictionary<string, object>>> UserAppointments(int id);
+        Task<List<Dictionary<string, object>>> FastBooking(FastBookingDto fastBookingDto);
     }
 }

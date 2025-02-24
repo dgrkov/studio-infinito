@@ -16,11 +16,11 @@ namespace studio_infinito.Controllers
         }
 
         [HttpGet("available-dates")]
-        public async Task<IActionResult> GetAvailableDates(int year, int month)
+        public async Task<IActionResult> GetAvailableDates(int year, int month, int hairstylist_id)
         {
             try
             {
-                return Ok(await _calendarService.GetAvailableDates(year, month));
+                return Ok(await _calendarService.GetAvailableDates(year, month, hairstylist_id));
             }
             catch (Exception ex)
             {
@@ -28,12 +28,12 @@ namespace studio_infinito.Controllers
             }
         }
 
-        [HttpGet("available-timeslots/{appointment_date}/{service_duration}")]
-        public async Task<IActionResult> GetAvailableTimeSlots(string appointment_date, int service_duration)
+        [HttpGet("available-timeslots/{appointment_date}/{service_duration}/{hairstylist_id}")]
+        public async Task<IActionResult> GetAvailableTimeSlots(string appointment_date, int service_duration, int hairstylist_id)
         {
             try
             {
-                return Ok(await _calendarService.GetAvailableTimeSlots(appointment_date, service_duration));
+                return Ok(await _calendarService.GetAvailableTimeSlots(appointment_date, service_duration, hairstylist_id));
             }
             catch (Exception ex)
             {

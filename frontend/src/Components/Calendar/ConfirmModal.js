@@ -4,12 +4,13 @@ import { Button, Dialog, DialogHeader, DialogBody, DialogFooter, Typography } fr
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import FullScreenLoader from "../FullScrennLoader/FullScreenLoader";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 import { Axios } from "../Axios";
 
 const axios = new Axios();
 
-dayjs.extend(utc);
+dayjs.extend(customParseFormat);
 
 export function ConfirmModal({ event_information, isOpen, setOpen }) {
   const [loading, setLoading] = useState(false);
@@ -17,25 +18,27 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
   const [eventTimeEnd, setEventTimeEnd] = useState(null);
 
   const service_type = event_information?.appointmentData?.serviceType || {};
-
+  
   useEffect(() => {
     if (!event_information?.event?.date || !event_information?.event?.time) return;
 
     var duration = service_type?.duration || 0;
 
-    var formattedDate = event_information.event.date.split("-").reverse().join("-");
-    var startTime = dayjs(`${formattedDate}T${event_information.event.time}`);
+    var parsedDate = dayjs(event_information.event.date, "DD-MM-YYYY") ;
 
-    var endTime = startTime.isValid() 
-      ? startTime.add(duration, "minute")
-      : null;
+    var startTime = parsedDate.isValid()
+      ? parsedDate.set("hour", dayjs(event_information.event.time, "HH:mm:ss").hour())
+                .set("minute", dayjs(event_information.event.time, "HH:mm:ss").minute())
+      : dayjs(`${event_information.event.date.split("T")[0]}T${event_information.event.time}`);
 
-    setEventTimeStart(startTime);
-    setEventTimeEnd(endTime);
+    var endTime = startTime?.isValid() ? startTime.add(duration, "minute") : null;
+
+    setEventTimeStart(startTime?.isValid() ? startTime : null);
+    setEventTimeEnd(endTime?.isValid() ? endTime : null);
 
     setOpen(isOpen);
   }, [event_information, isOpen]);
-  
+
 
   const navigate = useNavigate();
 
@@ -43,15 +46,40 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
     setOpen(false);
   };
 
-  const handleConfirm = () => {
-    setLoading(true);
-    axios.post("Appointments/confirm-appointment", event_information).then((res) => {
-      if (res.status === 200) {
-        console.log(res);
-        setLoading(false);
-        handleSuccess();
+  async function formatEventDate(event_information) {
+      if (!event_information?.event?.date) return event_information;
+
+      const { date } = event_information.event;
+
+      if (dayjs(date, "DD-MM-YYYY", true).isValid()) {
+          return event_information;
       }
-    });
+
+      return {
+          ...event_information,
+          event: {
+              ...event_information.event,
+              date: dayjs(date, "YYYY-MM-DD").format("DD-MM-YYYY"),
+          },
+      };
+  }
+
+  const handleConfirm = async () => {
+      setLoading(true);
+
+      const formattedEvent = await formatEventDate(event_information);
+
+      axios.post("Appointments/confirm-appointment", formattedEvent)
+          .then((res) => {
+              if (res.status === 200) {
+                  setLoading(false);
+                  handleSuccess();
+              }
+          })
+          .catch((error) => {
+              setLoading(false);
+              console.error("Error confirming appointment:", error);
+          });
   };
 
   const handleSuccess = () => {
@@ -75,7 +103,7 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
       <DialogBody divider className="grid place-items-center gap-2">
         <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
           <p className="text-gray-400 dark:text-dark-text-muted ml-4">Одбран вработен</p>
-          <p className="text-black dark:text-dark-text-primary mr-4">{event_information?.appointmentData?.hairstylist || "N/A"}</p>
+          <p className="text-black dark:text-dark-text-primary mr-4">{event_information?.appointmentData?.hairstylist?.hairstylist || "N/A"}</p>
         </div>
         <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
           <p className="text-gray-400 dark:text-dark-text-muted ml-4">Одбрана услуга</p>
@@ -83,7 +111,7 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
         </div>
         <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
           <p className="text-gray-400 dark:text-dark-text-muted ml-4">Датум</p>
-          <p className="text-black dark:text-dark-text-primary mr-4">{event_information?.event?.date || "N/A"}</p>
+          <p className="text-black dark:text-dark-text-primary mr-4">{event_information?.event?.date ? dayjs(event_information?.event?.date).format("DD-MM-YYYY") : "N/A"}</p>
         </div>
         <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
           <p className="text-gray-400 dark:text-dark-text-muted ml-4">Време</p>

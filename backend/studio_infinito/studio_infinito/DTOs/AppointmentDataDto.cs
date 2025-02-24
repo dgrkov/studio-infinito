@@ -2,7 +2,7 @@
 {
     public class AppointmentDataDto
     {
-        public string Hairstylist { get; set; }
+        public HairstylistDto Hairstylist { get; set; }
         public ServiceTypeDto ServiceType { get; set; }
     }
 }

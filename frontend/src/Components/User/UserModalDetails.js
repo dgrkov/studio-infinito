@@ -9,7 +9,7 @@ import {
 
 export default function UserModalDetails({ isOpen, reservation, onClose }) {
   return (
-    <Dialog className={` ${isOpen ? "z-50" : ""} `} open={isOpen} handler={onClose}>
+    <Dialog open={isOpen} handler={onClose}>
       <DialogHeader>Reservation Details</DialogHeader>
       <DialogBody>
         <div className="flex items-center space-x-4">
