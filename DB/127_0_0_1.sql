@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 24, 2025 at 11:15 PM
+-- Generation Time: Feb 25, 2025 at 01:07 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -20,8 +20,135 @@ SET time_zone = "+00:00";
 --
 -- Database: `hairdresserdb`
 --
-CREATE DATABASE IF NOT EXISTS `hairdresserdb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `hairdresserdb`;
+
+DELIMITER $$
+--
+-- Procedures
+--
+DROP PROCEDURE IF EXISTS `GetAvailableDates`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAvailableDates` (IN `input_year` INT, IN `input_month` INT, IN `hairstylist_id_param` INT)   BEGIN
+    WITH MonthDates AS (
+        SELECT DATE(CONCAT(input_year, '-', input_month, '-', day)) AS appointment_date
+        FROM (SELECT 1 AS day UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+              UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 
+              UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 
+              UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL SELECT 15 UNION ALL SELECT 16 
+              UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19 UNION ALL SELECT 20 
+              UNION ALL SELECT 21 UNION ALL SELECT 22 UNION ALL SELECT 23 UNION ALL SELECT 24 
+              UNION ALL SELECT 25 UNION ALL SELECT 26 UNION ALL SELECT 27 UNION ALL SELECT 28 
+              UNION ALL SELECT 29 UNION ALL SELECT 30 UNION ALL SELECT 31) AS days
+        WHERE DAY(LAST_DAY(CONCAT(input_year, '-', input_month, '-01'))) >= day
+    ),
+    BookedSlots AS (
+        SELECT a.appointment_date, 
+               a.appointment_time, 
+               (a.appointment_time + INTERVAL s.duration MINUTE) AS end_time
+        FROM Appointments a
+        JOIN Services s ON a.service_id = s.service_id
+        WHERE a.status IN ('confirmed', 'pending')
+          AND a.hairstylist_id = hairstylist_id_param
+    )
+    SELECT md.appointment_date
+    FROM MonthDates md
+    WHERE md.appointment_date >= CURDATE()
+      AND EXISTS (
+        SELECT 1
+        FROM (
+            SELECT MAKETIME(hour, minute, 0) AS slot_time
+            FROM (
+                SELECT 9 AS hour UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12
+                UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL SELECT 15 UNION ALL SELECT 16
+                UNION ALL SELECT 17 UNION ALL SELECT 18
+            ) AS hours,
+            (SELECT 0 AS minute UNION ALL SELECT 30) AS minutes
+        ) ts
+        WHERE NOT EXISTS (
+            SELECT 1 FROM BookedSlots b
+            WHERE md.appointment_date = b.appointment_date
+              AND ts.slot_time >= b.appointment_time
+              AND ts.slot_time < b.end_time
+        )
+        AND MAKETIME(18, 0, 0) >= ts.slot_time  -- Add working hours constraint
+      )
+    ORDER BY md.appointment_date;
+END$$
+
+DROP PROCEDURE IF EXISTS `GetAvailableTimeSlots`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAvailableTimeSlots` (IN `appointment_date` DATE, IN `service_duration` INT, IN `hairstylist_id_param` INT)   BEGIN
+    WITH TimeSlots AS (
+        SELECT MAKETIME(hour, minute, 0) AS slot_time
+        FROM (
+            SELECT 9 AS hour UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12
+            UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL SELECT 15 UNION ALL SELECT 16
+            UNION ALL SELECT 17 UNION ALL SELECT 18
+        ) AS hours,
+        (SELECT 0 AS minute UNION ALL SELECT 30) AS minutes
+    ),
+    BookedSlots AS (
+        SELECT 
+            a.appointment_time,
+            (a.appointment_time + INTERVAL s.duration MINUTE) AS end_time
+        FROM Appointments a
+        JOIN Services s ON a.service_id = s.service_id
+        WHERE a.appointment_date = appointment_date
+          AND a.status IN ('confirmed', 'pending')
+          AND a.hairstylist_id = hairstylist_id_param
+    )
+    SELECT ts.slot_time
+    FROM TimeSlots ts
+    WHERE NOT EXISTS (
+        SELECT 1 
+        FROM BookedSlots b
+        WHERE ts.slot_time < b.end_time
+          AND (ts.slot_time + INTERVAL service_duration MINUTE) > b.appointment_time
+    )
+    AND (ts.slot_time + INTERVAL service_duration MINUTE) <= MAKETIME(18, 0, 0)
+    AND (
+        appointment_date > CURDATE()
+        OR (
+            appointment_date = CURDATE() 
+            AND (ts.slot_time + INTERVAL service_duration MINUTE) > CURTIME()
+        )
+    )
+    ORDER BY ts.slot_time;
+END$$
+
+DROP PROCEDURE IF EXISTS `GetFastestAppointments`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetFastestAppointments` (IN `page_number` INT, IN `page_size` INT, IN `service_id_param` INT, IN `hairstylist_id_param` INT)   BEGIN
+    DECLARE offset_value INT;
+    SET offset_value = (page_number - 1) * page_size;
+
+    WITH TimeSlots AS (
+        SELECT MAKETIME(hour, minute, 0) AS slot_time
+        FROM (
+            SELECT 9 AS hour UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12
+            UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL SELECT 15 UNION ALL SELECT 16
+            UNION ALL SELECT 17 UNION ALL SELECT 18
+        ) AS hours,
+        (SELECT 0 AS minute UNION ALL SELECT 30) AS minutes
+    ),
+    BookedSlots AS (
+        SELECT a.appointment_date, a.appointment_time, 
+               (a.appointment_time + INTERVAL s.duration MINUTE) AS end_time
+        FROM Appointments a
+        JOIN Services s ON a.service_id = s.service_id
+        WHERE a.status IN ('confirmed', 'pending')
+          AND a.service_id = service_id_param
+          AND a.hairstylist_id = hairstylist_id_param
+    )
+    SELECT md.appointment_date, ts.slot_time
+    FROM (SELECT DISTINCT appointment_date FROM appointments WHERE appointment_date >= CURDATE()) AS md
+    JOIN TimeSlots ts ON NOT EXISTS (
+        SELECT 1 FROM BookedSlots b
+        WHERE md.appointment_date = b.appointment_date
+        AND ts.slot_time >= b.appointment_time
+        AND ts.slot_time < b.end_time
+    )
+    ORDER BY md.appointment_date, ts.slot_time
+    LIMIT page_size OFFSET offset_value;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -166,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `full_name`, `email`, `phone`, `password_hash`, `role`, `created_at`) VALUES
-(1, 'Nikola Petrovski', 'nikpetrovski007@gmail.com', '+389 71 326 943', 'Useruser246_', 'customer', '2025-02-24 14:02:44');
+(1, 'Nikola Petrovski', 'mailto:nikpetrovski007@gmail.com', '+389 71 326 943', 'Useruser246_', 'customer', '2025-02-24 14:02:44');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

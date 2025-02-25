@@ -24,7 +24,9 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
 
     var duration = service_type?.duration || 0;
 
-    var parsedDate = dayjs(event_information.event.date, "DD-MM-YYYY") ;
+    var parsedDate = dayjs(event_information.event.date, "DD-MM-YYYY");
+
+    console.log(parsedDate.format("DD-MM-YYYY"));
 
     var startTime = parsedDate.isValid()
       ? parsedDate.set("hour", dayjs(event_information.event.time, "HH:mm:ss").hour())
@@ -111,7 +113,7 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
         </div>
         <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
           <p className="text-gray-400 dark:text-dark-text-muted ml-4">Датум</p>
-          <p className="text-black dark:text-dark-text-primary mr-4">{event_information?.event?.date ? dayjs(event_information?.event?.date).format("DD-MM-YYYY") : "N/A"}</p>
+          <p className="text-black dark:text-dark-text-primary mr-4">{event_information?.event?.date || "N/A"}</p>
         </div>
         <div className="flex justify-between items-center w-full border-b-2 border-gray-200 dark:border-dark-border">
           <p className="text-gray-400 dark:text-dark-text-muted ml-4">Време</p>

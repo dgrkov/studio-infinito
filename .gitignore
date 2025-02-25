@@ -398,3 +398,31 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignore Visual Studio & JetBrains Rider files
+.vs/
+*.db
+*.suo
+*.user
+*.cache
+*.bak
+*.swp
+*.sln.docstates
+
+# Ignore database and temporary files
+*.db-wal
+*.db-shm
+*.dbcache.v2
+*.json.backup
+
+# Ignore Copilot Indices
+.vs/studio_infinito/CopilotIndices/
+
+# Ignore specific directories
+backend/studio_infinito/.vs/
+backend/studio_infinito/studio_infinito/*.suo
+backend/studio_infinito/studio_infinito/*.db
+backend/studio_infinito/studio_infinito/appsettings.json
+
+# Ignore environment variables
+frontend/.env
