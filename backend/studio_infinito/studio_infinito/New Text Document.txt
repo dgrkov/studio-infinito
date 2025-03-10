@@ -1,0 +1,21 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": [ "http://localhost:3001", "http://localhost:3001", "https://5q9cflct-3001.euw.devtunnels.ms" ],
+  "JWT": {
+    "Issuer": "http://localhost:3001",
+    "Key": "JSqmXWfKwnn254qpXn+EnXfV7uwNiysSvOC6jrxUILo="
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=hairdresserdb;Uid=root;Pwd=;Port=3306;"
+  },
+  "MailSettings": {
+    "Mail": "infinitostudionoreply@gmail.com",
+    "Password": "ghmjhcyrpmndqico"
+  }
+
+  }
