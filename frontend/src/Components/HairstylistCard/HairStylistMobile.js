@@ -56,7 +56,7 @@ export default function HairstylistCarousel({ employee, onCardClick }) {
   }
 
   return (
-    <div className="mt-2 flex justify-center items-center h-[70dvh] w-full dark:bg-dark-primary">
+    <div className="mt-2 flex justify-center items-center h-[71dvh] w-full dark:bg-dark-primary">
     <Swiper
       pagination={{
         enabled: true,

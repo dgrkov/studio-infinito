@@ -32,7 +32,7 @@ export default function Home() {
     return (
         <section
             id="image-container"
-            className={`flex flex-col justify-center items-center p-0 mt-2 h-full bg-white dark:bg-dark-primary ${
+            className={`flex flex-col justify-center items-center p-0 mt-2 h-full bg-gray-100 dark:bg-dark-primary ${
                 loading ? "loading" : ""
             }`}
         >

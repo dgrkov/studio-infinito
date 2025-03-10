@@ -12,6 +12,7 @@ import UserProfile from '../User/UserProfile';
 import FastBookingList from '../FastBookingList/FastBookingList';
 import AdminPage from '../Admin/AdminPage/AdminPage';
 import Reservations from '../User/UserReservations';
+import Register from '../Auth/Register';
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
     <Header />
       <Routes>
         <Route path="/" element={<Auth />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/reserve" element={<Calendar />} />
         <Route path='/appointment' element={<Appointment />} />

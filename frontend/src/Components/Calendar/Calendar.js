@@ -40,7 +40,7 @@ const Calendar = ({ appointmentData }) => {
 
   const getAvailableDates = () => {
     setLoading(true);
-    axios.get(`Calendar/available-dates?year=${currentDate.year()}&month=${currentDate.month() + 1}&hairstylist_id=${appointmentData?.hairstylist?.hairstylist_id}`).then((res) => {
+    axios.get(`Calendar/available-dates?year=${currentDate.year()}&month=${currentDate.month() + 1}&hairstylist_id=${appointmentData?.hairstylist?.hairstylist_id}&service_id=${appointmentData?.serviceType?.service_id}`).then((res) => {
       if (res.status === 200) {
           setAvailableDates(res.data);
         }
