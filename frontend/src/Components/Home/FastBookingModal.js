@@ -56,7 +56,7 @@ export function FastBookingModal({ isOpen, onClose, onSubmit }) {
         duration: data.appointmentDto.serviceType.duration
       },
       page_number: 1,
-      page_size: 10
+      page_size: 20
     };
   
     axios.post(`Appointments/fast-booking`, requestData).then((res) => {

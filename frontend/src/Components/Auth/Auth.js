@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import FullScreenLoader from "../FullScrennLoader/FullScreenLoader";
+import Recaptcha from "./Recaptcha";
 
 export default function Auth() {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -108,6 +109,7 @@ export default function Auth() {
               sign in with google
             </p>
           </Button>
+          <Recaptcha />
           {/* <Typography
             variant="small"
             color="gray"

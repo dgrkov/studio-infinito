@@ -7,7 +7,7 @@ export default function ServiceCardMobile(props) {
   return (
     <div className="p-5 flex justify-center flex-col items-center dark:bg-dark-primary">
       {serviceTypes.map((serviceType) => (
-                <div key={serviceType.id} onClick={() => handleWorkReq(serviceType)}  className={`card bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg shadow-md flex mb-5 w-full lg:h-52 xl:h-72 md:w-[50%] xl:[30%]`}>
+                <div key={serviceType.id} onClick={() => handleWorkReq(serviceType)}  className={`shadow-lg card bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg flex mb-5 w-full lg:h-52 xl:h-72 md:w-[50%] xl:[30%]`}>
                 <div className='flex-1 rounded-lg service-card-image mr-4' >
     
                 </div>
