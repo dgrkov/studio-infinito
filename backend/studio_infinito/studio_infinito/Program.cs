@@ -61,6 +61,7 @@ builder.Services.AddScoped<DbContext>();
 
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IAppointmentsService, AppointmentsService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddSingleton<AppointmentCreatedEvent>();
 builder.Services.AddSingleton<AppointmentService>();
