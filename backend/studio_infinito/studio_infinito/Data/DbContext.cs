@@ -61,7 +61,7 @@ namespace studio_infinito.Data
             }
             catch (Exception ex)
             {
-                return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Error executing query '{query}': {ex.Message}" } };
+                throw new Exception(ex.Message);
             }
         }
 
@@ -104,7 +104,7 @@ namespace studio_infinito.Data
             }
             catch (Exception ex)
             {
-                return new List<Dictionary<string, object>>{ new Dictionary<string, object>{ ["error"] = $"Error executing stored procedure '{procedureName}': {ex.Message}" } };
+                throw new Exception(ex.Message);
             }
         }
 

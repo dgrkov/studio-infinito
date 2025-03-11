@@ -89,8 +89,8 @@ namespace studio_infinito.Services.Implementation
             try
             {
                 var parameters = new Dictionary<string, object>();
-                parameters.Add("page_number", 1);
-                parameters.Add("page_size", 10);
+                parameters.Add("page_number", fastBookingDto.page_number);
+                parameters.Add("page_size", fastBookingDto.page_size);
                 parameters.Add("service_id_param", fastBookingDto?.serviceType?.service_id ?? 0);
                 parameters.Add("hairstylist_id_param", fastBookingDto?.hairstylist?.hairstylist_id ?? 1);
 

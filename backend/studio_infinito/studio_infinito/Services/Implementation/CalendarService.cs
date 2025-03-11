@@ -11,7 +11,7 @@ namespace studio_infinito.Services.Implementation
             _context = context;
         }
 
-        public async Task<List<Dictionary<string, object>>> GetAvailableDates(int year, int month, int hairstylist_id)
+        public async Task<List<Dictionary<string, object>>> GetAvailableDates(int year, int month, int hairstylist_id, int service_id)
         {
             try
             {
@@ -19,6 +19,7 @@ namespace studio_infinito.Services.Implementation
                 parameters.Add("input_year", year);
                 parameters.Add("input_month", month);
                 parameters.Add("hairstylist_id_param", hairstylist_id);
+                parameters.Add("service_id_param", service_id);
 
                 return await _context.ExecuteStoredProcedure("GetAvailableDates", parameters);
             }

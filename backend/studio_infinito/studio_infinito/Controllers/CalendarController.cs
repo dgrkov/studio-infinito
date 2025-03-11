@@ -16,11 +16,11 @@ namespace studio_infinito.Controllers
         }
 
         [HttpGet("available-dates")]
-        public async Task<IActionResult> GetAvailableDates(int year, int month, int hairstylist_id)
+        public async Task<IActionResult> GetAvailableDates(int year, int month, int hairstylist_id, int service_id)
         {
             try
             {
-                return Ok(await _calendarService.GetAvailableDates(year, month, hairstylist_id));
+                return Ok(await _calendarService.GetAvailableDates(year, month, hairstylist_id, service_id));
             }
             catch (Exception ex)
             {
