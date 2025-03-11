@@ -39,7 +39,7 @@ namespace studio_infinito.Services.Implementation
                     return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Внесена е погрешена лозинка" } };
                 }
 
-                return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["ok"] = $"Корисничката сметка е пронајдена: {GenerateJwtToken(user)}" } };
+                return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["ok"] = $"{GenerateJwtToken(user)}" } };
             }
             catch (Exception ex)
             {
@@ -53,11 +53,13 @@ namespace studio_infinito.Services.Implementation
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var expirationTime = loginRequest.rememberMe ? DateTime.Now.AddDays(30) : DateTime.Now.AddMinutes(120);
 
-            var Sectoken = new JwtSecurityToken(_configuration["Jwt:Issuer"],
-              _configuration["Jwt:Issuer"],
-              null,
-              expires: expirationTime,
-              signingCredentials: credentials);
+            var Sectoken = new JwtSecurityToken(
+                _configuration["Jwt:Issuer"],
+                _configuration["Jwt:Audience"],
+                null,
+                expires: expirationTime,
+                signingCredentials: credentials
+            );
 
             var access_token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
 

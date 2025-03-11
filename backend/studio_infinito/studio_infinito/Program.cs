@@ -1,4 +1,4 @@
-using studio_infinito.Data;
+﻿using studio_infinito.Data;
 using studio_infinito.Services;
 using studio_infinito.Services.Implementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,37 +21,41 @@ builder.Services.AddScoped<DbContext>();
 
 var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
 var jwtAudience = builder.Configuration.GetSection("Jwt:Audience").Get<string>();
-var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
+var key = Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]);
+var securityKey = new SymmetricSecurityKey(key);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtIssuer,
-            ValidAudience = jwtAudience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration["JWT:Issuer"],
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["JWT:Audience"],
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero // Optional: Avoids delay in token expiration
         };
-
         options.Events = new JwtBearerEvents
         {
-            OnTokenValidated = context =>
+            OnMessageReceived = context =>
             {
-                Debug.WriteLine($"Token validated successfully for {context.Principal.Identity}.");
+                Console.WriteLine($"🟢 Received Token: {context.Token ?? "No Token"}");
                 return Task.CompletedTask;
             },
             OnAuthenticationFailed = context =>
             {
-                Debug.WriteLine($"Authentication failed for {context.Principal.Identity}.");
+                Console.WriteLine($"❌ JWT Authentication Failed: {context.Exception?.Message}");
                 return Task.CompletedTask;
             }
         };
     });
 
+builder.Services.AddAuthorization();
 /* 
     * Example for adding dependency injections
     * 
