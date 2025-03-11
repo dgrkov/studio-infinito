@@ -12,12 +12,11 @@ namespace studio_infinito.Services.Implementation
     public class AuthService : IAuthService
     {
         DbContext _context;
-        private readonly AuthService _authService;
         private readonly IConfiguration _configuration;
-        public AuthService(DbContext context, AuthService authService, IConfiguration configuration)
+
+        public AuthService(DbContext context, IConfiguration configuration)
         {
             _context = context;
-            _authService = authService;
             _configuration = configuration;
         }
 
@@ -26,17 +25,18 @@ namespace studio_infinito.Services.Implementation
             try
             {
                 // smeni po potreba
-                var result = await _context.ExecuteSqlQuery("SELECT password_hash FROM users WHERE phone = @EmailOrPhone" +
-                    "OR email = @EmailOrPhone",
+                List<Dictionary<string, object>> result = await _context.ExecuteSqlQuery("SELECT password_hash FROM users WHERE phone = @EmailOrPhone" +
+                    " OR email = @EmailOrPhone",
                     new MySqlParameter[] { new MySqlParameter("@EmailOrPhone", MySqlDbType.String) { Value = user.EmailOrPhone }, 
                                             new MySqlParameter("@password", MySqlDbType.String) { Value = user.Password } });
 
-                if (result == null)
+                if (result.Count > 0 && result[0].ContainsKey("error") || result.Count == 0)
                 {
                     return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Корисничката сметка не е пронајдена" } };
-                } else if(!HashPassword(user.Password).Equals(result))
+                } 
+                else if(!VerifyPassword(user.Password, result[0]["password_hash"].ToString()))
                 {
-                    return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Внесен е погрешена лозинка" } };
+                    return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Внесена е погрешена лозинка" } };
                 }
 
                 return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["ok"] = $"Корисничката сметка е пронајдена: {GenerateJwtToken(user)}" } };
@@ -45,11 +45,6 @@ namespace studio_infinito.Services.Implementation
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        public Task<List<Dictionary<string, string>>> Register(UserRegisterDto user)
-        {
-            throw new NotImplementedException();
         }
 
         private string GenerateJwtToken(UserLoginDTO loginRequest)
@@ -87,6 +82,46 @@ namespace studio_infinito.Services.Implementation
         private bool VerifyPassword(string enteredPassword, string storedPassword)
         {
             return HashPassword(enteredPassword) == storedPassword;
+        }
+
+        public async Task<bool> RegisterUserAsync(UserRegisterDto newUser)
+        {
+            try
+            {
+                var userExists = await _context.ExecuteSqlQuery(
+                    "SELECT * FROM Users WHERE phone = @Phone OR email = @Email",
+                    new MySqlParameter[] {
+                        new MySqlParameter("@Phone", MySqlDbType.VarChar) { Value = newUser.phone },
+                        new MySqlParameter("@Email", MySqlDbType.VarChar) { Value = newUser.email }
+                    }
+                );
+
+                if (userExists?.Count > 0) return false;
+
+                var hashedPassword = HashPassword(newUser.password);
+
+
+                DateTime dateTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time"));
+
+                string query = "INSERT INTO Users (full_name, email, phone, password_hash, role, created_at) " +
+                               "VALUES (@FullName, @Email, @Phone, @PasswordHash, 'customer', @DateNow)";
+
+                await _context.ExecuteSqlQuery(query,
+                    new MySqlParameter[] {
+                        new MySqlParameter("@FullName", MySqlDbType.VarChar) { Value = $"{newUser.firstName} {newUser.lastName}" },
+                        new MySqlParameter("@Email", MySqlDbType.VarChar) { Value = newUser.email },
+                        new MySqlParameter("@Phone", MySqlDbType.VarChar) { Value = newUser.phone },
+                        new MySqlParameter("@PasswordHash", MySqlDbType.VarChar) { Value = hashedPassword },
+                        new MySqlParameter("@DateNow", MySqlDbType.DateTime) { Value = dateTimeNow }
+                    }
+                );
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error registering user: {ex.Message}", ex);
+            }
         }
     }
 }

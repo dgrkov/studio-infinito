@@ -34,7 +34,7 @@ namespace studio_infinito.Controllers
         [HttpPost("/register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto registerRequest)
         {
-            var isUserCreated = await _authService.Register(registerRequest);
+            var isUserCreated = await _authService.RegisterUserAsync(registerRequest);
 
             if (isUserCreated != null)
                 return Ok();
