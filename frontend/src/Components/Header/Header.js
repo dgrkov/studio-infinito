@@ -30,39 +30,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "../ThemeToggle";
 
-// profile menu component
-const profileMenuItems = [
-  {
-    label: "Мој профил",
-    icon: UserCircleIcon,
-    path: "/profile",
-  },
-  {
-    label: "Уредувај профил",
-    icon: Cog6ToothIcon,
-    path: "/userdetails",
-  },
-  {
-    label: "Пораки",
-    icon: InboxArrowDownIcon,
-    path: "/messages",
-  },
-  {
-    label: "Помош",
-    icon: LifebuoyIcon,
-    path: "/help",
-  },
-  {
-    label: "Одјава",
-    icon: PowerIcon,
-    path: "/",
-  },
-  // {
-  //   label: "",
-  //   icon: <ThemeToggle />, // This will now correctly render the ThemeToggle component
-  //   path: "#"
-  // }
-];
+import { Cookie } from "../Cookie";
+
+const cookie = new Cookie();
 
 
 function ProfileMenu() {
@@ -70,6 +40,34 @@ function ProfileMenu() {
 
   const closeMenu = () => setIsMenuOpen(false);
   const navigate = useNavigate();
+
+  const profileMenuItems = [
+    {
+      label: "Мој профил",
+      icon: UserCircleIcon,
+      path: "/profile",
+    },
+    {
+      label: "Уредувај профил",
+      icon: Cog6ToothIcon,
+      path: "/userdetails",
+    },
+    {
+      label: "Пораки",
+      icon: InboxArrowDownIcon,
+      path: "/messages",
+    },
+    {
+      label: "Помош",
+      icon: LifebuoyIcon,
+      path: "/help",
+    },
+    {
+      label: "Одјава",
+      icon: PowerIcon,
+      path: "/",
+    },
+  ];
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -100,10 +98,15 @@ function ProfileMenu() {
 
           return (
             <MenuItem
+              disabled={window.location.pathname === '/'}
               key={label}
               onClick={() => {
-                navigate(path); // Redirect to the defined path
-                if (!isLastItem) closeMenu(); // Close the menu for all items except logout
+                if (label === "Одјава") {
+                  cookie.setCookie("access_token", "", new Date() - 3600);
+                  cookie.setCookie("user_id", "", new Date() - 3600);
+                }
+                navigate(path);
+                if (!isLastItem) closeMenu();
               }}
               className={`flex items-center gap-2 rounded ${isLastItem ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10" : ""}`}
             >

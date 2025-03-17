@@ -20,26 +20,25 @@ namespace studio_infinito.Services.Implementation
             _configuration = configuration;
         }
 
-        public async Task<List<Dictionary<string, object>>> Login(UserLoginDTO user)
+        public async Task<Dictionary<string, string>> Login(UserLoginDTO user)
         {
             try
             {
-                // smeni po potreba
-                List<Dictionary<string, object>> result = await _context.ExecuteSqlQuery("SELECT password_hash FROM users WHERE phone = @EmailOrPhone" +
+                List<Dictionary<string, object>> result = await _context.ExecuteSqlQuery("SELECT * FROM users WHERE phone = @EmailOrPhone" +
                     " OR email = @EmailOrPhone",
-                    new MySqlParameter[] { new MySqlParameter("@EmailOrPhone", MySqlDbType.String) { Value = user.EmailOrPhone }, 
-                                            new MySqlParameter("@password", MySqlDbType.String) { Value = user.Password } });
+                    new MySqlParameter[] { new MySqlParameter("@EmailOrPhone", MySqlDbType.String) { Value = user.EmailOrPhone },
+                                   new MySqlParameter("@password", MySqlDbType.String) { Value = user.Password } });
 
                 if (result.Count > 0 && result[0].ContainsKey("error") || result.Count == 0)
                 {
-                    return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Корисничката сметка не е пронајдена" } };
-                } 
-                else if(!VerifyPassword(user.Password, result[0]["password_hash"].ToString()))
+                    return new Dictionary<string, string> { { "status", "error" }, { "message", $"Корисничката сметка не е пронајдена" } };
+                }
+                else if (!VerifyPassword(user.Password, result[0]["password_hash"].ToString()))
                 {
-                    return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["error"] = $"Внесена е погрешена лозинка" } };
+                    return new Dictionary<string, string> { { "status", "warning" } ,{ "message", $"Внесена е погрешена лозинка" } };
                 }
 
-                return new List<Dictionary<string, object>> { new Dictionary<string, object> { ["ok"] = $"{GenerateJwtToken(user)}" } };
+                return new Dictionary<string, string> { { "status", "success" } , { "message", $"{GenerateJwtToken(user, result[0]["user_id"].ToString())}" } };
             }
             catch (Exception ex)
             {
@@ -47,19 +46,17 @@ namespace studio_infinito.Services.Implementation
             }
         }
 
-        private string GenerateJwtToken(UserLoginDTO loginRequest)
+        private string GenerateJwtToken(UserLoginDTO loginRequest, string user_id)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var expirationTime = loginRequest.rememberMe ? DateTime.Now.AddDays(30) : DateTime.Now.AddMinutes(120);
 
-            var Sectoken = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
-                null,
-                expires: expirationTime,
-                signingCredentials: credentials
-            );
+            var Sectoken = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+              _configuration["Jwt:Issuer"],
+              null,
+              expires: expirationTime,
+              signingCredentials: credentials);
 
             var access_token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
 
@@ -68,7 +65,7 @@ namespace studio_infinito.Services.Implementation
                 { "access_token", access_token },
                 { "token_type", "Bearer" },
                 { "valid_to", Sectoken.ValidTo.ToString("O") },
-                { "user_details", loginRequest?.ToString()}
+                { "user_id", user_id }
             };
 
             return JsonSerializer.Serialize(response_token);

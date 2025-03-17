@@ -15,17 +15,17 @@ namespace studio_infinito.Events
     {
         public event AppointmentCreatedEventHandler AppointmentCreated;
 
-        public void CreateAppointment(string userEmail, AppointmentDto appointmentDetails)
+        public void CreateAppointment(AppointmentDto appointmentDetails)
         {
-            OnAppointmentCreated(userEmail, appointmentDetails);
+            OnAppointmentCreated(appointmentDetails);
         }
 
         // Protected method to raise the event
-        protected virtual void OnAppointmentCreated(string userEmail, AppointmentDto appointmentDetails)
+        protected virtual void OnAppointmentCreated(AppointmentDto appointmentDetails)
         {
             AppointmentCreated?.Invoke(this, new AppointmentEventArgs
             {
-                UserEmail = userEmail,
+                UserEmail = appointmentDetails.UserEmail,
                 AppointmentDetails = appointmentDetails
             });
         }

@@ -1,11 +1,11 @@
 ﻿using studio_infinito.Data;
 using studio_infinito.Services;
 using studio_infinito.Services.Implementation;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using studio_infinito.Events;
-using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,70 +17,45 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<DbContext>();
-
 var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
 var jwtAudience = builder.Configuration.GetSection("Jwt:Audience").Get<string>();
-var key = Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]);
-var securityKey = new SymmetricSecurityKey(key);
+var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.RequireHttpsMetadata = false;
-        options.SaveToken = true;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
-            ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["JWT:Issuer"],
-            ValidateAudience = true,
-            ValidAudience = builder.Configuration["JWT:Audience"],
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero // Optional: Avoids delay in token expiration
-        };
-        options.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                Console.WriteLine($"🟢 Received Token: {context.Token ?? "No Token"}");
-                return Task.CompletedTask;
-            },
-            OnAuthenticationFailed = context =>
-            {
-                Console.WriteLine($"❌ JWT Authentication Failed: {context.Exception?.Message}");
-                return Task.CompletedTask;
-            }
-        };
-    });
+ .AddJwtBearer(options =>
+ {
+     options.TokenValidationParameters = new TokenValidationParameters
+     {
+         ValidateIssuer = true,
+         ValidateAudience = true,
+         ValidateLifetime = true,
+         ValidateIssuerSigningKey = true,
+         ValidIssuer = jwtIssuer,
+         ValidAudience = jwtAudience,
+         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+     };
 
-builder.Services.AddAuthorization();
-/* 
-    * Example for adding dependency injections
-    * 
-    * builder.Services.AddScoped<ILoginService, LoginService>();
-    * builder.Services.AddScoped<IDataService, DataService>();
-*/
+     options.Events = new JwtBearerEvents
+     {
+         OnTokenValidated = context => {
+             Debug.WriteLine($"Token validated successfully for {context.Principal.Identity.Name}");
+             return Task.CompletedTask;
+         },
+         OnAuthenticationFailed = context => {
+             Debug.WriteLine($"Authentication failed: {context.Exception}");
+             return Task.CompletedTask;
+         }
+     };
+
+ });
+
+builder.Services.AddScoped<studio_infinito.Data.DbContext>();
 
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IAppointmentsService, AppointmentsService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-builder.Services.AddSingleton<AppointmentCreatedEvent>();
 builder.Services.AddSingleton<AppointmentService>();
-
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddDistributedMemoryCache();
-
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromDays(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-
-builder.Services.AddHttpContextAccessor();
 
 var allowedOrigins = builder.Configuration.GetSection("AllowedHosts").Get<string[]>();
 
@@ -90,28 +65,29 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins(allowedOrigins)
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials();
+            .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
         });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI();
-
 var appointmentService = app.Services.GetRequiredService<AppointmentService>();
-var appointmentCreatedEvent = app.Services.GetRequiredService<AppointmentCreatedEvent>();
+var appointmentCreatedEvent = new AppointmentCreatedEvent(appointmentService);
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
-app.UseCors();
-app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseSession();
 
 app.MapControllers();
 

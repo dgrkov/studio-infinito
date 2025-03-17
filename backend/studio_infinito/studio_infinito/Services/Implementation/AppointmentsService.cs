@@ -49,7 +49,6 @@ namespace studio_infinito.Services.Implementation
                     new MySqlParameter("@hairstylist_id", MySqlDbType.Int32) { Value = appointmentDto.AppointmentData.Hairstylist.hairstylist_id },
                 };
 
-                // Execute the query
                 var result = await _context.ExecuteSqlQuery(query, parameters);
 
                 if (result.Any(r => r.ContainsKey("error")))
@@ -59,7 +58,15 @@ namespace studio_infinito.Services.Implementation
                 }
                 else
                 {
-                    _appointmentService.CreateAppointment("nikpetrovski007@gmail.com", appointmentDto);
+                    var user = await _context.ExecuteSqlQuery("SELECT * FROM users WHERE user_id = @UserId", new MySqlParameter[] { new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = appointmentDto.user_id } });
+
+                    if (user.Count > 0)
+                    {
+                        appointmentDto.UserEmail = user[0]["email"].ToString();
+                        appointmentDto.UserPhone = user[0]["phone"].ToString();
+                    }
+
+                    _appointmentService.CreateAppointment(appointmentDto);
                     return true;
                 }
             }

@@ -7,8 +7,11 @@ import FullScreenLoader from "../FullScrennLoader/FullScreenLoader";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
 import { Axios } from "../Axios";
+import { Cookie } from "../Cookie";
+import Notification from "../Home/Notification";
 
 const axios = new Axios();
+const cookie = new Cookie();
 
 dayjs.extend(customParseFormat);
 
@@ -16,9 +19,23 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
   const [loading, setLoading] = useState(false);
   const [eventTimeStart, setEventTimeStart] = useState(null);
   const [eventTimeEnd, setEventTimeEnd] = useState(null);
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+  });
 
   const service_type = event_information?.appointmentData?.serviceType || {};
   
+  useEffect( () => {
+
+    if (notification?.message) {
+      setTimeout(() => {
+        setNotification({message: "", type: ""});
+      }, 3000);
+    }
+
+  }, [notification]);
+
   useEffect(() => {
     if (!event_information?.event?.date || !event_information?.event?.time) return;
 
@@ -49,22 +66,33 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
   };
 
   async function formatEventDate(event_information) {
-      if (!event_information?.event?.date) return event_information;
+    const user_id = parseInt(cookie.getCookie("user_id")) || 0;
+    
+    if (!event_information?.event?.date) {
+        return {
+            ...event_information,
+            user_id
+        };
+    }
 
-      const { date } = event_information.event;
+    const { date } = event_information.event;
 
-      if (dayjs(date, "DD-MM-YYYY", true).isValid()) {
-          return event_information;
-      }
+    if (dayjs(date, "DD-MM-YYYY", true).isValid()) {
+        return {
+            ...event_information,
+            user_id
+        };
+    }
 
-      return {
-          ...event_information,
-          event: {
-              ...event_information.event,
-              date: dayjs(date, "YYYY-MM-DD").format("DD-MM-YYYY"),
-          },
-      };
-  }
+    return {
+        ...event_information,
+        event: {
+            ...event_information.event,
+            date: dayjs(date, "YYYY-MM-DD").format("DD-MM-YYYY"),
+        },
+        user_id,
+    };
+}
 
   const handleConfirm = async () => {
       setLoading(true);
@@ -80,7 +108,10 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
           })
           .catch((error) => {
               setLoading(false);
-              console.error("Error confirming appointment:", error);
+              setNotification({
+                  message: 'Грешка при потврдување на резервацијата.',
+                  type: "error",
+              })
           });
   };
 
@@ -97,6 +128,7 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
 
   return (
     <Dialog open={isOpen} handler={handleClose} className="dark:bg-dark-secondary">
+      {notification.message && <Notification message={notification.message} type={notification.type} /> }
       <DialogHeader>
         <Typography variant="h5" className="text-gray-800 dark:text-dark-text-primary">
           Потврда на термин

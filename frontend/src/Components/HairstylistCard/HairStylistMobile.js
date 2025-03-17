@@ -18,10 +18,10 @@ function CustomNavigation() {
   return (
     <>
       <IconButton
-        isCircular
+        iscircular="true"
         size="lg"
-        variant="ghost"
-        color="secondary"
+        variant="filled"
+        color="black"
         onClick={() => swiper.slidePrev()}
         className="dark !absolute left-2 top-1/2 z-10 -translate-y-1/2"
       >
@@ -29,10 +29,10 @@ function CustomNavigation() {
       </IconButton>
 
       <IconButton
-        isCircular
+        iscircular="true"
         size="lg"
-        variant="ghost"
-        color="secondary"
+        variant="filled"
+        color="black"
         onClick={() => swiper.slideNext()}
         className="dark !absolute right-2 top-1/2 z-10 -translate-y-1/2"
       >

@@ -62,7 +62,6 @@ export default function FastBookingList() {
     }, [loading, pageNumber, requestData]);
 
     useEffect(() => {
-        console.log(appointments);
         if (appointments.length > 0) return;
 
         const observer = new IntersectionObserver(

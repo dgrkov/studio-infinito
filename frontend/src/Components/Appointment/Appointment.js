@@ -9,6 +9,7 @@ import Calendar from "../Calendar/Calendar";
 import { StepperWithContent } from "../Stepper/Stepper";
 
 import { Axios } from "../Axios";
+import cardFilled from "@material-tailwind/react/theme/components/card/cardFilled";
 
 const axios = new Axios();
 
@@ -37,7 +38,6 @@ export default function Appointment() {
 
         axios.get(`Appointments/get-services`).then((res) => {
             if (res.status === 200) {
-                console.log(res);
                 setServices(res.data);
             }
         });

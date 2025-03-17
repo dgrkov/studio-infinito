@@ -31,15 +31,22 @@ namespace studio_infinito.Controllers
             }
         }
 
-        [HttpPost("/register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto registerRequest)
         {
-            var isUserCreated = await _authService.RegisterUserAsync(registerRequest);
+            try
+            {
+                var isUserCreated = await _authService.RegisterUserAsync(registerRequest);
 
-            if (isUserCreated != null)
-                return Ok();
-            else
-                return BadRequest("User already exists");
+                if (isUserCreated)
+                    return Ok(new Dictionary<string, string>() { { "status", "success" }, { "message", "Успешно ргистрирање на корисник." } });
+                else
+                    return Ok(new Dictionary<string, string>(){ { "status", "warning" }, { "message", "Корисникот веќе постоји." } });
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
