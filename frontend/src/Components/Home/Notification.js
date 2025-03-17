@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import './Main.css'
 
-export default function Notification({ message, type, head_message }) {
+export default function Notification({ message, type }) {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
@@ -16,11 +16,15 @@ export default function Notification({ message, type, head_message }) {
     type && (
       <div
         onClick={() => setShow(false)}
-        className={`notification-container ${
+        className={`mx-5 my-2 notification-container ${
           type === "success"
             ? "bg-teal-100 border-t-4 border-teal-500 text-teal-900"
-            : "bg-orange-100 border-l-4 border-orange-500 text-orange-700"
-        } rounded-b px-4 py-3 shadow-md ${show ? "visible" : "hide"}`}
+            : type === "warning"
+            ? "bg-orange-100 border-l-4 border-orange-500 text-orange-700"
+            : type === "error"
+            ? "bg-red-100 border-l-4 border-red-500 text-red-700"
+            : "bg-orange-100 border-l-4 border-orange-500 text-orange-700"}
+            rounded-b px-4 py-3 shadow-md ${show ? "visible" : "hide"}`}
         role="alert"
       >
         <div className="flex">
@@ -36,8 +40,8 @@ export default function Notification({ message, type, head_message }) {
             </svg>
           </div>
           <div>
-            <p className="font-bold">{head_message}</p>
-            <p className="text-sm">{message}</p>
+            {/* <p className="font-bold">{head_message}</p> */}
+            <p className="text-md">{message}</p>
           </div>
         </div>
       </div>

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using studio_infinito.Data;
 using studio_infinito.Services;
 
 namespace studio_infinito.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CalendarController : Controller

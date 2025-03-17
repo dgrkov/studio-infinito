@@ -5,9 +5,7 @@ export default function Recaptcha() {
         window.grecaptcha.ready(_ => {
           window.grecaptcha
             .execute(process.env.REACT_APP_RECAPTCHA_SITE_KEY, { action: "homepage" })
-            .then(token => {
-                console.log(token);
-            })
+            .then(token => {})
         })
       }
       

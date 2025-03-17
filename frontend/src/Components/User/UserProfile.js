@@ -86,14 +86,6 @@ function UserProfile() {
           <div className="mt-10" >
             <Reservations reservations={reservations} />
           </div>
-          {/* <Typography
-            variant="small"
-            className="font-normal text-gray-600 mt-6"
-          >
-            Passionate UI/UX designer focused on creating intuitive and engaging
-            digital experiences. <br /> Driven by design thinking, creativity,
-            and a love for problem-solving.
-          </Typography> */}
         </CardBody>
       </Card>
       <FullScreenLoader loading={loading} />

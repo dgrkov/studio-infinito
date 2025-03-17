@@ -24,14 +24,15 @@ export function FastBookingModal({ isOpen, onClose, onSubmit }) {
   const [loading, setLoading] = React.useState(false);
   const [services, setServices] = React.useState([]);
 
-  useEffect(() => {
-    axios.get(`Appointments/get-services`).then((res) => {
-      if (res.status === 200) {
-        setServices(res.data);
-      }
-    });
-
+  React.useEffect(() => {
     setOpen(isOpen);
+    if (isOpen) {
+      axios.get(`Appointments/get-services`).then((res) => {
+        if (res.status === 200) {
+          setServices(res.data);
+        }
+      });
+    }
   }, [isOpen]);
 
   const handleClose = () => {
@@ -99,8 +100,8 @@ export function FastBookingModal({ isOpen, onClose, onSubmit }) {
             label="Избери вработен"
             className="dark:text-dark-text-primary"
           >
-            <Option value="1">Александар</Option>
-            <Option value="2">Марина</Option>
+            <Option value='1'>Александар</Option>
+            <Option value='2'>Марина</Option>
           </Select>
         </div>
         <div className="w-full">
@@ -125,7 +126,7 @@ export function FastBookingModal({ isOpen, onClose, onSubmit }) {
             }}
           >
             {services.map((service) => (
-              <Option key={service.service_id} value={service.service_id}>
+              <Option key={service.service_id} value={String(service.service_id)}>
                 {service.name}
               </Option>
             ))}

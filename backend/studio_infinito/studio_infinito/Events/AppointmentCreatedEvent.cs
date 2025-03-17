@@ -21,8 +21,8 @@ namespace studio_infinito.Events
         {
             try
             {
-                await SendEmail(e.UserEmail, e.AppointmentDetails);
-                SendViberMessage(e.UserEmail, e.AppointmentDetails);
+                await SendEmail(e.AppointmentDetails);
+                SendViberMessage(e.AppointmentDetails);
             }
             catch (Exception ex)
             {
@@ -30,7 +30,7 @@ namespace studio_infinito.Events
             }
         }
 
-        private async Task SendEmail(string userEmail, AppointmentDto appointmentDto)
+        private async Task SendEmail(AppointmentDto appointmentDto)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace studio_infinito.Events
                     IsBodyHtml = true
                 };
 
-                mailMessage.To.Add(userEmail);
+                mailMessage.To.Add(appointmentDto.UserEmail);
 
                 using var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
@@ -102,9 +102,9 @@ namespace studio_infinito.Events
 
         }
 
-        private void SendViberMessage(string userEmail, AppointmentDto appointmentDetails)
+        private void SendViberMessage(AppointmentDto appointmentDetails)
         {
-            Console.WriteLine($"Sending Viber message to {userEmail} about the appointment: {appointmentDetails}");
+            Console.WriteLine($"Sending Viber message to {appointmentDetails.UserPhone} about the appointment: {appointmentDetails}");
         }
     }
 }

@@ -1,18 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useCountries } from "use-react-countries";
 import {
   Card,
   Input,
   Checkbox,
   Button,
   Typography,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
+  IconButton,
 } from "@material-tailwind/react";
 import FullScreenLoader from "../FullScrennLoader/FullScreenLoader";
+import Notification from "../Home/Notification";
+import { HiEye, HiEyeOff } from "react-icons/hi";
+import { Axios } from "../Axios";
+import { notification } from "antd";
+
+const axios = new Axios();
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -26,18 +28,20 @@ const RegisterForm = () => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const { countries } = useCountries();
-
-  const [country, setCountry] = useState(countries.findIndex(c => c.countryCallingCode === "+389"));
-  
-  const { name, flags, countryCallingCode } = countries[country];
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [message_response, setMessage_response] = useState({
+    message: "",
+    type: "",
+    head_message: ""
+  });
 
   const handleChange = (e) => {
     let { name, value } = e.target;
 
     if (name === "phone") {
       value = value.replace(/\D/g, "");
-      if (value.length > 6) value = value.slice(0, 6);
+      if (value.length > 8) value = value.slice(0, 6);
     }
 
     setFormData({
@@ -47,6 +51,16 @@ const RegisterForm = () => {
 
     setErrors({ ...errors, [name]: "" });
   };
+
+  useEffect( () => {
+
+    if (message_response.message !== "") {
+      setTimeout(() => {
+        setMessage_response({message: "", type: "", head_message: ""});
+      }, 3000);
+    }
+
+  }, [message_response]);
 
   const validateForm = () => {
     let newErrors = {};
@@ -59,16 +73,16 @@ const RegisterForm = () => {
 
     if (!formData.phone) {
       newErrors.phone = "Телефонскиот број е задолжителен.";
-    } else if (formData.phone.length !== 6) {
-      newErrors.phone = "Внесете точно 6 цифри по +389.";
+    } else if (formData.phone.length !== 8) {
+      newErrors.phone = "Внесете точно 8 цифри по +389.";
     }
 
     if (!formData.password) {
       newErrors.password = "Пасвордот е задолжителен.";
-    } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(formData.password)) {
+    } else if (!/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/.test(formData.password)) {
       newErrors.password =
         "Пасвордот мора да има најмалку 8 карактери, вклучувајќи букви и броеви.";
-    }
+    }    
 
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Потврди пасворд е задолжително.";
@@ -86,7 +100,33 @@ const RegisterForm = () => {
     if (!validateForm()) return;
 
     setLoading(true);
-    console.log("Form Data:", { ...formData, phone: `+389${formData.phone}` });
+
+    const formattedData = {
+      ...formData,
+      phone: `+389${formData.phone}`,
+    };
+  
+
+    axios.register("Auth/register", formattedData)
+    .then((res) => {
+      if (res.status === 200) {
+        setMessage_response({message: res.data.message, type: res.data.status});
+        if (res.data.status === "success") {
+          setMessage_response({message: res.data.message, type: res.data.status});
+          setTimeout(() => {
+            setLoading(false);
+            window.location.href = "/";
+          }, 3000);
+        }else{
+          setLoading(false);
+          setMessage_response({message: res.data.message, type: res.data.status});
+        }
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => setLoading(false));
 
     setTimeout(() => {
       setLoading(false);
@@ -95,6 +135,7 @@ const RegisterForm = () => {
 
   return (
     <div className="mt-[2rem] overflow-auto flex items-start justify-center min-h-screen bg-gray-100 dark:bg-dark-primary">
+      {message_response.message && <Notification message={message_response.message} type={message_response.type} head_message={message_response.head_message} />}
       <Card
         shadow={true}
         className="p-8 w-full max-w-md dark:bg-dark-secondary animate-fade-in-down"
@@ -149,51 +190,17 @@ const RegisterForm = () => {
         </Typography>
 
         <div className="relative flex w-full">
-            <Menu placement="bottom-start">
-            <MenuHandler>
-                <Button
-                ripple={false}
-                variant="text"
-                color="blue-gray"
-                className="flex h-10 items-center gap-2 rounded-r-none border border-r-0 border-blue-gray-200 bg-blue-gray-500/10 pl-3"
-                >
-                <img
-                    src={flags.svg}
-                    alt={name}
-                    className="h-4 w-4 rounded-full object-cover"
-                />
-                {countryCallingCode}
-                </Button>
-            </MenuHandler>
-            <MenuList className="max-h-[20rem] max-w-[18rem] text-sm">
-                {countries.map(({ name, flags, countryCallingCode }, index) => {
-                return (
-                    <MenuItem
-                    key={name}
-                    value={name}
-                    className="flex items-center gap-2"
-                    onClick={() => setCountry(index)}
-                    >
-                    <img
-                        src={flags.svg}
-                        alt={name}
-                        className="h-5 w-5 rounded-full object-cover"
-                    />
-                    {name} <span className="ml-auto">{countryCallingCode}</span>
-                    </MenuItem>
-                );
-                })}
-            </MenuList>
-            </Menu>
-
-            <Input
-                name="phone"
-                type="tel"
-                placeholder="Mobile Number"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full rounded-l-none py-3"
-            />
+          <div className="flex items-center bg-blue-gray-500/10 rounded-l-md px-3">
+            <span className="text-blue-gray-700">+389</span>
+          </div>
+          <Input
+            name="phone"
+            type="tel"
+            placeholder="Mobile Number"
+            value={formData.phone}
+            onChange={handleChange}
+            className="w-full py-3 !rounded-l-none"
+          />
         </div>
 
         {/* Error message */}
@@ -210,16 +217,19 @@ const RegisterForm = () => {
             )}
         </div>
         </div>
-          {[{ name: "password", label: "Пасворд", type: "password" },
-            { name: "confirmPassword", label: "Потврди пасворд", type: "password" },
-          ].map(({ name, label, type }, index) => (
-            <div className="mb-3" key={index}>
-              <Typography
-                variant="h6"
-                className="text-gray-900 dark:text-dark-text-primary"
-              >
-                {label}
-              </Typography>
+
+        {/* Password Input with Eye Icon */}
+        {[{ name: "password", label: "Пасворд", type: showPassword ? "text" : "password" },
+        { name: "confirmPassword", label: "Потврди пасворд", type: showConfirmPassword ? "text" : "password" },
+        ].map(({ name, label, type }, index) => (
+          <div className="mb-3 relative" key={index}>
+            <Typography
+              variant="h6" 
+              className="text-gray-900 dark:text-dark-text-primary"
+            >
+              {label}
+            </Typography>
+            <div className="relative">
               <Input
                 name={name}
                 type={type}
@@ -230,35 +240,36 @@ const RegisterForm = () => {
                 }`}
                 value={formData[name]}
                 onChange={handleChange}
+                icon={
+                  <div 
+                    className="cursor-pointer" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      name === "password" 
+                        ? setShowPassword(!showPassword) 
+                        : setShowConfirmPassword(!showConfirmPassword);
+                    }}
+                  >
+                    {name === "password" 
+                      ? (showPassword ? <HiEyeOff className="w-5 h-5" /> : <HiEye className="w-5 h-5" />)
+                      : (showConfirmPassword ? <HiEyeOff className="w-5 h-5" /> : <HiEye className="w-5 h-5" />)
+                    }
+                  </div>
+                }
               />
-              {errors[name] && (
-                <motion.p
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="text-sm text-red-500 mt-1"
-                >
-                  {errors[name]}
-                </motion.p>
-              )}
             </div>
-          ))}
-          <Checkbox
-            label={
-              <Typography
-                variant="small"
-                className="text-gray-700 dark:text-dark-text-secondary"
+            {errors[name] && (
+              <motion.p
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-sm text-red-500 mt-1"
               >
-                Се согласувам со{" "}
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 hover:underline dark:text-dark-accent-primary"
-                >
-                  Условите и правилата
-                </a>
-              </Typography>
-            }
-          />
+                {errors[name]}
+              </motion.p>
+            )}
+          </div>
+        ))}
           <Button
             type="submit"
             className="mt-4 bg-gray-700 dark:bg-dark-button-primary hover:bg-gray-900 dark:hover:bg-dark-button-hover text-white"
@@ -267,15 +278,6 @@ const RegisterForm = () => {
             Регистрирај се
           </Button>
         </form>
-        {/* <Typography className="mt-4 text-center text-gray-700 dark:text-dark-text-secondary">
-          Веќе имате профил?{" "}
-          <a
-            href="#"
-            className="font-medium text-blue-600 hover:underline dark:text-dark-accent-primary"
-          >
-            Најави се
-          </a>
-        </Typography> */}
       </Card>
       <FullScreenLoader loading={loading} />
     </div>

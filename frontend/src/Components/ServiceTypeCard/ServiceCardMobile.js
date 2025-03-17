@@ -1,6 +1,7 @@
 import ServiceCard from '../HTMLElements/ServiceCard';
 
 export default function ServiceCardMobile(props) {
+  console.log(props);
   const serviceTypes = props.serviceTypes;
   const handleWorkReq = props.handleWorkReq;
 
