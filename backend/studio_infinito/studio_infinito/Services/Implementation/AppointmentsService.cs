@@ -41,7 +41,7 @@ namespace studio_infinito.Services.Implementation
 
                 var parameters = new MySqlParameter[]
                 {
-                    new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = 0 },
+                    new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = appointmentDto.user_id },
                     new MySqlParameter("@ServiceId", MySqlDbType.Int32) { Value = appointmentDto.AppointmentData.ServiceType.service_id },
                     new MySqlParameter("@AppointmentDate", MySqlDbType.DateTime) { Value = appointmentDate },
                     new MySqlParameter("@AppointmentTime", MySqlDbType.Time) { Value = appointmentTime },
@@ -78,14 +78,17 @@ namespace studio_infinito.Services.Implementation
 
         public async Task<List<Dictionary<string, object>>> UserAppointments(int id)
         {
-            try
-            {
-                return await _context.ExecuteSqlQuery("SELECT * FROM appointments AS ap " +
+            try {
+                return await _context.ExecuteSqlQuery(
+                    "SELECT * FROM users AS us " +
+                    "LEFT JOIN appointments AS ap ON us.user_id = ap.user_id " +
                     "LEFT JOIN services AS sr ON sr.service_id = ap.service_id " +
-                    "LEFT JOIN users AS us ON us.user_id = ap.user_id " +
-                    "WHERE ap.user_id = @UserId", new MySqlParameter[] { new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = id } });
+                    "WHERE us.user_id = @UserId;",
+                    new MySqlParameter[] {
+                        new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = id }
+                    });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error finding user appointments: " + ex.Message);
             }

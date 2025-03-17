@@ -22,7 +22,6 @@ export class Axios {
     }
 
     async get(url) {
-        if (Axios.access_token === '') window.location.href = '/';
         return await axios.get(`${process.env.REACT_APP_API_URL}${url}`, {
             headers: {
                 'Authorization': 'Bearer ' + Axios.access_token,
@@ -32,7 +31,6 @@ export class Axios {
     }
 
     async post(url, body) {
-        if (Axios.access_token === '') window.location.href = '/';
         return await axios.post(`${process.env.REACT_APP_API_URL}${url}`, body, {
             headers: {
                 'Authorization': 'Bearer ' + Axios.access_token,

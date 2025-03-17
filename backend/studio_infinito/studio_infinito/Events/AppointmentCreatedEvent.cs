@@ -72,15 +72,19 @@ namespace studio_infinito.Events
                 bodyBuilder.AppendLine("</div>");
                 bodyBuilder.AppendLine("</body></html>");
 
+                var plainTextBody = "Вашата резервација е успешно направена!";
+
                 var mailMessage = new MailMessage
                 {
-                    From = new MailAddress(configuration["MailSettings:Mail"]),
+                    From = new MailAddress(configuration["MailSettings:Mail"], "Studio Infinito"),
                     Subject = "Успешна резервација на термин",
                     Body = bodyBuilder.ToString(),
                     IsBodyHtml = true
                 };
 
                 mailMessage.To.Add(appointmentDto.UserEmail);
+                mailMessage.ReplyToList.Add(new MailAddress(configuration["MailSettings:Mail"]));
+                mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(plainTextBody, Encoding.UTF8, "text/plain"));
 
                 using var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
@@ -99,7 +103,6 @@ namespace studio_infinito.Events
             {
                 System.Diagnostics.Debug.WriteLine($"[Email Error] {ex.Message}");
             }
-
         }
 
         private void SendViberMessage(AppointmentDto appointmentDetails)

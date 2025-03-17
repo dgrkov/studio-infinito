@@ -34,14 +34,14 @@ export default function Auth() {
     }
   }, [isTooltipOpen])
 
-  useEffect( () => {
-    if (notification.message) {
-      setTimeout(() => {
-        setNotification({message: "", type: ""});
-      }, 3000)
-    }
+  // useEffect( () => {
+  //   if (notification.message) {
+  //     setTimeout(() => {
+  //       setNotification({message: "", type: ""});
+  //     }, 3000)
+  //   }
 
-  }, [notification])
+  // }, [notification])
 
   const handleAuth = async () => {
     setLoading(true);
@@ -81,13 +81,17 @@ export default function Auth() {
       .catch((err) => {
         console.error("Login Error:", err);
         setLoading(false);
+        setNotification({
+          message: 'Настана грешка при најава. Ве молиме обидете се повторно.',
+          type: 'error',
+        })
       });
   };
   
 
   return (
     <section className="grid text-center h-[90dvh] items-center p-8 dark:bg-dark-primary">
-      {notification.message && <Notification message={notification.message} type={notification.type} />}
+      { <Notification message={notification.message} type={notification.type} />}
       <div>
         <Typography variant="h3" color="blue-gray" className="mb-2 dark:text-dark-text-primary">
           Најави се
