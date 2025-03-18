@@ -36,24 +36,24 @@ function AppWrapper() {
       navigate('/');
     }
 
-    const handleKeyDown = (e) => {
-      if (
-        e.key === "F12" || 
-        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || 
-        (e.ctrlKey && e.key === 'U')
-      ) {
-        e.preventDefault();
-      }
-    };
+    // const handleKeyDown = (e) => {
+    //   if (
+    //     e.key === "F12" || 
+    //     (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || 
+    //     (e.ctrlKey && e.key === 'U')
+    //   ) {
+    //     e.preventDefault();
+    //   }
+    // };
 
-    document.addEventListener("keydown", handleKeyDown);
+    // document.addEventListener("keydown", handleKeyDown);
 
     const isDark = localStorage.getItem("theme") === "dark";
     document.documentElement.classList.toggle("dark", isDark);
 
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
+    // return () => {
+    //   document.removeEventListener("keydown", handleKeyDown);
+    // };
   }, [navigate]);
 
   return (

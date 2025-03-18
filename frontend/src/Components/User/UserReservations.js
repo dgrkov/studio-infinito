@@ -25,6 +25,21 @@ export default function Reservations({ reservations = [] }) {
     setSelectedReservation(null);
   };
 
+  const parseReservationStatus = (status) => {
+    switch (status) {
+      case "pending":
+        return "На чекање";
+      case "confirmed":
+        return "Одобрен";
+      case "completed":
+        return "Завршен";
+      case "canceled":
+        return "Откажан";
+      default:
+        return "На чекање";
+    }
+  }
+
 
   return (
     <div className={`w-full md:max-w-2xl mx-auto ${isModalVisible ? "pointer-events-none" : ""}`}>
@@ -60,7 +75,7 @@ export default function Reservations({ reservations = [] }) {
                         <p>{reservation.time}</p>
                       </div>
                       <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2">
-                        {reservation.status}
+                        {parseReservationStatus(reservation.status)}
                       </p>
                     </div>
                   </div>
@@ -69,7 +84,7 @@ export default function Reservations({ reservations = [] }) {
             ))
           ) : (
             <Typography variant="paragraph" className="text-gray-500 dark:text-dark-text-secondary p-4">
-              Нема слободни термини.
+                Немате направено резервации. <br/> Кликнете <a className="underline text-blue-200" href="/home" >тука</a> за да направите резервација.
             </Typography>
           )}
         </List>
