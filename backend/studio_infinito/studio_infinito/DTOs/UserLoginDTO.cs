@@ -5,6 +5,7 @@ namespace DTOs
         public string EmailOrPhone { get; set; }
         public string Password { get; set; }
         public bool rememberMe { get; set; }
+        public string firebase_token { get; set; }
 
         public override string ToString()
         {

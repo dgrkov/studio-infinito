@@ -38,6 +38,18 @@ namespace studio_infinito.Services.Implementation
                     return new Dictionary<string, string> { { "status", "warning" } ,{ "message", $"Внесена е погрешена лозинка" } };
                 }
 
+                if (!string.IsNullOrEmpty(user.firebase_token))
+                {
+                    await _context.ExecuteSqlQuery(
+                        "UPDATE users SET firebase_token = @FirebaseToken WHERE user_id = @UserId",
+                        new MySqlParameter[]
+                        {
+                            new MySqlParameter("@FirebaseToken", MySqlDbType.String) { Value = user.firebase_token },
+                            new MySqlParameter("@UserId", MySqlDbType.String) { Value = result[0]["user_id"] }
+                        }
+                    );
+                }
+
                 return new Dictionary<string, string> { { "status", "success" } , { "message", $"{GenerateJwtToken(user, result[0]["user_id"].ToString())}" } };
             }
             catch (Exception ex)

@@ -84,6 +84,7 @@ namespace studio_infinito.Services.Implementation
                             appointmentDto.UserEmail = user[0]["email"].ToString();
                             appointmentDto.UserPhone = user[0]["phone"].ToString();
                             appointmentDto.UserName = user[0]["full_name"].ToString();
+                            appointmentDto.firebaseToken = user[0]["firebase_token"].ToString();
                         }
 
                         _appointmentService.CreateAppointment(appointmentDto);

@@ -1,4 +1,4 @@
-﻿using studio_infinito.Data;
+﻿
 using studio_infinito.Services;
 using studio_infinito.Services.Implementation;
 using System.Diagnostics;
@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using studio_infinito.Events;
-using studio_infinito.DTOs;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,7 +73,31 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("fixed", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 30;
+        limiterOptions.Window = TimeSpan.FromMinutes(3);
+    });
+
+    options.AddSlidingWindowLimiter("sliding", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 10;
+        limiterOptions.Window = TimeSpan.FromSeconds(10);
+        limiterOptions.SegmentsPerWindow = 2;
+    });
+
+    options.AddConcurrencyLimiter("concurrent", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 2;
+        limiterOptions.QueueLimit = 5;
+    });
+});
+
 var app = builder.Build();
+
+app.UseRateLimiter();
 
 var appointmentService = app.Services.GetRequiredService<AppointmentService>();
 var appointmentCreatedEvent = new AppointmentCreatedEvent(appointmentService);
@@ -83,22 +108,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-var firebaseService = new FirebaseService();
-
-app.MapPost("/send-notification", async (HttpContext context) =>
-{
-    try
-    {
-        var requestData = await context.Request.ReadFromJsonAsync<NotificationRequest>();
-        await firebaseService.SendNotification(requestData.DeviceToken, requestData.Title, requestData.Body);
-        return Results.Ok(new { message = "Notification Sent!" });
-    } catch (Exception ex)
-    {
-        return Results.BadRequest(ex.Message);
-    }
-});
-
 
 app.UseCors();
 

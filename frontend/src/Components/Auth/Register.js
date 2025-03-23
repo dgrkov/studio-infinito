@@ -149,7 +149,7 @@ const RegisterForm = () => {
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           {[{ name: "firstname", label: "Име", type: "text" },
             { name: "lastname", label: "Презиме", type: "text" },
-            { name: "email", label: "Пошта", type: "email" }
+            { name: "email", label: "Електронска Пошта", type: "email" }
           ].map(({ name, label, type }, index) => (
             <div key={index}>
               <Typography
@@ -219,8 +219,8 @@ const RegisterForm = () => {
         </div>
 
         {/* Password Input with Eye Icon */}
-        {[{ name: "password", label: "Пасворд", type: showPassword ? "text" : "password" },
-        { name: "confirmPassword", label: "Потврди пасворд", type: showConfirmPassword ? "text" : "password" },
+        {[{ name: "password", label: "Лозинка", type: showPassword ? "text" : "password" },
+        { name: "confirmPassword", label: "Потврди Лозинка", type: showConfirmPassword ? "text" : "password" },
         ].map(({ name, label, type }, index) => (
           <div className="mb-3 relative" key={index}>
             <Typography
