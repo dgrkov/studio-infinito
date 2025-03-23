@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using studio_infinito.DTOs;
 using studio_infinito.Services;
 using System.Diagnostics.Eventing.Reader;
 
 namespace studio_infinito.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AppointmentsController : Controller
@@ -51,6 +52,7 @@ namespace studio_infinito.Controllers
 
         }
 
+        [EnableRateLimiting("fixed")]
         [HttpPost("user-appointments/{id}")]
         public async Task<IActionResult> UserAppointments(int id)
         {
@@ -65,6 +67,7 @@ namespace studio_infinito.Controllers
 
         }
 
+        [EnableRateLimiting("fixed")]
         [HttpPost("fast-booking")]
         public async Task<IActionResult> FastBooking([FromBody] FastBookingDto fastBookingDto)
         {
