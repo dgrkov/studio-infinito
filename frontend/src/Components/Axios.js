@@ -24,7 +24,7 @@ export class Axios {
     async get(url) {
         return await axios.get(`${process.env.REACT_APP_API_URL}${url}`, {
             headers: {
-                'Authorization': 'Bearer ' + Axios.access_token,
+                'Authorization': 'Bearer ' + this.getAccessToken(),
                 'ngrok-skip-browser-warning': 'true'
             },
         });
@@ -33,7 +33,7 @@ export class Axios {
     async post(url, body) {
         return await axios.post(`${process.env.REACT_APP_API_URL}${url}`, body, {
             headers: {
-                'Authorization': 'Bearer ' + Axios.access_token,
+                'Authorization': 'Bearer ' + this.getAccessToken(),
                 'ngrok-skip-browser-warning': 'true'
             },
         });
@@ -42,7 +42,7 @@ export class Axios {
     async register(url, body) {
         return await axios.post(`${process.env.REACT_APP_API_URL}${url}`, body, {
             headers: {
-                'Authorization': 'Bearer ' + Axios.access_token,
+                'Authorization': 'Bearer ' + this.getAccessToken(),
                 'ngrok-skip-browser-warning': 'true'
             },
         });

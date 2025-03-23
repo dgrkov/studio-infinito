@@ -9,13 +9,14 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Axios } from "../Axios";
 import { Cookie } from "../Cookie";
 import Notification from "../Home/Notification";
+import { el } from "date-fns/locale/el";
 
 const axios = new Axios();
 const cookie = new Cookie();
 
 dayjs.extend(customParseFormat);
 
-export function ConfirmModal({ event_information, isOpen, setOpen }) {
+export function ConfirmModal({ event_information, isOpen, setOpen, handleDateClick }) {
   const [loading, setLoading] = useState(false);
   const [eventTimeStart, setEventTimeStart] = useState(null);
   const [eventTimeEnd, setEventTimeEnd] = useState(null);
@@ -95,24 +96,44 @@ export function ConfirmModal({ event_information, isOpen, setOpen }) {
 }
 
   const handleConfirm = async () => {
-      setLoading(true);
+    setLoading(true);
 
-      const formattedEvent = await formatEventDate(event_information);
+    const formattedEvent = await formatEventDate(event_information);
 
-      axios.post("Appointments/confirm-appointment", formattedEvent)
-          .then((res) => {
-              if (res.status === 200) {
-                  setLoading(false);
-                  handleSuccess();
-              }
-          })
-          .catch((error) => {
-              setLoading(false);
-              setNotification({
-                  message: 'Грешка при потврдување на резервацијата.',
-                  type: "error",
-              })
-          });
+    axios.post("Appointments/confirm-appointment", formattedEvent)
+      .then((res) => {
+        setLoading(false);
+
+        if (res.status === 200) {
+          if (res.data.status === 'success') {
+            handleSuccess();
+          } else {
+            setNotification({
+              message: res.data.message,
+              type: res.data.status,
+            });
+
+            if (res.data.status === "warning") {
+              setTimeout(() => {
+                setOpen(false);
+              }, 1000);
+              setTimeout(() => {
+                if (event_information?.date) {
+                  const selectedDate = dayjs(event_information.date);
+                  handleDateClick(selectedDate);
+                }
+              }, 200)
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        setNotification({
+          message: 'Грешка при потврдување на резервацијата.',
+          type: "error",
+        });
+      });
   };
 
   const handleSuccess = () => {

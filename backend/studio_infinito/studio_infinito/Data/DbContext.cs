@@ -108,6 +108,12 @@ namespace studio_infinito.Data
             }
         }
 
+        public async Task<MySqlTransaction> BeginTransactionAsync()
+        {
+            return await Task.FromResult(_connection.BeginTransaction());
+        }
+
+
         public void Dispose()
         {
             _connection?.Close();

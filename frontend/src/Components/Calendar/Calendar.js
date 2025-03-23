@@ -63,6 +63,8 @@ const Calendar = ({ appointmentData }) => {
   };
 
   const handleDateClick = (date) => {
+    console.log("Called date click");
+    console.log(date);
     setLoading(true);
     setHideEvents(false);
     axios.get(`Calendar/available-timeslots/${date.format("YYYY-MM-DD")}/${appointmentData?.serviceType?.duration || 30}/${appointmentData?.hairstylist?.hairstylist_id}`).then((res) => {
@@ -189,7 +191,7 @@ const Calendar = ({ appointmentData }) => {
               events.length > 0 && (
                 <div key={category}>
                   <Typography variant="h6" className="text-gray-800 dark:text-dark-text-primary mb-4 capitalize">
-                    {category === 'morning' ? 'Утро' : 'Попладне'}
+                    {category === 'morning' ? 'Предпладне' : 'Попладне'}
                   </Typography>
                   <div className="grid grid-cols-3 gap-2">
                     {events.map((event, index) => (
@@ -208,7 +210,7 @@ const Calendar = ({ appointmentData }) => {
           )}
         </div>
       </div>
-      <ConfirmModal event_information={event_information} isOpen={openModal} setOpen={setOpenModal} />
+      <ConfirmModal event_information={event_information} isOpen={openModal} setOpen={setOpenModal} handleDateClick={handleDateClick}  />
     </div>
   );
 };

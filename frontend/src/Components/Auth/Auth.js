@@ -34,14 +34,25 @@ export default function Auth() {
     }
   }, [isTooltipOpen])
 
-  // useEffect( () => {
-  //   if (notification.message) {
-  //     setTimeout(() => {
-  //       setNotification({message: "", type: ""});
-  //     }, 3000)
-  //   }
+  useEffect( () => {
+    if (cookie.getCookie("access_token")) {
+      navigate("/home");
+    }
+  })
 
-  // }, [notification])
+
+  const sendNotification = async (token) => {
+    await fetch("https://localhost:7272/send-notification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        deviceToken: token,
+        title: "Hello from FCM",
+        body: "This is a test notification from .NET & React"
+      })
+    });
+  };
+  
 
   const handleAuth = async () => {
     setLoading(true);
@@ -60,6 +71,8 @@ export default function Auth() {
           cookie.setCookie("access_token", parsedData.access_token, parsedData.valid_to);
           cookie.setCookie("user_id", parsedData.user_id, parsedData.valid_to);
   
+          axios.setAccessToken(parsedData.access_token);
+
           setNotification({
             message: 'Успешна најава.',
             type: res.data.status,
@@ -68,7 +81,7 @@ export default function Auth() {
           setLoading(false);
           setTimeout( () => {
             navigate("/home");
-          }, 2000)
+          }, 700)
         } else {
           setIsTooltipOpen(true);
           setNotification({
@@ -91,7 +104,7 @@ export default function Auth() {
 
   return (
     <section className="grid text-center h-[90dvh] items-center p-8 dark:bg-dark-primary">
-      { <Notification message={notification.message} type={notification.type} />}
+      {notification.message && <Notification message={notification.message} type={notification.type} />}
       <div>
         <Typography variant="h3" color="blue-gray" className="mb-2 dark:text-dark-text-primary">
           Најави се
@@ -111,7 +124,7 @@ export default function Auth() {
                 onOpen={() => setIsTooltipOpen(true)}
                 onClose={() => setIsTooltipOpen(false)}
                 content={
-                  <div className="w-fit">
+                  <div className="w-80">
                     <Typography color="white" className="font-medium">
                       Информации за најава
                     </Typography>

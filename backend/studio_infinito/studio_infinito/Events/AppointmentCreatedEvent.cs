@@ -52,7 +52,7 @@ namespace studio_infinito.Events
                 bodyBuilder.AppendLine("</head>");
                 bodyBuilder.AppendLine("<body>");
                 bodyBuilder.AppendLine("<div class='container'>");
-                bodyBuilder.AppendLine("<p>Почитуван(а) Nikola,</p>");
+                bodyBuilder.AppendLine($"<p>Почитуван(а) {appointmentDto.UserName},</p>");
                 bodyBuilder.AppendLine("<p>Вашата резервација е успешно направена!</p>");
                 bodyBuilder.AppendLine("<p><strong>Еве ги деталите за вашиот закажан термин:</strong></p>");
 
@@ -73,6 +73,10 @@ namespace studio_infinito.Events
                 bodyBuilder.AppendLine("</body></html>");
 
                 var plainTextBody = "Вашата резервација е успешно направена!";
+                var htmlBody = bodyBuilder.ToString();
+
+                var plainTextView = AlternateView.CreateAlternateViewFromString(plainTextBody, Encoding.UTF8, "text/plain");
+                var htmlView = AlternateView.CreateAlternateViewFromString(htmlBody, Encoding.UTF8, "text/html");
 
                 var mailMessage = new MailMessage
                 {
@@ -84,7 +88,9 @@ namespace studio_infinito.Events
 
                 mailMessage.To.Add(appointmentDto.UserEmail);
                 mailMessage.ReplyToList.Add(new MailAddress(configuration["MailSettings:Mail"]));
-                mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(plainTextBody, Encoding.UTF8, "text/plain"));
+
+                mailMessage.AlternateViews.Add(plainTextView);
+                mailMessage.AlternateViews.Add(htmlView);
 
                 using var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
