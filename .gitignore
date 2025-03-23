@@ -423,6 +423,7 @@ backend/studio_infinito/.vs/
 backend/studio_infinito/studio_infinito/*.suo
 backend/studio_infinito/studio_infinito/*.db
 backend/studio_infinito/studio_infinito/appsettings.json
+backend/studio_infinito/studio_infinito/studio-infinito-firebase-adminsdk-fbsvc-2634e5c0c5.json
 
 # Ignore environment variables
 frontend/.env

@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Axios } from "../Axios";
 import dayjs from "dayjs";
-import { Typography, List, ListItem } from "@material-tailwind/react";
+import { Typography, Button } from "@material-tailwind/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ConfirmModal } from "../Calendar/ConfirmModal";
+import FullScreenLoader from "../FullScrennLoader/FullScreenLoader";
 
 const axios = new Axios();
 
@@ -20,6 +21,7 @@ export default function FastBookingList() {
     const [openModal, setOpenModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
 
+    // Map appointments to the events array with date and time
     const events = appointments.map((appointment) => {
         const date = appointment.appointment_date 
             ? dayjs(appointment.appointment_date).format("YYYY-MM-DD") 
@@ -42,6 +44,16 @@ export default function FastBookingList() {
             }
         };
     });
+
+    // Group events by date
+    const groupedEvents = events.reduce((acc, { event }) => {
+        const { date, time } = event;
+        if (!acc[date]) {
+            acc[date] = [];
+        }
+        acc[date].push(time);
+        return acc;
+    }, {});
 
     const loadMoreAppointments = useCallback(() => {
         if (loading) return;
@@ -82,50 +94,55 @@ export default function FastBookingList() {
     }, [appointments, loadMoreAppointments]);
 
     return (
-        <div className="w-full lg:w-2/5 m-auto mt-10">
+        <div className="w-full lg:w-2/4 m-auto mt-10">
+            <FullScreenLoader loading={loading} />
             <Typography variant="h5" className="font-bold mb-4 text-gray-800 dark:text-dark-text-primary">
                 {`Слободни најбрзи термини`}
             </Typography>
-            <List className="bg-white dark:bg-dark-secondary border gap-4 border-gray-200 dark:border-gray-700 rounded-lg">
-                {events.length > 0 ? (
-                    events.map((event, index) => {
-                        const isLastItem = index === events.length - 1;
-                        return (
-                            <ListItem
-                                key={index}
-                                ref={isLastItem ? observerRef : null} // Set ref only on the last item
-                                onClick={() => {
-                                    setSelectedAppointment(event);
-                                    setOpenModal(true);
-                                }}
-                                className="flex border border-gray-200 dark:border-gray-700 justify-between items-start cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-tertiary"
+            <div className="bg-white dark:bg-dark-secondary border gap-4 border-gray-200 dark:border-gray-700 rounded-lg p-10">
+                {Object.entries(groupedEvents).length > 0 ? (
+                    Object.entries(groupedEvents).map(([date, times], index) => (
+                        <div key={index}>
+                            {/* Parent element: Date */}
+                            <Typography
+                                variant="h6"
+                                className="font-bold text-gray-800 dark:text-dark-text-primary text-lg py-2 -ml-4"
                             >
-                                <div>
-                                    <Typography
-                                        variant="paragraph"
-                                        className="font-bold text-gray-800 dark:text-dark-text-primary text-sm"
+                                {dayjs(date).format("DD MMM YYYY")}
+                            </Typography>
+                            
+                            {/* Child elements: Time slots */}
+                            <div className="grid grid-cols-3 gap-2 gap-x-2 md:gap-x-10">
+                                {times.map((time, idx) => (
+                                    <Button
+                                        key={idx}
+                                        onClick={() => {
+                                            const selectedEvent = events.find((e) => e.event.date === date && e.event.time === time);
+                                            setSelectedAppointment(selectedEvent);
+                                            setOpenModal(true);
+                                        }}
+                                        className="text-center py-2 rounded-lg w-full bg-gray-100 hover:bg-gray-200 dark:bg-dark-tertiary dark:hover:bg-dark-hover text-gray-800 dark:text-dark-text-primary text-sm"
                                     >
-                                        {event.event.title}
-                                    </Typography>
-                                    <Typography
-                                        variant="paragraph"
-                                        className="text-gray-500 dark:text-dark-text-secondary text-sm"
-                                    >
-                                        {event.event.date ? dayjs(event.event.date).format("DD MMM YYYY") : "N/A"}
-                                    </Typography>
-                                </div>
-                                <Typography variant="small" className="text-gray-500 dark:text-dark-text-secondary">
-                                    {event.event.time}
-                                </Typography>
-                            </ListItem>
-                        );
-                    })
+                                        {dayjs(`${date}T${time}`).format("HH:mm")}
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+                    ))
                 ) : (
                     <Typography variant="paragraph" className="text-gray-500 dark:text-dark-text-secondary p-4">
                         Нема слободни термини.
                     </Typography>
                 )}
-            </List>
+                <div className="flex justify-center mt-10" >
+                    <Button
+                        onClick={loadMoreAppointments}
+                        className="w-[70%] md:w-[40%] lg:w-[50%] text-center py-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-dark-tertiary dark:hover:bg-dark-hover text-gray-800 dark:text-dark-text-primary text-sm"
+                        >
+                            Прикажи повеќе
+                    </Button>
+                    </div>
+            </div>
             <ConfirmModal isOpen={openModal} setOpen={setOpenModal} event_information={selectedAppointment} />
         </div>
     );

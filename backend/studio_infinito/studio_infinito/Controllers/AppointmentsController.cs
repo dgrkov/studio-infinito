@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using studio_infinito.DTOs;
 using studio_infinito.Services;
+using System.Diagnostics.Eventing.Reader;
 
 namespace studio_infinito.Controllers
 {
@@ -36,7 +37,12 @@ namespace studio_infinito.Controllers
         {
             try
             {
-                return Ok(await _appointmentsService.InsertAppointment(appointmentDto));
+                bool appointment_reserved = await _appointmentsService.InsertAppointment(appointmentDto);
+
+                if (appointment_reserved)
+                    return Ok(new Dictionary<string, string>() { { "status", "success" }, { "message", "Успешно резервирање на термин." } });
+                else
+                    return Ok(new Dictionary<string, string>() { { "status", "warning" }, { "message", "Терминот веќе е резервиран." } });
             }
             catch (Exception ex)
             {

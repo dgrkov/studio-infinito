@@ -10,12 +10,9 @@ import {
   MenuItem,
   Avatar,
   Card,
-  IconButton,
 } from "@material-tailwind/react";
 import {
-  CubeTransparentIcon,
   UserCircleIcon,
-  CodeBracketSquareIcon,
   Square3Stack3DIcon,
   ChevronDownIcon,
   Cog6ToothIcon,
@@ -23,8 +20,6 @@ import {
   LifebuoyIcon,
   PowerIcon,
   RocketLaunchIcon,
-  MoonIcon,
-  SunIcon
 } from "@heroicons/react/24/solid";
 
 import { useNavigate } from "react-router-dom";
@@ -33,7 +28,6 @@ import ThemeToggle from "../ThemeToggle";
 import { Cookie } from "../Cookie";
 
 const cookie = new Cookie();
-
 
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -51,16 +45,6 @@ function ProfileMenu() {
       label: "Уредувај профил",
       icon: Cog6ToothIcon,
       path: "/userdetails",
-    },
-    {
-      label: "Пораки",
-      icon: InboxArrowDownIcon,
-      path: "/messages",
-    },
-    {
-      label: "Помош",
-      icon: LifebuoyIcon,
-      path: "/help",
     },
     {
       label: "Одјава",
@@ -98,7 +82,7 @@ function ProfileMenu() {
 
           return (
             <MenuItem
-              disabled={window.location.pathname === '/'}
+              disabled={window.location.pathname === '/' || window.location.pathname === '/register'}
               key={label}
               onClick={() => {
                 if (label === "Одјава") {
@@ -243,7 +227,8 @@ export default function Header() {
       <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
-          href="/home"
+          href={window.location.pathname === '/' ? '/' :
+            window.location.pathname === '/register' ? '/register' : '/home'}
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
           Studio Infinito

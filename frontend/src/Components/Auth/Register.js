@@ -116,7 +116,7 @@ const RegisterForm = () => {
           setTimeout(() => {
             setLoading(false);
             window.location.href = "/";
-          }, 3000);
+          }, 700);
         }else{
           setLoading(false);
           setMessage_response({message: res.data.message, type: res.data.status});

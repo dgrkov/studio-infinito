@@ -33,7 +33,7 @@ export function StepperWithContent(props) {
                   : "text-gray-500 dark:text-dark-text-secondary"
               }`}
             >
-              Step 1
+              Чекор 1
             </Typography>
             <Typography
               className={`font-normal text-[0.4rem] transition-all md:text-base ${
@@ -57,7 +57,7 @@ export function StepperWithContent(props) {
                   : "text-gray-500 dark:text-dark-text-secondary"
               }`}
             >
-              Step 2
+              Чекор 2
             </Typography>
             <Typography
               className={`font-normal text-[0.4rem] transition-all md:text-base ${
@@ -81,7 +81,7 @@ export function StepperWithContent(props) {
                   : "text-gray-500 dark:text-dark-text-secondary"
               }`}
             >
-              Step 3
+              Чекор 3
             </Typography>
             <Typography
               className={`font-normal text-[0.4rem] transition-all md:text-base ${

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using studio_infinito.Events;
+using studio_infinito.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +83,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var firebaseService = new FirebaseService();
+
+app.MapPost("/send-notification", async (HttpContext context) =>
+{
+    try
+    {
+        var requestData = await context.Request.ReadFromJsonAsync<NotificationRequest>();
+        await firebaseService.SendNotification(requestData.DeviceToken, requestData.Title, requestData.Body);
+        return Results.Ok(new { message = "Notification Sent!" });
+    } catch (Exception ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
+});
+
 
 app.UseCors();
 

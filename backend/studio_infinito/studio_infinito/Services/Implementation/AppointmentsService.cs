@@ -36,38 +36,65 @@ namespace studio_infinito.Services.Implementation
                 DateTime appointmentDate = DateTime.ParseExact(appointmentDto.Event.Date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 TimeSpan appointmentTime = TimeSpan.Parse(appointmentDto.Event.Time);
 
-                string query = @"INSERT INTO appointments (user_id, service_id, appointment_date, appointment_time, status, created_at, hairstylist_id)
-                VALUES (@UserId, @ServiceId, @AppointmentDate, @AppointmentTime, @Status, NOW(), @hairstylist_id);";
-
-                var parameters = new MySqlParameter[]
+                using (var transaction = await _context.BeginTransactionAsync()) // Manual transaction
                 {
-                    new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = appointmentDto.user_id },
-                    new MySqlParameter("@ServiceId", MySqlDbType.Int32) { Value = appointmentDto.AppointmentData.ServiceType.service_id },
+                    try
+                    {
+                        // Lock the appointment time slot
+                        string lockQuery = "SELECT * FROM appointments WHERE appointment_date = @AppointmentDate AND appointment_time = @AppointmentTime AND hairstylist_id = @HairstylistId FOR UPDATE;";
+
+                        var checkParameters = new MySqlParameter[]
+                        {
                     new MySqlParameter("@AppointmentDate", MySqlDbType.DateTime) { Value = appointmentDate },
                     new MySqlParameter("@AppointmentTime", MySqlDbType.Time) { Value = appointmentTime },
-                    new MySqlParameter("@Status", MySqlDbType.VarChar) { Value = "confirmed" },
-                    new MySqlParameter("@hairstylist_id", MySqlDbType.Int32) { Value = appointmentDto.AppointmentData.Hairstylist.hairstylist_id },
-                };
+                    new MySqlParameter("@HairstylistId", MySqlDbType.Int32) { Value = appointmentDto.AppointmentData.Hairstylist.hairstylist_id }
+                        };
 
-                var result = await _context.ExecuteSqlQuery(query, parameters);
+                        var existingAppointments = await _context.ExecuteSqlQuery(lockQuery, checkParameters);
+                        int appointmentCount = Convert.ToInt32(existingAppointments.FirstOrDefault()?.Values.FirstOrDefault() ?? 0);
 
-                if (result.Any(r => r.ContainsKey("error")))
-                {
-                    string errorMessage = result.First(r => r.ContainsKey("error"))["error"].ToString();
-                    throw new Exception(errorMessage);
-                }
-                else
-                {
-                    var user = await _context.ExecuteSqlQuery("SELECT * FROM users WHERE user_id = @UserId", new MySqlParameter[] { new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = appointmentDto.user_id } });
+                        if (appointmentCount > 0)
+                        {
+                            await transaction.RollbackAsync();
+                            return false;
+                        }
 
-                    if (user.Count > 0)
-                    {
-                        appointmentDto.UserEmail = user[0]["email"].ToString();
-                        appointmentDto.UserPhone = user[0]["phone"].ToString();
+                        // Insert the appointment
+                        string insertQuery = @"INSERT INTO appointments (user_id, service_id, appointment_date, appointment_time, status, created_at, hairstylist_id)
+                                       VALUES (@UserId, @ServiceId, @AppointmentDate, @AppointmentTime, @Status, NOW(), @HairstylistId);";
+
+                        var insertParameters = new MySqlParameter[]
+                        {
+                            new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = appointmentDto.user_id },
+                            new MySqlParameter("@ServiceId", MySqlDbType.Int32) { Value = appointmentDto.AppointmentData.ServiceType.service_id },
+                            new MySqlParameter("@AppointmentDate", MySqlDbType.DateTime) { Value = appointmentDate },
+                            new MySqlParameter("@AppointmentTime", MySqlDbType.Time) { Value = appointmentTime },
+                            new MySqlParameter("@Status", MySqlDbType.VarChar) { Value = "confirmed" },
+                            new MySqlParameter("@HairstylistId", MySqlDbType.Int32) { Value = appointmentDto.AppointmentData.Hairstylist.hairstylist_id }
+                        };
+
+                        await _context.ExecuteSqlQuery(insertQuery, insertParameters);
+
+                        await transaction.CommitAsync();
+
+                        var user = await _context.ExecuteSqlQuery("SELECT * FROM users WHERE user_id = @UserId", new MySqlParameter[] { new MySqlParameter("@UserId", MySqlDbType.Int32) { Value = appointmentDto.user_id } });
+
+                        if (user.Count > 0)
+                        {
+                            appointmentDto.UserEmail = user[0]["email"].ToString();
+                            appointmentDto.UserPhone = user[0]["phone"].ToString();
+                            appointmentDto.UserName = user[0]["full_name"].ToString();
+                        }
+
+                        _appointmentService.CreateAppointment(appointmentDto);
+
+                        return true;
                     }
-
-                    _appointmentService.CreateAppointment(appointmentDto);
-                    return true;
+                    catch
+                    {
+                        await transaction.RollbackAsync();
+                        throw;
+                    }
                 }
             }
             catch (Exception ex)

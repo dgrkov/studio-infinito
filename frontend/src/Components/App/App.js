@@ -15,7 +15,14 @@ import Reservations from '../User/UserReservations';
 import Register from '../Auth/Register';
 import { Cookie } from '../Cookie';
 
+// import { getMessaging, getToken, onMessage } from "firebase/messaging";
+// import firebaseApp from "../Config/firebase-config";
+
+
 const cookie = new Cookie();
+// const messaging = getMessaging(firebaseApp);
+
+const { VITE_APP_VAPID_KEY } = "BAorC9JlMo1uuiaOKqN_HdsZnZbys2ljfsv7vIrq3HLPjN9K9jfCsXJC-iDbmJ1PtaJbgxoKcapTFVJS3PiWaTA";
 
 function App() {
   return (
@@ -30,6 +37,7 @@ function AppWrapper() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
     const access_token = cookie.getCookie('access_token');
 
     if (!access_token && window.location.pathname !== '/' && window.location.pathname !== '/register') {
