@@ -7,7 +7,6 @@ import Recaptcha from "./Recaptcha";
 import { Axios } from "../Axios";
 import Notification from "../Home/Notification";
 import { Cookie } from "../Cookie";
-import { message } from "antd";
 
 const axios = new Axios();
 const cookie = new Cookie();
@@ -40,27 +39,14 @@ export default function Auth() {
     }
   })
 
-
-  const sendNotification = async (token) => {
-    await fetch("https://localhost:7272/send-notification", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        deviceToken: token,
-        title: "Hello from FCM",
-        body: "This is a test notification from .NET & React"
-      })
-    });
-  };
-  
-
   const handleAuth = async () => {
     setLoading(true);
   
     const body = {
       EmailOrPhone: email,
       Password: password,
-      rememberMe: true
+      rememberMe: true,
+      firebase_token: localStorage.getItem("firebase_token") || '',
     };
   
     axios.login("Auth/login", body)
@@ -117,7 +103,7 @@ export default function Auth() {
             <label htmlFor="email">
             <div className="flex items-center mb-2">
               <Typography variant="small" className="font-medium text-gray-900 dark:text-dark-text-secondary mr-1">
-                Пошта/Телефонски број
+                Е-Пошта/Телефонски број
               </Typography>
               <Tooltip
                 open={isTooltipOpen}

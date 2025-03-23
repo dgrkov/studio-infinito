@@ -84,20 +84,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var firebaseService = new FirebaseService();
+//var firebaseService = new FirebaseService();
 
-app.MapPost("/send-notification", async (HttpContext context) =>
-{
-    try
-    {
-        var requestData = await context.Request.ReadFromJsonAsync<NotificationRequest>();
-        await firebaseService.SendNotification(requestData.DeviceToken, requestData.Title, requestData.Body);
-        return Results.Ok(new { message = "Notification Sent!" });
-    } catch (Exception ex)
-    {
-        return Results.BadRequest(ex.Message);
-    }
-});
+//app.MapPost("/send-notification", async (HttpContext context) =>
+//{
+//    try
+//    {
+//        var requestData = await context.Request.ReadFromJsonAsync<NotificationRequest>();
+//        var firebaseService = new FirebaseService();
+//        await firebaseService.SendNotification(requestData.DeviceToken, requestData.Title, requestData.Body, requestData.iconUrl);
+//        return Results.Ok(new { message = "Notification Sent!" });
+//    }
+//    catch (Exception ex)
+//    {
+//        return Results.BadRequest(new { error = ex.Message });
+//    }
+//});
 
 
 app.UseCors();
