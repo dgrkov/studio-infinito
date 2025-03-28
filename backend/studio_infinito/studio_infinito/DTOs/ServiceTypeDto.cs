@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.InteropServices;
-
-namespace studio_infinito.DTOs
+﻿namespace studio_infinito.DTOs
 {
     public class ServiceTypeDto
     {

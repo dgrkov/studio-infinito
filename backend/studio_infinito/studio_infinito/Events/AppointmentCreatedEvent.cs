@@ -1,12 +1,8 @@
 ﻿using studio_infinito.DTOs;
-using System;
-using System.IO;
-using System.Net.Mail;
-using System.Net;
-using System.Threading.Tasks;
-using System.Text;
-using Microsoft.Extensions.Configuration;
 using System.Diagnostics;  // Ensure this is imported
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 
 namespace studio_infinito.Events
 {
@@ -122,7 +118,8 @@ namespace studio_infinito.Events
                 string body = $"Вашата резервација на {appointmentDetails.Event.Date} од {appointmentDetails.Event.Time} е успешна";
 
                 await firebaseService.SendNotification(appointmentDetails.firebaseToken, title, body, "https://ts1k5rzt-3001.euw.devtunnels.ms/static/media/Logo_4K_Transparent.f8358b45d0ac78650da4.png");
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }

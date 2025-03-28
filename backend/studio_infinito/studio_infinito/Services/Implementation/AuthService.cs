@@ -3,9 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
 using studio_infinito.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Text.Json;
-using System.Text;
 using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 
 namespace studio_infinito.Services.Implementation
 {
@@ -35,7 +35,7 @@ namespace studio_infinito.Services.Implementation
                 }
                 else if (!VerifyPassword(user.Password, result[0]["password_hash"].ToString()))
                 {
-                    return new Dictionary<string, string> { { "status", "warning" } ,{ "message", $"Внесена е погрешена лозинка" } };
+                    return new Dictionary<string, string> { { "status", "warning" }, { "message", $"Внесена е погрешена лозинка" } };
                 }
 
                 if (!string.IsNullOrEmpty(user.firebase_token))
@@ -50,7 +50,7 @@ namespace studio_infinito.Services.Implementation
                     );
                 }
 
-                return new Dictionary<string, string> { { "status", "success" } , { "message", $"{GenerateJwtToken(user, result[0]["user_id"].ToString())}" } };
+                return new Dictionary<string, string> { { "status", "success" }, { "message", $"{GenerateJwtToken(user, result[0]["user_id"].ToString())}" } };
             }
             catch (Exception ex)
             {

@@ -106,7 +106,8 @@ namespace studio_infinito.Services.Implementation
 
         public async Task<List<Dictionary<string, object>>> UserAppointments(int id)
         {
-            try {
+            try
+            {
                 return await _context.ExecuteSqlQuery(
                     "SELECT * FROM users AS us " +
                     "LEFT JOIN appointments AS ap ON us.user_id = ap.user_id " +

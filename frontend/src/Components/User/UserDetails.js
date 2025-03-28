@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Input,
   Typography,
@@ -8,15 +8,49 @@ import {
   PopoverHandler,
   PopoverContent,
 } from "@material-tailwind/react";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import FullScreenLoader from "../FullScrennLoader/FullScreenLoader";
+
+import { Axios } from "../Axios";
+import { Cookie } from "../Cookie"
+import Notification from "../Home/Notification";
+
+const axios = new Axios();
+const cookie = new Cookie();
 
 export default function UserDetails() {
   const [date, setDate] = React.useState();
+  const [notificationParams, setNotificationParams] = useState({
+    message: "",
+    type: "",
+    description: ""
+  })
+  const [userData, setUserData] = React.useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    country: "",
+    gender: "",
+  })
+  const [loading, setLoader] = useState(true);
+
+  useEffect(() => {
+
+    axios.get(`User/user-details/${cookie.getCookie('user_id')}`).then((res) => {
+      if (res.status === 200 && res.data.status === 'success') {
+        console.log(res.data);
+    }
+  }).catch( (err) =>{
+
+  }).finally(() => setLoader(false));
+
+  }, []);
 
   return (
     <section className="px-8 py-20 container mx-auto">
+      {notificationParams.message && <Notification message={notificationParams.message} type={notificationParams.type} description={notificationParams.description} />}
       <Typography variant="h5" color="blue-gray">
         Basic Information
       </Typography>
@@ -31,8 +65,7 @@ export default function UserDetails() {
           <div className="w-full">
             <Typography
               variant="small"
-              color="blue-gray"
-              className="mb-2 font-medium"
+              className="mb-2 font-medium dark:text-dark-text-primary"
             >
               First Name
             </Typography>
@@ -42,14 +75,14 @@ export default function UserDetails() {
               labelProps={{
                 className: "hidden",
               }}
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
+              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200 dark:text-dark-text-primary"
             />
           </div>
           <div className="w-full">
             <Typography
               variant="small"
               color="blue-gray"
-              className="mb-2 font-medium"
+              className="mb-2 font-medium dark:text-dark-text-primary"
             >
               Last Name
             </Typography>
@@ -59,11 +92,11 @@ export default function UserDetails() {
               labelProps={{
                 className: "hidden",
               }}
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
+              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200 dark:text-dark-text-primary"
             />
           </div>
         </div>
-        <div className="mb-6 flex flex-col gap-4 md:flex-row">
+        {/* <div className="mb-6 flex flex-col gap-4 md:flex-row">
           <div className="w-full">
             <Typography
               variant="small"
@@ -220,13 +253,13 @@ export default function UserDetails() {
               <Option>2020</Option>
             </Select>
           </div>
-        </div>
+        </div> */}
         <div className="mb-6 flex flex-col items-end gap-4 md:flex-row">
           <div className="w-full">
             <Typography
               variant="small"
               color="blue-gray"
-              className="mb-2 font-medium"
+              className="mb-2 font-medium dark:text-dark-text-primary"
             >
               Email
             </Typography>
@@ -236,14 +269,14 @@ export default function UserDetails() {
               labelProps={{
                 className: "hidden",
               }}
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
+              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200 dark:text-dark-text-primary"
             />
           </div>
           <div className="w-full">
             <Typography
               variant="small"
               color="blue-gray"
-              className="mb-2 font-medium"
+              className="mb-2 font-medium dark:text-dark-text-primary"
             >
               Confirm Email
             </Typography>
@@ -253,12 +286,12 @@ export default function UserDetails() {
               labelProps={{
                 className: "hidden",
               }}
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
+              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200 dark:text-dark-text-primary"
             />
           </div>
         </div>
         <div className="mb-6 flex flex-col items-end gap-4 md:flex-row">
-          <div className="w-full">
+          {/* <div className="w-full">
             <Typography
               variant="small"
               color="blue-gray"
@@ -274,12 +307,12 @@ export default function UserDetails() {
               }}
               className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
             />
-          </div>
+          </div> */}
           <div className="w-full">
             <Typography
               variant="small"
               color="blue-gray"
-              className="mb-2 font-medium"
+              className="mb-2 font-medium dark:text-dark-text-primary"
             >
               Phone Number
             </Typography>
@@ -289,11 +322,11 @@ export default function UserDetails() {
               labelProps={{
                 className: "hidden",
               }}
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
+              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200 dark:text-dark-text-primary"
             />
           </div>
         </div>
-        <div className="flex flex-col items-end gap-4 md:flex-row">
+        {/* <div className="flex flex-col items-end gap-4 md:flex-row">
           <div className="w-full">
             <Typography
               variant="small"
@@ -328,8 +361,9 @@ export default function UserDetails() {
               className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
             />
           </div>
-        </div>
+        </div> */}
       </div>
+      <FullScreenLoader loading={loading} />
     </section>
   );
 }

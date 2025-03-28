@@ -1,5 +1,4 @@
 ﻿using studio_infinito.DTOs;
-using System;
 
 namespace studio_infinito.Events
 {

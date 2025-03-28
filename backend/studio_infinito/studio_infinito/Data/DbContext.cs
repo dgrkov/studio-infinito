@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Data.SqlClient;
-using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
+﻿using MySql.Data.MySqlClient;
 
 namespace studio_infinito.Data
 {

@@ -1,13 +1,12 @@
 ﻿
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.IdentityModel.Tokens;
+using studio_infinito.Events;
 using studio_infinito.Services;
 using studio_infinito.Services.Implementation;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using studio_infinito.Events;
-using System.Threading.RateLimiting;
-using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,11 +38,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
      options.Events = new JwtBearerEvents
      {
-         OnTokenValidated = context => {
+         OnTokenValidated = context =>
+         {
              Debug.WriteLine($"Token validated successfully for {context.Principal.Identity.Name}");
              return Task.CompletedTask;
          },
-         OnAuthenticationFailed = context => {
+         OnAuthenticationFailed = context =>
+         {
              Debug.WriteLine($"Authentication failed: {context.Exception}");
              return Task.CompletedTask;
          }

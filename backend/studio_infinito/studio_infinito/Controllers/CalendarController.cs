@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using studio_infinito.Data;
 using studio_infinito.Services;
 
 namespace studio_infinito.Controllers

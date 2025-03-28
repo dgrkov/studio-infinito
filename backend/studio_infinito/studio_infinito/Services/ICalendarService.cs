@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace studio_infinito.Services
+﻿namespace studio_infinito.Services
 {
     public interface ICalendarService
     {

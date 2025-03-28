@@ -1,5 +1,4 @@
 ﻿using DTOs;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using studio_infinito.Services;
 
@@ -41,9 +40,9 @@ namespace studio_infinito.Controllers
                 if (isUserCreated)
                     return Ok(new Dictionary<string, string>() { { "status", "success" }, { "message", "Успешно ргистрирање на корисник." } });
                 else
-                    return Ok(new Dictionary<string, string>(){ { "status", "warning" }, { "message", "Корисникот веќе постоји." } });
+                    return Ok(new Dictionary<string, string>() { { "status", "warning" }, { "message", "Корисникот веќе постоји." } });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }

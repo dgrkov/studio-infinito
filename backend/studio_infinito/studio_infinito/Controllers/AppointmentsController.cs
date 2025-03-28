@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using studio_infinito.DTOs;
 using studio_infinito.Services;
-using System.Diagnostics.Eventing.Reader;
 
 namespace studio_infinito.Controllers
 {
